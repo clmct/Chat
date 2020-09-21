@@ -19,12 +19,14 @@ class ViewController: UIViewController {
   @IBOutlet weak var labelDescreptionOutlet: UILabel!
   
   @IBOutlet weak var saveButtonOutlet: UIButton!
-    
-  convenience init() {
-    self.init()
-    print(saveButtonOutlet.frame)
-    print(1)
-    //
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    // MARK: - Frame button - init
+    // Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
+    // Ошибка. Так как кнопка еще не инициализирована и имеет знаечние nil. Мы не можем обратится к свойсву frame!
+    // Если мы распечатаем saveButtonOutlet, то убедимся в этом сами.
+    // print(saveButtonOutlet)
   }
   
   override func viewDidLoad() {
@@ -34,16 +36,18 @@ class ViewController: UIViewController {
     saveButtonOutlet.layer.cornerRadius = 14
     imageViewOutlet.layer.cornerRadius = imageViewOutlet.frame.height/2
     
-    print(saveButtonOutlet.frame)
-    print(2)
+    Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
     
   }
   
-  override func viewWillAppear(_ animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    print(saveButtonOutlet.frame)
-    print(3)
+    Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
+    // MARK: - Frame button - viewDidAppear
+    // Frame кнопки отличается из за того, что в Main.storyboard выбран iPhone SE(2nd generation), а в качестве запускаемого симулятора выбран iPhone 11.
+    // В методе viewDidLoad выводятся кординаты кнопки в iPhone SE(2nd generation), а в методе viewDidAppear кординаты кнопки в симуляторе iPhone 11.
+    // ViewDidLoad загружает view,
+    // Отличаются только кординаты по X и по Y, высота и ширина не изменяются, так как размеры кнопки зафиксированы.
   }
   
   @IBAction func editButton(_ sender: Any) {
@@ -53,6 +57,14 @@ class ViewController: UIViewController {
   @IBAction func saveButton(_ sender: Any) {
     
   }
+  
+  func alertCameraSimulator() {
+    let alert = UIAlertController(title: "Упс... На симуляторе нет камеры!", message: "Попробуйте на реальном девайсе. Кнопка представлена на симуляторе в целях прототипирования для разработчиков.", preferredStyle: .alert)
+    let cancelAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
+    alert.addAction(cancelAction)
+    present(alert, animated: true, completion: nil)
+  }
+  
   
 }
 
@@ -69,6 +81,8 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     let cameraAction = UIAlertAction(title: "Сделать фото", style: .default, handler: { _ in
       if UIImagePickerController.isSourceTypeAvailable(.camera) {
         self.takePhotoWithCamera()
+      } else {
+        self.alertCameraSimulator()
       }
     })
     photoAlert.addAction(cameraAction)

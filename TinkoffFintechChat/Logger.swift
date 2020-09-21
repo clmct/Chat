@@ -6,12 +6,14 @@
 //  Copyright © 2020 Алмат Кульбаев. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import os.log
 
 struct Logger {
   
   static var isPrint: Bool = false // switch
+  
+  static var isPrintButtonFrame: Bool = true // switch
   
   static var logVC = OSLog(subsystem: "tinkoffchatapp", category: "VC")
   static var logVC2 = OSLog(subsystem: "tinkoffchatapp", category: "VC2")
@@ -52,6 +54,12 @@ struct Logger {
   static func printLogsAD(nameFuncAD: String, stateFrom: StateAD, stateTo: StateAD) {
     if isPrint {
       os_log("Application moved from %s to %s: %s", log: logAD, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncAD)
+    }
+  }
+  
+  static func printSaveButtonFrame(buttonFrame: CGRect, nameFunc: String) {
+    if isPrintButtonFrame {
+      print("Save button frame: \(buttonFrame) from function: \(nameFunc)")
     }
   }
   
