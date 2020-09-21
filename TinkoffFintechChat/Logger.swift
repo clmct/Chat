@@ -11,7 +11,7 @@ import os.log
 
 struct Logger {
   
-  static var isPrint: Bool = true // switch
+  static var isPrint: Bool = false // switch
   
   static var logVC = OSLog(subsystem: "tinkoffchatapp", category: "VC")
   static var logVC2 = OSLog(subsystem: "tinkoffchatapp", category: "VC2")

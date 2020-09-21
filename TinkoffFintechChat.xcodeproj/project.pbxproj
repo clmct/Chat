@@ -13,7 +13,6 @@
 		B271C9C9250E5B350084B7AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B271C9C8250E5B350084B7AB /* Assets.xcassets */; };
 		B271C9CC250E5B350084B7AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B271C9CA250E5B350084B7AB /* LaunchScreen.storyboard */; };
 		B271C9D4250E5D550084B7AB /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B271C9D3250E5D550084B7AB /* Logger.swift */; };
-		B288A94C251150FC002D57C8 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B288A94B251150FC002D57C8 /* ViewController2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +24,6 @@
 		B271C9CB250E5B350084B7AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B271C9CD250E5B350084B7AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B271C9D3250E5D550084B7AB /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		B288A94B251150FC002D57C8 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +58,6 @@
 			children = (
 				B271C9BF250E5B330084B7AB /* AppDelegate.swift */,
 				B271C9C3250E5B330084B7AB /* ViewController.swift */,
-				B288A94B251150FC002D57C8 /* ViewController2.swift */,
 				B271C9D3250E5D550084B7AB /* Logger.swift */,
 				B271C9C5250E5B330084B7AB /* Main.storyboard */,
 				B271C9C8250E5B350084B7AB /* Assets.xcassets */,
@@ -143,7 +140,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B271C9C4250E5B330084B7AB /* ViewController.swift in Sources */,
-				B288A94C251150FC002D57C8 /* ViewController2.swift in Sources */,
 				B271C9D4250E5D550084B7AB /* Logger.swift in Sources */,
 				B271C9C0250E5B330084B7AB /* AppDelegate.swift in Sources */,
 			);
