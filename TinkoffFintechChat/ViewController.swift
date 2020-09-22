@@ -22,7 +22,6 @@ class ViewController: UIViewController {
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
-    // MARK: - Frame button - init
     // Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
     // Ошибка. Так как кнопка еще не инициализирована и имеет знаечние nil. Мы не можем обратится к свойсву frame!
     // Если мы распечатаем saveButtonOutlet, то убедимся в этом сами.
@@ -32,9 +31,10 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    imageViewOutlet.image = UIImage(named: "Logo_profile")
-    saveButtonOutlet.layer.cornerRadius = 14
+    imageViewOutlet.image = imageInitials(name: labelNameOutlet.text)
     imageViewOutlet.layer.cornerRadius = imageViewOutlet.frame.height/2
+    
+    saveButtonOutlet.layer.cornerRadius = 14
     
     Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
     
@@ -43,7 +43,6 @@ class ViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
-    // MARK: - Frame button - viewDidAppear
     // Frame кнопки отличается из за того, что в Main.storyboard выбран iPhone SE(2nd generation), а в качестве запускаемого симулятора выбран iPhone 11.
     // В методе viewDidLoad выводятся кординаты кнопки в iPhone SE(2nd generation), а в методе viewDidAppear кординаты кнопки в симуляторе iPhone 11.
     // ViewDidLoad загружает view,
@@ -65,7 +64,39 @@ class ViewController: UIViewController {
     present(alert, animated: true, completion: nil)
   }
   
-  
+  func imageInitials(name: String?) -> UIImage? {
+    
+    let frame = CGRect(x: 0, y: 0, width: 480, height: 480)
+    let nameLabel = UILabel(frame: frame)
+    nameLabel.textAlignment = .center
+    nameLabel.backgroundColor = UIColor(red: 0.89, green: 0.91, blue: 0.17, alpha: 1.00)
+    nameLabel.textColor = UIColor(red: 0.21, green: 0.22, blue: 0.22, alpha: 1.00)
+    nameLabel.font = UIFont.systemFont(ofSize: 240)
+    var initials = "?"
+    
+    if let initialsArray = name?.components(separatedBy: " ") {
+      if let firstWord = initialsArray.first {
+        if let firstLetter = firstWord.first {
+          initials = String(firstLetter).capitalized
+        }
+      }
+      if let lastWord = initialsArray.last, initialsArray.count > 1  {
+        if let lastLetter = lastWord.first {
+          initials += String(lastLetter).capitalized
+        }
+      }
+    }
+    
+    nameLabel.text = initials
+    UIGraphicsBeginImageContext(frame.size)
+    if let currentContext = UIGraphicsGetCurrentContext() {
+      nameLabel.layer.render(in: currentContext)
+      let nameImage = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+      return nameImage?.resized(withBounds: CGSize(width: 240, height: 240))
+    }
+    return nil
+  }
 }
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
