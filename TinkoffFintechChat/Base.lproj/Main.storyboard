@@ -21,7 +21,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="tq7-gV-cx6"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -31,7 +31,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="sQn-5o-Na9" secondAttribute="height" multiplier="263:40" id="cZH-ud-9JW"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <color key="tintColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
@@ -50,7 +50,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="jPy-eG-bb7"/>
                                             <constraint firstAttribute="height" constant="30" id="v6p-H0-KeR"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                         <state key="normal" title="Edit"/>
                                         <connections>
                                             <action selector="editButton:" destination="goi-8q-enK" eventType="touchUpInside" id="yg8-wf-qYZ"/>
