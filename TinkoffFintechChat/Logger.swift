@@ -11,13 +11,17 @@ import os.log
 
 struct Logger {
   
-  static var isPrint: Bool = false // switch
+  #if DEBUG
+    static var isPrintButtonFrame = true
+  #else
+    static var isPrintButtonFrame = false
+  #endif
   
-  static var isPrintButtonFrame: Bool = true // switch
-  
-  static var logVC = OSLog(subsystem: "tinkoffchatapp", category: "VC")
-  static var logVC2 = OSLog(subsystem: "tinkoffchatapp", category: "VC2")
-  static var logAD = OSLog(subsystem: "tinkoffchatapp", category: "AD")
+  #if DEBUG
+    static var isPrintLogs = false
+  #else
+    static var isPrintLogs = false
+  #endif
   
   enum StateAD: String {
     case notrunning = "Not running"
@@ -34,26 +38,25 @@ struct Logger {
     case disappeared = "Disappeared"
   }
   
-  enum NumberVC : Int {
-    case first = 1
-    case second = 2
-  }
   
-  static func printLogsVC(nameFuncVC: String, stateFrom: StateVC, stateTo: StateVC, vc: NumberVC) {
-    if isPrint {
-      os_log("ViewComtroller moved from %s to %s: %s", log: vc.rawValue == 1 ? logVC : logVC2, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncVC)
+  static func printLogsVC(nameFuncVC: String, stateFrom: StateVC, stateTo: StateVC, vc: String) {
+    if isPrintLogs {
+      let log  = OSLog(subsystem: "TinkoffFintechChat", category: vc)
+      os_log("ViewController moved from %s to %s: %s", log: log, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncVC)
     }
   }
   
-  static func printLogsVC(nameFuncVC: String, vc: NumberVC) {
-    if isPrint {
-      os_log("%s", log: vc.rawValue == 1 ? logVC : logVC2, type: .info, nameFuncVC)
+  static func printLogsVC(nameFuncVC: String, vc: String) {
+    if isPrintLogs {
+    let log  = OSLog(subsystem: "TinkoffFintechChat", category: vc)
+    os_log("%s", log: log, type: .info, nameFuncVC)
     }
   }
   
   static func printLogsAD(nameFuncAD: String, stateFrom: StateAD, stateTo: StateAD) {
-    if isPrint {
-      os_log("Application moved from %s to %s: %s", log: logAD, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncAD)
+    if isPrintLogs {
+    let log = OSLog(subsystem: "tinkoffchatapp", category: "AppDelegate")
+    os_log("Application moved from %s to %s: %s", log: log, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncAD)
     }
   }
   
