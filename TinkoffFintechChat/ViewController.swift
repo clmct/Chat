@@ -30,23 +30,22 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     imageViewOutlet.image = imageInitials(name: labelNameOutlet.text)
-    imageViewOutlet.layer.cornerRadius = imageViewOutlet.frame.height/2
-    
-    saveButtonOutlet.layer.cornerRadius = 14
-    
     Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
-    
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    imageViewOutlet.layer.cornerRadius = imageViewOutlet.layer.frame.height/2
+    saveButtonOutlet.layer.cornerRadius = saveButtonOutlet.layer.frame.height/3
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+    super.viewDidAppear(animated)
     Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
     // Frame кнопки отличается из за того, что в Main.storyboard выбран iPhone SE(2nd generation), а в качестве запускаемого симулятора выбран iPhone 11.
-    // В методе viewDidLoad выводятся кординаты кнопки в iPhone SE(2nd generation), а в методе viewDidAppear кординаты кнопки в симуляторе iPhone 11.
-    // ViewDidLoad загружает view,
-    // Отличаются только кординаты по X и по Y, высота и ширина не изменяются, так как размеры кнопки зафиксированы.
+    // В методе viewDidLoad выводятся frame кнопки в iPhone SE(2nd generation), а в методе viewDidAppear frame кнопки в симуляторе iPhone 11.
+    // viewDidLayoutSubviews обновляет frame для запускаемого девайса.
   }
   
   @IBAction func editButton(_ sender: Any) {
