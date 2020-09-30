@@ -25,7 +25,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
   }()
   
   @objc func methodBar() {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let storyboard = UIStoryboard(name: "Profile", bundle: nil)
     
     if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
       let navVC = UINavigationController(rootViewController: controller)
