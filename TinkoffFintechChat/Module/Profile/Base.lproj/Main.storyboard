@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="goi-8q-enK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zq8-sp-SBz">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -8,16 +8,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Profile View Controller-->
         <scene sceneID="b0j-rB-myK">
             <objects>
-                <viewController id="goi-8q-enK" customClass="ViewController" customModule="ChatTF" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profile" id="goi-8q-enK" customClass="ProfileViewController" customModule="ChatTF" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wpj-Rr-tAX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Marina Dudarenko" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lI-YT-RrH">
-                                <rect key="frame" x="78" y="316" width="219" height="29"/>
+                                <rect key="frame" x="78" y="360" width="219" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="tq7-gV-cx6"/>
                                 </constraints>
@@ -39,7 +39,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QND-ce-zjc">
-                                <rect key="frame" x="68" y="45" width="239" height="239"/>
+                                <rect key="frame" x="68" y="89" width="239" height="239"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C5b-se-wnO">
                                         <rect key="frame" x="0.0" y="0.0" width="239" height="239"/>
@@ -69,7 +69,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UX/UI designer, web-designer Moscow, Russia" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qWe-VS-wqc">
-                                <rect key="frame" x="78" y="377" width="219" height="38.5"/>
+                                <rect key="frame" x="78" y="421" width="219" height="38.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -96,6 +96,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yEZ-LX-ucr"/>
                     </view>
+                    <navigationItem key="navigationItem" id="wxg-94-iqc"/>
                     <connections>
                         <outlet property="imageViewOutlet" destination="C5b-se-wnO" id="drp-yT-GYL"/>
                         <outlet property="labelDescreptionOutlet" destination="qWe-VS-wqc" id="aNR-7G-4Jc"/>
@@ -106,7 +107,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggt-Yl-sbf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="861.16071428571422"/>
+            <point key="canvasLocation" x="1076" y="860.41979010494754"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Zxo-jW-Y3q">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zq8-sp-SBz" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5AT-gg-50F">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="goi-8q-enK" kind="relationship" relationship="rootViewController" id="gWp-Nz-LEO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OeC-77-oJ5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="860.41979010494754"/>
         </scene>
     </scenes>
 </document>

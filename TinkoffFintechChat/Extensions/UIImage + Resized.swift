@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImage {
-  func resized(withBounds bounds: CGSize) -> UIImage? { // для разных размеров аватарки
+  func resized(withBounds bounds: CGSize) -> UIImage? { 
     let horizontalRatio = bounds.width / size.width
     let verticalRatio = bounds.height / size.height
     let ratio = min(horizontalRatio, verticalRatio)
@@ -25,6 +25,8 @@ extension UIImage {
     
   }
 }
+
+
 
 
 

@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
@@ -15,6 +17,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
+    
+    var date = [ConversationModel]()
+    var messages = [Messages]()
+    var messagesToday = [Messages]()
+    
+    for _ in 0...5 {
+      messages.append(Messages(message: "Hello", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
+      messages.append(Messages(message: "What are you doing tomorrow? Will you be busy? Can we watch the movie tomorrow?", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
+      messages.append(Messages(message: "Sorry, I'l be busy! Maybe later?", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 21:01")))
+      messages.append(Messages(message: "Sorry, I'l be busy! Maybe later?", isIncoming: false, date: Date.dateFromCustomString(customString: "2020/02/05 21:01")))
+    }
+    
+    for _ in 0...5 {
+      messagesToday.append(Messages(message: "Hello", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
+      messagesToday.append(Messages(message: "What are you doing tomorrow? Will you be busy? Can we watch the movie tomorrow?", isIncoming: false, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
+      messagesToday.append(Messages(message: "Sorry, I'l be busy! Maybe later? What are you doing next week? orry, I'l be busy! Maybe later? What are you doing next week?", isIncoming: true, date: Date()))
+    }
+    
+    for _ in 0...2 {
+      date.append(ConversationModel(name: "Alex Martin",messages: messages, isOnline: true, hasUnreadMessages: true ))
+      date.append(ConversationModel(name: "Kate", messages: messagesToday, isOnline: true, hasUnreadMessages: true ))
+      date.append(ConversationModel(name: "Jack",messages: messages, isOnline: false, hasUnreadMessages: false ))
+      date.append(ConversationModel(name: "Marina", messages: messagesToday, isOnline: false, hasUnreadMessages: false ))
+      date.append(ConversationModel(name: "Harry", messages: messages, isOnline: true, hasUnreadMessages: false ))
+      date.append(ConversationModel(name: "Jack Martin", messages: messagesToday, isOnline: true, hasUnreadMessages: false ))
+      date.append(ConversationModel(name: "Jack London", messages: messages, isOnline: false, hasUnreadMessages: true ))
+      date.append(ConversationModel(name: "Tony", messages: messagesToday, isOnline: false, hasUnreadMessages: true ))
+      
+      date.append(ConversationModel(name: "Martin", messages: [], isOnline: true, hasUnreadMessages: true ))
+      date.append(ConversationModel(name: "Martin", messages: [], isOnline: false, hasUnreadMessages: false ))
+      date.append(ConversationModel(name: "Martin", messages: [], isOnline: true, hasUnreadMessages: false ))
+      date.append(ConversationModel(name: "Martin", messages: [], isOnline: false, hasUnreadMessages: true ))
+    
+    }
+    
+    var sortDate: [[ConversationModel]] = [[],[]]
+    
+    date.forEach { (element) in
+      if element.isOnline {
+        sortDate[0].append(element)
+      } else if element.messages.count >= 1 {
+        sortDate[1].append(element)
+      } else {
+        return
+      }
+    }
+    
+    
+    window = UIWindow()
+    let controller = ConversationsListViewController()
+    controller.data = sortDate
+    window?.rootViewController = UINavigationController(rootViewController: controller)
+    window?.makeKeyAndVisible()
     
     return true
   }
