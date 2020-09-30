@@ -43,7 +43,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
   override func viewDidLoad() { 
     super.viewDidLoad()
     title = "Tinkoff Chat"
-    navigationController?.navigationBar.prefersLargeTitles = true
+    navigationController?.navigationBar.prefersLargeTitles = false
     button.setImage(image?.resized(withBounds: CGSize(width: 36, height: 36)), for: .normal)
     button.layer.cornerRadius = 18
     button.clipsToBounds = true
