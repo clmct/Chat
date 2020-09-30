@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol ConfiguratableView {
+protocol ConfiguratableView {
   
   associatedtype ConversationModel
   

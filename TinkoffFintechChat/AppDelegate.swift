@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
     
-    var date = [ConversationModel]()
+    var data = [ConversationModel]()
     var messages = [Messages]()
     var messagesToday = [Messages]()
     
@@ -36,25 +36,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     for _ in 0...2 {
-      date.append(ConversationModel(name: "Alex Martin",messages: messages, isOnline: true, hasUnreadMessages: true ))
-      date.append(ConversationModel(name: "Kate", messages: messagesToday, isOnline: true, hasUnreadMessages: true ))
-      date.append(ConversationModel(name: "Jack",messages: messages, isOnline: false, hasUnreadMessages: false ))
-      date.append(ConversationModel(name: "Marina", messages: messagesToday, isOnline: false, hasUnreadMessages: false ))
-      date.append(ConversationModel(name: "Harry", messages: messages, isOnline: true, hasUnreadMessages: false ))
-      date.append(ConversationModel(name: "Jack Martin", messages: messagesToday, isOnline: true, hasUnreadMessages: false ))
-      date.append(ConversationModel(name: "Jack London", messages: messages, isOnline: false, hasUnreadMessages: true ))
-      date.append(ConversationModel(name: "Tony", messages: messagesToday, isOnline: false, hasUnreadMessages: true ))
+      data.append(ConversationModel(name: "Alex Martin",messages: messages, isOnline: true, hasUnreadMessages: true ))
+      data.append(ConversationModel(name: "Kate", messages: messagesToday, isOnline: true, hasUnreadMessages: true ))
+      data.append(ConversationModel(name: "Jack",messages: messages, isOnline: false, hasUnreadMessages: false ))
+      data.append(ConversationModel(name: "Marina", messages: messagesToday, isOnline: false, hasUnreadMessages: false ))
+      data.append(ConversationModel(name: "Harry", messages: messages, isOnline: true, hasUnreadMessages: false ))
+      data.append(ConversationModel(name: "Jack Martin", messages: messagesToday, isOnline: true, hasUnreadMessages: false ))
+      data.append(ConversationModel(name: "Jack London", messages: messages, isOnline: false, hasUnreadMessages: true ))
+      data.append(ConversationModel(name: "Tony", messages: messagesToday, isOnline: false, hasUnreadMessages: true ))
       
-      date.append(ConversationModel(name: "Martin", messages: [], isOnline: true, hasUnreadMessages: true ))
-      date.append(ConversationModel(name: "Martin", messages: [], isOnline: false, hasUnreadMessages: false ))
-      date.append(ConversationModel(name: "Martin", messages: [], isOnline: true, hasUnreadMessages: false ))
-      date.append(ConversationModel(name: "Martin", messages: [], isOnline: false, hasUnreadMessages: true ))
+      data.append(ConversationModel(name: "Martin", messages: [], isOnline: true, hasUnreadMessages: true ))
+      data.append(ConversationModel(name: "Martin", messages: [], isOnline: false, hasUnreadMessages: false ))
+      data.append(ConversationModel(name: "Martin", messages: [], isOnline: true, hasUnreadMessages: false ))
+      data.append(ConversationModel(name: "Martin", messages: [], isOnline: false, hasUnreadMessages: true ))
     
     }
     
     var sortDate: [[ConversationModel]] = [[],[]]
     
-    date.forEach { (element) in
+    data.forEach { (element) in
       if element.isOnline {
         sortDate[0].append(element)
       } else if element.messages.count >= 1 {
