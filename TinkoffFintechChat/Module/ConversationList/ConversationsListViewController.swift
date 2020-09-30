@@ -29,14 +29,14 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
     
     if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
       let navVC = UINavigationController(rootViewController: controller)
-      controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(candelMethod))
+      controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
       show(navVC, sender: nil)
     } else {
       return
     }
   }
   
-  @objc func candelMethod() {
+  @objc func cancelMethod() {
     dismiss(animated: true, completion: nil)
   }
   

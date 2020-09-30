@@ -52,13 +52,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     }
     
-    var sortDate: [[ConversationModel]] = [[],[]]
+    var sortData: [[ConversationModel]] = [[],[]]
     
     data.forEach { (element) in
       if element.isOnline {
-        sortDate[0].append(element)
+        sortData[0].append(element)
       } else if element.messages.count >= 1 {
-        sortDate[1].append(element)
+        sortData[1].append(element)
       } else {
         return
       }
@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     window = UIWindow()
     let controller = ConversationsListViewController()
-    controller.data = sortDate
+    controller.data = sortData
     window?.rootViewController = UINavigationController(rootViewController: controller)
     window?.makeKeyAndVisible()
     
