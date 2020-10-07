@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
@@ -25,14 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     for _ in 0...5 {
       messages.append(Messages(message: "Hello", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
       messages.append(Messages(message: "What are you doing tomorrow? Will you be busy? Can we watch the movie tomorrow?", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
-      messages.append(Messages(message: "Sorry, I'l be busy! Maybe later?", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 21:01")))
-      messages.append(Messages(message: "Sorry, I'l be busy! Maybe later?", isIncoming: false, date: Date.dateFromCustomString(customString: "2020/02/05 21:01")))
+      messages.append(Messages(message: "Sorry, I'll be busy! Maybe later?", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 21:01")))
+      messages.append(Messages(message: "Sorry, I'll be busy! Maybe later?", isIncoming: false, date: Date.dateFromCustomString(customString: "2020/02/05 21:01")))
     }
     
     for _ in 0...5 {
       messagesToday.append(Messages(message: "Hello", isIncoming: true, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
       messagesToday.append(Messages(message: "What are you doing tomorrow? Will you be busy? Can we watch the movie tomorrow?", isIncoming: false, date: Date.dateFromCustomString(customString: "2019/10/08 20:01")))
-      messagesToday.append(Messages(message: "Sorry, I'l be busy! Maybe later? What are you doing next week? orry, I'l be busy! Maybe later? What are you doing next week?", isIncoming: true, date: Date()))
+      messagesToday.append(Messages(message: "Sorry, I'll be busy! Maybe later? What are you doing next week? orry, I'll be busy! Maybe later? What are you doing next week?", isIncoming: true, date: Date()))
     }
     
     for _ in 0...2 {
@@ -52,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     }
     
+    
     var sortData: [[ConversationModel]] = [[],[]]
     
     data.forEach { (element) in
@@ -64,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     }
     
-    
+    data = []
     window = UIWindow()
     let controller = ConversationsListViewController()
     controller.data = sortData

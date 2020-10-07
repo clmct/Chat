@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+
+
 class ConversationsListViewController: UIViewController, UITableViewDelegate {
     
   var data: [[ConversationModel]] = [[ConversationModel]]()
@@ -35,13 +38,22 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
       return
     }
   }
+  @objc func settingsMethod() {
+    let storyboard = UIStoryboard(name: "Themes", bundle: nil)
+    if let controller = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController {
+      navigationController?.pushViewController(controller, animated: true)
+    }
+  }
   
   @objc func cancelMethod() {
     dismiss(animated: true, completion: nil)
   }
   
-  override func viewDidLoad() { 
+  override func viewDidLoad() {
     super.viewDidLoad()
+    
+    
+    
     title = "Tinkoff Chat"
     navigationController?.navigationBar.prefersLargeTitles = false
     button.setImage(image?.resized(withBounds: CGSize(width: 36, height: 36)), for: .normal)
@@ -49,6 +61,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
     button.clipsToBounds = true
     button.addTarget(self, action: #selector(methodBar), for: .touchUpInside)
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     createTableView()
   }
   
@@ -107,6 +120,7 @@ extension ConversationsListViewController: UITableViewDataSource {
                                        isOnline: model.isOnline,
                                        hasUnreadMessages: model.hasUnreadMessages)
       cell.configure(with: conf)
+      cell.updateTheme(theme: .init(theme: .night))
       
       return cell
     } else {

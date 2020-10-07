@@ -44,6 +44,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
       
       let conf = MessageCellModel(text: message.message, isIncoming: message.isIncoming)
       cell.configure(with: conf)
+      cell.updateTheme(theme: .init(theme: .night))
       return cell
     } else {
       return UITableViewCell()

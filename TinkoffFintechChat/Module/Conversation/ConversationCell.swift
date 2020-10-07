@@ -8,24 +8,33 @@
 
 import UIKit
 
-class ConversationCell: UITableViewCell, ConfiguratableView {
+class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegate { // два прототипа ячейки
+  func updateTheme(theme: ThemesStruct) {
+    
+    bubblebackroundView.backgroundColor = messageIncoming ? theme.messageIncoming : theme.messageOutcoming
+    messageLbael.textColor = messageIncoming ? theme.textIncoming : theme.textOutcoming
+    backgroundColor = theme.backgroundColor
+  }
+  
 
   typealias ConversationModel = MessageCellModel
   
   func configure(with model: ConversationModel) {
     messageLbael.text = model.text
-    
+    messageIncoming = model.isIncoming
     bubblebackroundView.backgroundColor = model.isIncoming ? UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00) : UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00) 
     
     if model.isIncoming {
-      leadingConstraint?.isActive = true
       trailingConstraints?.isActive = false
+      leadingConstraint?.isActive = true
     } else {
       leadingConstraint?.isActive = false
       trailingConstraints?.isActive = true
     }
+    
   }
   
+  var messageIncoming = false
   lazy private var messageLbael = UILabel()
   lazy private var bubblebackroundView = UIView()
   private var leadingConstraint: NSLayoutConstraint?
@@ -56,8 +65,6 @@ class ConversationCell: UITableViewCell, ConfiguratableView {
     
     leadingConstraint = messageLbael.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32)
     trailingConstraints = messageLbael.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
-    
-    
   }
   
   required init?(coder: NSCoder) {

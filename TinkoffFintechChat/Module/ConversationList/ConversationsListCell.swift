@@ -8,9 +8,23 @@
 
 import UIKit
 
-class ConversationsListCell: UITableViewCell, ConfiguratableView  {
+class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegate {
+  
+  
+  func updateTheme(theme: ThemesStruct) {
+    backgroundColor = isOnline ? theme.onlineBackground : theme.backgroundColor
+    nameLabel.textColor = isOnline ? theme.onlineName : theme.nameColor
+    messageLabel.textColor = theme.messageColor
+    dateLabel.textColor = theme.messageColor
+    
+  }
+  
 
   typealias ConversationModel = ConversationCellModel
+  
+  var delegate = "delegate"
+  var closure = "closure"
+  var isOnline = true
   
   func configure(with model: ConversationModel) {
     nameLabel.text = model.name
@@ -23,6 +37,7 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView  {
       messageLabel.font = model.hasUnreadMessages ? UIFont.boldSystemFont(ofSize: 14) : UIFont.systemFont(ofSize: 14)
     }
     backgroundColor = model.isOnline ? UIColor(red: 1.00, green: 0.95, blue: 0.74, alpha: 1.00) : .clear
+    isOnline = model.isOnline
   }
   
   lazy private var nameLabel: UILabel = {
@@ -61,7 +76,6 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView  {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     accessoryType = .disclosureIndicator
     addLabels()
-    
     let constraints = [
       nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       nameLabel.heightAnchor.constraint(equalToConstant: 20),
