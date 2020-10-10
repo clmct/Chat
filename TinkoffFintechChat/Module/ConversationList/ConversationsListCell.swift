@@ -10,15 +10,16 @@ import UIKit
 
 class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegate {
   
+  var theme: ThemeApp = ThemeApp(theme: .night)
   
-  func updateTheme(theme: ThemesStruct) {
+  func updateTheme(theme: ThemeApp) {
     backgroundColor = isOnline ? theme.onlineBackground : theme.backgroundColor
     nameLabel.textColor = isOnline ? theme.onlineName : theme.nameColor
     messageLabel.textColor = theme.messageColor
     dateLabel.textColor = theme.messageColor
-    
   }
   
+
 
   typealias ConversationModel = ConversationCellModel
   

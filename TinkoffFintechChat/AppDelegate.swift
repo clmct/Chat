@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
-    
+
     var data = [ConversationModel]()
     var messages = [Messages]()
     var messagesToday = [Messages]()
@@ -63,10 +63,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     }
     
+    let themeMain = ThemeApp(theme: .classic)
+    if let defaults = UserDefaults.standard.object(forKey: "theme") as? String {
+      switch defaults {
+      case "classic":
+        themeMain.theme = .classic
+      case "day":
+        themeMain.theme = .day
+      case "night":
+        themeMain.theme = .night
+      default: break
+      }
+    }
     data = []
     window = UIWindow()
     let controller = ConversationsListViewController()
     controller.data = sortData
+    controller.updateTheme(theme: themeMain)
+    controller.navigationController?.navigationBar.barTintColor = themeMain.navigationBar
     window?.rootViewController = UINavigationController(rootViewController: controller)
     window?.makeKeyAndVisible()
     

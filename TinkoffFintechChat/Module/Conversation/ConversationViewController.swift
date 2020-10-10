@@ -8,7 +8,12 @@
 
 import UIKit
 
-class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ThemesPickerDelegate {
+  func updateTheme(theme: ThemeApp) {
+    self.theme = theme
+  }
+  
+  var theme: ThemeApp = ThemeApp(theme: .classic)
   
   private let identifire = "conversation"
   
@@ -44,7 +49,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
       
       let conf = MessageCellModel(text: message.message, isIncoming: message.isIncoming)
       cell.configure(with: conf)
-      cell.updateTheme(theme: .init(theme: .night))
+      cell.updateTheme(theme: theme)
       return cell
     } else {
       return UITableViewCell()

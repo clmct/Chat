@@ -9,8 +9,14 @@
 import UIKit
 
 protocol ThemesPickerDelegate: class {
-  func updateTheme(theme: ThemesStruct)
+  func updateTheme(theme: ThemeApp)
+  var theme: ThemeApp { get set }
 }
+
+// retain cycle мог возникунть при сильных ссылках
+// двух классов друг на друга
+// в нашем случае он не мог возникнуть, так как ThemesViewController
+// кладется в стек и удаляется из него при выходе
 
 class ThemesViewController: UIViewController {
   
@@ -20,10 +26,19 @@ class ThemesViewController: UIViewController {
   
   @IBOutlet weak var nightOutlet: UIButton!
   
-  weak var delegate: ThemesPickerDelegate?
+  var delegate: ThemesPickerDelegate?
   
+  var closure: ( (ThemeApp) -> () )?
+  
+  var theme  = ThemeApp(theme: .night)
+  
+  @objc func backToInitial(sender: AnyObject) {
+    self.navigationController?.popViewController(animated: true)
+    
+  }
   
   override func viewDidLoad() {
+    
     view.backgroundColor = UIColor(red: 0.10, green: 0.21, blue: 0.38, alpha: 1.00)
     classicOutlet.layer.cornerRadius = 18
     classicOutlet.layer.masksToBounds  = true
@@ -57,43 +72,53 @@ class ThemesViewController: UIViewController {
     standartBorder()
     nightOutlet.layer.borderWidth = 4
   }
-  func classic() {
-    delegate?.updateTheme(theme: .init(theme: .classic))
+  func classicMode() {
+    theme.theme = .classic
+    updateTheme()
     classicSelected()
   }
   
-  func day() {
-    delegate?.updateTheme(theme: .init(theme: .day))
+  func dayMode() {
+    theme.theme = .day
+    updateTheme()
     daySelected()
   }
   
-  func night() {
-    delegate?.updateTheme(theme: .init(theme: .night))
+  func nightMode() {
+    theme.theme = .night
+    updateTheme()
     nightSelected()
   }
   
+  func updateTheme() {
+    navigationController?.navigationBar.barTintColor = theme.navigationBar
+    //delegate?.updateTheme(theme: theme)
+    closure?(theme)
+    UserDefaults.standard.set(theme.theme.rawValue, forKey: "theme")
+  }
+  
   @IBAction func classicAction(_ sender: Any) {
-    classic()
+    classicMode()
   }
   
   @IBAction func dayAction(_ sender: Any) {
-    day()
+    dayMode()
   }
   
   @IBAction func nightAction(_ sender: Any) {
-    night()
+    nightMode()
   }
   
   @IBAction func classicButton(_ sender: Any) {
-    classic()
+    classicMode()
   }
   
   @IBAction func dayButton(_ sender: Any) {
-    day()
+    dayMode()
   }
   
   @IBAction func nightButton(_ sender: Any) {
-    night()
+    nightMode()
   }
   
 }

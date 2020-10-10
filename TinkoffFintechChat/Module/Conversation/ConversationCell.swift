@@ -9,13 +9,15 @@
 import UIKit
 
 class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegate { // два прототипа ячейки
-  func updateTheme(theme: ThemesStruct) {
-    
+  
+  var theme: ThemeApp = ThemeApp(theme: .classic)
+
+  func updateTheme(theme: ThemeApp) {
     bubblebackroundView.backgroundColor = messageIncoming ? theme.messageIncoming : theme.messageOutcoming
     messageLbael.textColor = messageIncoming ? theme.textIncoming : theme.textOutcoming
     backgroundColor = theme.backgroundColor
   }
-  
+
 
   typealias ConversationModel = MessageCellModel
   

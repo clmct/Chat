@@ -8,11 +8,28 @@
 
 import UIKit
 
+extension UITableView {
+    func deselectSelectedRow(animated: Bool) {
+        if let indexPathForSelectedRow = self.indexPathForSelectedRow {
+            self.deselectRow(at: indexPathForSelectedRow, animated: animated)
+        }
+    }
+}
 
-
-
-class ConversationsListViewController: UIViewController, UITableViewDelegate {
-    
+class ConversationsListViewController: UIViewController, UITableViewDelegate, ThemesPickerDelegate {
+  
+  func updateTheme(theme: ThemeApp) {
+    self.theme = theme
+    tableView.reloadData()
+    navigationController?.navigationBar.barTintColor = theme.navigationBar
+    UINavigationBar.appearance().barStyle = theme.barStyle
+    navigationController?.navigationBar.titleTextAttributes = [
+      NSAttributedString.Key.foregroundColor:
+      theme.navigationBarTitle ]
+  }
+  
+  var theme = ThemeApp(theme: .night)
+  
   var data: [[ConversationModel]] = [[ConversationModel]]()
   
   lazy private var tableView = UITableView()
@@ -33,6 +50,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
     if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
       let navVC = UINavigationController(rootViewController: controller)
       controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
+      controller.updateTheme(theme: theme)
       show(navVC, sender: nil)
     } else {
       return
@@ -41,6 +59,18 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
   @objc func settingsMethod() {
     let storyboard = UIStoryboard(name: "Themes", bundle: nil)
     if let controller = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController {
+      controller.delegate = self
+      controller.theme = theme
+      controller.closure = {  [weak self] theme in
+        self?.theme = theme
+        self?.tableView.reloadData()
+        self?.navigationController?.navigationBar.barTintColor = theme.navigationBar
+        UINavigationBar.appearance().barStyle = theme.barStyle
+        self?.navigationController?.navigationBar.titleTextAttributes = [
+          NSAttributedString.Key.foregroundColor:
+          theme.navigationBarTitle ]
+      }
+      
       navigationController?.pushViewController(controller, animated: true)
     }
   }
@@ -65,6 +95,11 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
     createTableView()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      self.tableView.deselectSelectedRow(animated: true)
+  }
+  
   func createTableView() {
     self.tableView = UITableView(frame: view.bounds, style: .plain)
     tableView.register(ConversationsListCell.self, forCellReuseIdentifier: identifire)
@@ -81,14 +116,36 @@ extension ConversationsListViewController: UITableViewDataSource {
     data.count
   }
   
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return sectionTitles[section]
+
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+      let label = UILabel()
+      label.text = sectionTitles[section]
+    label.font = UIFont.boldSystemFont(ofSize: 20)
+    label.textColor = theme.sectionHeaderText
+
+    label.translatesAutoresizingMaskIntoConstraints = false
+      let containerView = UIView()
+    containerView.backgroundColor = theme.sectionHeader
+
+      containerView.addSubview(label)
+      label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15).isActive = true
+      label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+
+
+      return containerView
+  }
+
+
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    35
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let controller = ConversationViewController()
     let model = data[indexPath.section][indexPath.row].messages
     controller.data = model
+    controller.updateTheme(theme: theme)
     controller.title = data[indexPath.section][indexPath.row].name
     navigationController?.pushViewController(controller, animated: true)
     
@@ -120,7 +177,7 @@ extension ConversationsListViewController: UITableViewDataSource {
                                        isOnline: model.isOnline,
                                        hasUnreadMessages: model.hasUnreadMessages)
       cell.configure(with: conf)
-      cell.updateTheme(theme: .init(theme: .night))
+      cell.updateTheme(theme: theme)
       
       return cell
     } else {

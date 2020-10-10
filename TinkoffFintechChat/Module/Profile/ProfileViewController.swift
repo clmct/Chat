@@ -8,7 +8,13 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, ThemesPickerDelegate {
+  func updateTheme(theme: ThemeApp) {
+    self.theme = theme
+  }
+  
+  var theme = ThemeApp(theme: .classic)
+  
   
   @IBOutlet weak var viewOutlet: UIView!
   
@@ -30,7 +36,11 @@ class ProfileViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    saveButtonOutlet.backgroundColor = theme.profileButton
     title = "My Profile"
+    view.backgroundColor = theme.backgroundColor
+    labelNameOutlet.textColor = theme.profileText
+    labelDescreptionOutlet.textColor = theme.profileText
     imageViewOutlet.image = imageInitials(name: labelNameOutlet.text)
     Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
   }
