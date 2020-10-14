@@ -8,74 +8,200 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, ThemesPickerDelegate {
+class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate {
   func updateTheme(theme: ThemeApp) {
     self.theme = theme
   }
   
   var theme = ThemeApp(theme: .classic)
   
+  @IBOutlet weak var activityIndicatorOutlet: UIActivityIndicatorView!
+  @IBOutlet weak var nameTexrFieldOutlet: UITextField!
+  @IBOutlet weak var descriptionTextViewOutlet: UITextView!
   
   @IBOutlet weak var viewOutlet: UIView!
-  
   @IBOutlet weak var imageViewOutlet: UIImageView!
+
+  @IBOutlet weak var GCDButton: UIButton!
+  @IBOutlet weak var OperationButton: UIButton!
   
-  @IBOutlet weak var labelNameOutlet: UILabel!
   
-  @IBOutlet weak var labelDescreptionOutlet: UILabel!
+  @IBOutlet weak var leftConstraint: NSLayoutConstraint!
+  @IBOutlet weak var rightConstraint: NSLayoutConstraint!
   
-  @IBOutlet weak var saveButtonOutlet: UIButton!
+  lazy var GCD = GCDDataManager(vc: self)
+  lazy var Operation = OperationDataManager(vc: self)
   
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    // Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
-    // Ошибка. Так как кнопка еще не инициализирована и имеет знаечние nil. Мы не можем обратится к свойсву frame!
-    // Если мы распечатаем saveButtonOutlet, то убедимся в этом сами.
-    // print(saveButtonOutlet)
+  private lazy var isGCD = false
+  private lazy var isEdit = false
+  
+  var nameString = ""
+  var descriptionString = ""
+  var image = UIImage()
+  
+  func create() {
+    title = "My Profile"
+    
+    leftConstraint.constant = view.bounds.width/2 + 10
+    rightConstraint.constant = view.bounds.width/2 + 10
+    
+    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { (nc) in
+      self.view.frame.origin.y = -150
+    }
+    
+    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { (nc) in
+      self.view.frame.origin.y = 0.0
+    }
+    
+  }
+  
+  func buttonBlock() {
+    GCDButton.isUserInteractionEnabled = false
+    OperationButton.isUserInteractionEnabled = false
+    GCDButton.isHighlighted = true
+    OperationButton.isHighlighted = true
+  }
+  
+  func buttonUnBlock() {
+    GCDButton.isUserInteractionEnabled = true
+    OperationButton.isUserInteractionEnabled = true
+    GCDButton.isHighlighted = false
+    OperationButton.isHighlighted = false
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    saveButtonOutlet.backgroundColor = theme.profileButton
-    title = "My Profile"
+    create()
+    buttonBlock()
+    
+    GCDButton.backgroundColor = theme.profileButton
+    OperationButton.backgroundColor = theme.profileButton
     view.backgroundColor = theme.backgroundColor
-    labelNameOutlet.textColor = theme.profileText
-    labelDescreptionOutlet.textColor = theme.profileText
-    imageViewOutlet.image = imageInitials(name: labelNameOutlet.text)
-    Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
+    nameTexrFieldOutlet.textColor = theme.profileText
+    descriptionTextViewOutlet.textColor = theme.profileText
+    imageViewOutlet.image = imageInitials(name: nameTexrFieldOutlet.text)
+    
+    
+    nameTexrFieldOutlet.delegate = self
+    
+//    GCD.read()
+    Operation.read()
   }
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     imageViewOutlet.layer.cornerRadius = imageViewOutlet.layer.frame.height/2
-    saveButtonOutlet.layer.cornerRadius = saveButtonOutlet.layer.frame.height/3
+    GCDButton.layer.cornerRadius = GCDButton.layer.frame.height/3
+    OperationButton.layer.cornerRadius = OperationButton.layer.frame.height/3
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    Logger.printSaveButtonFrame(buttonFrame: saveButtonOutlet.frame, nameFunc: #function)
-    // Frame кнопки отличается из за того, что в Main.storyboard выбран iPhone SE(2nd generation), а в качестве запускаемого симулятора выбран iPhone 11.
-    // В методе viewDidLoad выводятся frame кнопки в iPhone SE(2nd generation), а в методе viewDidAppear frame кнопки в симуляторе iPhone 11.
-    // viewDidLayoutSubviews обновляет frame для запускаемого девайса.
-  }
   
-  @IBAction func editButton(_ sender: Any) {
+  @IBAction func editPhotoButtonAction(_ sender: Any) {
     showPhotoPicker()
   }
   
-  @IBAction func saveButton(_ sender: Any) {
-    
+  @IBAction func editButtonAction(_ sender: Any) {
+    self.nameTexrFieldOutlet.isUserInteractionEnabled = true
+    self.descriptionTextViewOutlet.isUserInteractionEnabled = true
+    nameTexrFieldOutlet.becomeFirstResponder()
+    isEdit = true
   }
   
+  @IBAction func GCDButtonAction(_ sender: Any) {
+    GCDButtonActionFunc()
+  }
+  @IBAction func OperationButtonAction(_ sender: Any) {
+    OperationButtonActionFunc()
+  }
+  
+  func GCDButtonActionFunc() {
+    isGCD = true
+    buttonBlock()
+    GCD.name = nameTexrFieldOutlet.text
+    GCD.description = descriptionTextViewOutlet.text
+    GCD.image = imageViewOutlet.image
+    GCD.write()
+    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
+    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
+    isEdit = false
+  }
+  
+  func OperationButtonActionFunc() {
+    isGCD = false
+    buttonBlock()
+    Operation.name = nameTexrFieldOutlet.text
+    Operation.description = descriptionTextViewOutlet.text
+    Operation.image = imageViewOutlet.image
+    activityIndicatorOutlet.isHidden = false
+    Operation.write()
+    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
+    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
+    isEdit = false
+  }
+
+  
+
+
+}
+
+
+
+extension ProfileViewController {
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    descriptionTextViewOutlet.resignFirstResponder()
+    checkEditing()
+  }
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    nameTexrFieldOutlet.resignFirstResponder()
+    checkEditing()
+    return true
+  }
+
+  func checkEditing() {
+    
+    if isEdit == true, nameString == nameTexrFieldOutlet.text, descriptionString == descriptionTextViewOutlet.text, image == imageViewOutlet.image {
+      buttonBlock()
+    } else {
+      buttonUnBlock()
+    }
+  
+}
+}
+
+
+
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  // MARK:- Alert Helper Methods
   func alertCameraSimulator() {
     let alert = UIAlertController(title: "Упс... На симуляторе нет камеры!", message: "Попробуйте на реальном девайсе. Кнопка представлена на симуляторе в целях прототипирования для разработчиков.", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
     alert.addAction(cancelAction)
     present(alert, animated: true, completion: nil)
   }
-}
-
-extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  
+  func alertOK() {
+    let alert = UIAlertController(title: "Данные сохранены", message: "", preferredStyle: .alert)
+    let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+    alert.addAction(cancelAction)
+    present(alert, animated: true, completion: nil)
+  }
+  
+  func alertError() {
+    let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
+    let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+    let repeatAction = UIAlertAction(title: "Повторить", style: .default, handler: { _ in
+      if self.isGCD {
+        self.GCDButtonActionFunc()
+      } else {
+        self.OperationButtonActionFunc()
+      }
+    })
+    alert.addAction(cancelAction)
+    alert.addAction(repeatAction)
+    present(alert, animated: true, completion: nil)
+  }
   
   // MARK:- Image Helper Methods
   
@@ -89,7 +215,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
       if UIImagePickerController.isSourceTypeAvailable(.camera) {
         self.takePhotoWithCamera()
       } else {
-        self.alertCameraSimulator()
+        self.alertError()
       }
     })
     photoAlert.addAction(cameraAction)
@@ -123,7 +249,10 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     guard let image = info[.editedImage] as? UIImage else { return }
     
     imageViewOutlet.image = image
+    checkEditing()
     dismiss(animated: true)
   }
   
 }
+
+
