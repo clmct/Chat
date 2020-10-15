@@ -121,7 +121,7 @@ class readOperation: Operation {
       let imageData = try Data(contentsOf: imageURL)
       let image = UIImage(data: imageData)
       
-      DispatchQueue.main.async {
+      OperationQueue.main.addOperation {
         self.vc.nameTexrFieldOutlet.text = nameString
         self.vc.descriptionTextViewOutlet.text = descriptionString
         self.vc.imageViewOutlet.image = image
