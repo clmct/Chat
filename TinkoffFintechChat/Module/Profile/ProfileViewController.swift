@@ -97,7 +97,9 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   
   
   @IBAction func editPhotoButtonAction(_ sender: Any) {
+    if isEdit {
     showPhotoPicker()
+    }
   }
   
   @IBAction func editButtonAction(_ sender: Any) {
@@ -124,6 +126,7 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     self.nameTexrFieldOutlet.isUserInteractionEnabled = false
     self.descriptionTextViewOutlet.isUserInteractionEnabled = false
     isEdit = false
+    GCD.read()
   }
   
   func OperationButtonActionFunc() {
@@ -137,6 +140,8 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     self.nameTexrFieldOutlet.isUserInteractionEnabled = false
     self.descriptionTextViewOutlet.isUserInteractionEnabled = false
     isEdit = false
+    sleep(1)
+    Operation.read()
   }
 
   
@@ -162,13 +167,19 @@ extension ProfileViewController {
     
     guard let name = nameTexrFieldOutlet.text,
       let description = descriptionTextViewOutlet.text,
-      let image = descriptionTextViewOutlet.text else { return }
+      let imag = imageViewOutlet.image else { return }
     
-    if isEdit == true, nameString == name, descriptionString == description, image == image {
+    if isEdit == true, nameString == name, descriptionString == description, image == imag {
       buttonBlock()
+      print(1)
+      print(nameString)
+      print(image)
+      print(imag)
     } else if isEdit == true {
+      print(2)
       buttonUnBlock()
     } else {
+      print(3)
       buttonBlock()
     }
     
@@ -224,7 +235,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
       if UIImagePickerController.isSourceTypeAvailable(.camera) {
         self.takePhotoWithCamera()
       } else {
-        self.alertError()
+        self.alertCameraSimulator()
       }
     })
     photoAlert.addAction(cameraAction)
