@@ -49,7 +49,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     
     if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
       let navVC = UINavigationController(rootViewController: controller)
-      controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
+     // controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
       controller.updateTheme(theme: theme)
       show(navVC, sender: nil)
     } else {
