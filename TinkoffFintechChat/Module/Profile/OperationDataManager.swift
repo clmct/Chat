@@ -93,7 +93,14 @@ class writeOperation: Operation {
       if let imageURL = imageURL {
         try image?.pngData()?.write(to: imageURL)
       }
+      OperationQueue.main.addOperation {
+        self.vc.alertOK()
+      }
+      
     } catch {
+      OperationQueue.main.addOperation {
+        self.vc.alertError()
+      }
     }
     
   }

@@ -52,12 +52,12 @@ class GCDDataManager: DataManagerProtocol  {
           DispatchQueue.main.async {
             self.vc.activityIndicatorOutlet.isHidden = true
             self.vc.alertOK()
-            
           }
         } catch {
-          print("error write GCD")
-          self.vc.alertError()
-          
+          DispatchQueue.main.async {
+            self.vc.activityIndicatorOutlet.isHidden = true
+            self.vc.alertError()
+          }
         }
       }
       

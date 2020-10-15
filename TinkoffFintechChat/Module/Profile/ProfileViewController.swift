@@ -32,8 +32,8 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   lazy var GCD = GCDDataManager(vc: self)
   lazy var Operation = OperationDataManager(vc: self)
   
-  private lazy var isGCD = false
-  private lazy var isEdit = false
+  private var isGCD = false
+  private var isEdit = false
   
   var nameString = ""
   var descriptionString = ""
@@ -160,13 +160,19 @@ extension ProfileViewController {
 
   func checkEditing() {
     
-    if isEdit == true, nameString == nameTexrFieldOutlet.text, descriptionString == descriptionTextViewOutlet.text, image == imageViewOutlet.image {
+    guard let name = nameTexrFieldOutlet.text,
+      let description = descriptionTextViewOutlet.text,
+      let image = descriptionTextViewOutlet.text else { return }
+    
+    if isEdit == true, nameString == name, descriptionString == description, image == image {
       buttonBlock()
-    } else {
+    } else if isEdit == true {
       buttonUnBlock()
+    } else {
+      buttonBlock()
     }
-  
-}
+    
+  }
 }
 
 
@@ -186,6 +192,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
     alert.addAction(cancelAction)
     present(alert, animated: true, completion: nil)
+    checkEditing()
   }
   
   func alertError() {
@@ -194,8 +201,10 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     let repeatAction = UIAlertAction(title: "Повторить", style: .default, handler: { _ in
       if self.isGCD {
         self.GCDButtonActionFunc()
+        self.checkEditing()
       } else {
         self.OperationButtonActionFunc()
+        self.checkEditing()
       }
     })
     alert.addAction(cancelAction)
