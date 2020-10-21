@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class OperationDataManager: DataManagerProtocol {
   
   private let nameFile = "name.txt"
@@ -31,7 +30,7 @@ class OperationDataManager: DataManagerProtocol {
       let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
       let imageURL = dir.appendingPathComponent(self.imageFile)
       let operationQueue = OperationQueue()
-      let operation = writeOperation(vc: vc)
+      let operation = WriteOperation(vc: vc)
       operation.nameURL = nameURL
       operation.descriptionURL = descriptionURL
       operation.imageURL = imageURL
@@ -43,29 +42,23 @@ class OperationDataManager: DataManagerProtocol {
     }
   }
   
-  
   func read() {
     if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
       let nameURL = dir.appendingPathComponent(self.nameFile)
       let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
       let imageURL = dir.appendingPathComponent(self.imageFile)
       let operationQueue = OperationQueue()
-      let operation = readOperation(vc: vc)
+      let operation = ReadOperation(vc: vc)
       operation.nameURL = nameURL
       operation.descriptionURL = descriptionURL
       operation.imageURL = imageURL
       operationQueue.addOperation(operation)
     }
-    
   }
-  
+
 }
 
-
-
-
-
-class writeOperation: Operation {
+class WriteOperation: Operation {
   var nameURL: URL?
   var descriptionURL: URL?
   var imageURL: URL?
@@ -106,11 +99,11 @@ class writeOperation: Operation {
   }
 }
 
-class readOperation: Operation {
+class ReadOperation: Operation {
   var nameURL: URL?
   var descriptionURL: URL?
   var imageURL: URL?
-
+  
   var vc: ProfileViewController
   
   init(vc: ProfileViewController) {
@@ -121,7 +114,6 @@ class readOperation: Operation {
       guard let nameURL = nameURL,
         let descriptionURL = descriptionURL,
         let imageURL = imageURL else { return }
-      
       
       let nameString = try String(contentsOf: nameURL, encoding: .utf8)
       let descriptionString = try String(contentsOf: descriptionURL, encoding: .utf8)
@@ -139,10 +131,9 @@ class readOperation: Operation {
         self.vc.activityIndicatorOutlet.isHidden = true
       }
       
-    } catch  {
+    } catch {
       print("error write operation")
     }
     
   }
 }
-

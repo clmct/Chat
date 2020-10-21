@@ -12,15 +12,15 @@ import os.log
 struct Logger {
   
   #if DEBUG
-    static var isPrintButtonFrame = true
+  static var isPrintButtonFrame = true
   #else
-    static var isPrintButtonFrame = false
+  static var isPrintButtonFrame = false
   #endif
   
   #if DEBUG
-    static var isPrintLogs = false
+  static var isPrintLogs = false
   #else
-    static var isPrintLogs = false
+  static var isPrintLogs = false
   #endif
   
   enum StateAD: String {
@@ -38,25 +38,24 @@ struct Logger {
     case disappeared = "Disappeared"
   }
   
-  
   static func printLogsVC(nameFuncVC: String, stateFrom: StateVC, stateTo: StateVC, vc: String) {
     if isPrintLogs {
-      let log  = OSLog(subsystem: "TinkoffFintechChat", category: vc)
+      let log = OSLog(subsystem: "TinkoffFintechChat", category: vc)
       os_log("ViewController moved from %s to %s: %s", log: log, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncVC)
     }
   }
   
   static func printLogsVC(nameFuncVC: String, vc: String) {
     if isPrintLogs {
-    let log  = OSLog(subsystem: "TinkoffFintechChat", category: vc)
-    os_log("%s", log: log, type: .info, nameFuncVC)
+      let log = OSLog(subsystem: "TinkoffFintechChat", category: vc)
+      os_log("%s", log: log, type: .info, nameFuncVC)
     }
   }
   
   static func printLogsAD(nameFuncAD: String, stateFrom: StateAD, stateTo: StateAD) {
     if isPrintLogs {
-    let log = OSLog(subsystem: "tinkoffchatapp", category: "AppDelegate")
-    os_log("Application moved from %s to %s: %s", log: log, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncAD)
+      let log = OSLog(subsystem: "tinkoffchatapp", category: "AppDelegate")
+      os_log("Application moved from %s to %s: %s", log: log, type: .info, stateFrom.rawValue, stateTo.rawValue, nameFuncAD)
     }
   }
   
@@ -67,4 +66,3 @@ struct Logger {
   }
   
 }
-

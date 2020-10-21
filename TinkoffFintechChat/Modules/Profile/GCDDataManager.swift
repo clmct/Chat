@@ -8,8 +8,7 @@
 
 import UIKit
 
-
-class GCDDataManager: DataManagerProtocol  {
+class GCDDataManager: DataManagerProtocol {
   init(vc: ProfileViewController) {
     self.vc = vc
   }
@@ -61,14 +60,12 @@ class GCDDataManager: DataManagerProtocol  {
         }
       }
       
-      
     })
     
   }
   
   func read() {
     serialQueue.asyncAfter(deadline: .now(), execute: {
-      
       
       if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
         let nameURL = dir.appendingPathComponent(self.nameFile)
@@ -79,7 +76,6 @@ class GCDDataManager: DataManagerProtocol  {
           let description = try String(contentsOf: descriptionURL, encoding: .utf8)
           let imageData = try Data(contentsOf: imageURL)
           let image = UIImage(data: imageData)
-          
           
           DispatchQueue.main.async {
             self.vc.nameTexrFieldOutlet.text = name

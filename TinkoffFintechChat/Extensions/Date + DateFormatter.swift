@@ -18,10 +18,10 @@ extension Date {
   static func stringFromDate(day: Date) -> String {
     let dateFormatter1 = DateFormatter()
     dateFormatter1.dateFormat = "dd MMM"
-
+    
     let dateFormatter2 = DateFormatter()
     dateFormatter2.dateFormat = "HH:mm"
-
+    
     let dateFormatter3 = DateFormatter()
     dateFormatter3.dateFormat = "yyyy/MM/dd"
     

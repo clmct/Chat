@@ -8,12 +8,9 @@
 
 import Foundation
 
-struct ConversationCellModel {
+struct ChannelModel {
+  let identifier: String
   let name: String
-  let message: String
-  let date: Date 
-  let isOnline: Bool
-  let hasUnreadMessages: Bool
+  let lastMessage: String?
+  let lastActivity: Date?
 }
-
-

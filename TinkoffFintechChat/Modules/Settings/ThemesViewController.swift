@@ -18,7 +18,7 @@ protocol ThemesPickerDelegate: class {
 // в нашем случае он не мог возникнуть, так как ThemesViewController
 // кладется в стек и удаляется из него при выходе
 
-class ThemesViewController: UIViewController {
+class ThemesViewController: UIViewController { // TO DO upgrade?
   
   @IBOutlet weak var classicOutlet: UIButton!
   
@@ -28,9 +28,9 @@ class ThemesViewController: UIViewController {
   
   var delegate: ThemesPickerDelegate?
   
-  var closure: ( (ThemeApp) -> () )?
+  var closure: ((ThemeApp) -> Void )?
   
-  var theme  = ThemeApp(theme: .night)
+  var theme = ThemeApp(theme: .night)
   
   @objc func backToInitial(sender: AnyObject) {
     self.navigationController?.popViewController(animated: true)
@@ -38,14 +38,15 @@ class ThemesViewController: UIViewController {
   }
   
   override func viewDidLoad() {
+    super.viewDidLoad()
     
     view.backgroundColor = UIColor(red: 0.10, green: 0.21, blue: 0.38, alpha: 1.00)
     classicOutlet.layer.cornerRadius = 18
-    classicOutlet.layer.masksToBounds  = true
+    classicOutlet.layer.masksToBounds = true
     dayOutlet.layer.cornerRadius = 18
-    dayOutlet.layer.masksToBounds  = true
+    dayOutlet.layer.masksToBounds = true
     nightOutlet.layer.cornerRadius = 18
-    nightOutlet.layer.masksToBounds  = true
+    nightOutlet.layer.masksToBounds = true
     standartBorder()
   }
   
