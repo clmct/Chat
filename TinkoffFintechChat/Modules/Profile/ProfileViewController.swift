@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate {
+class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate { // TO DO fix and upgrade
   func updateTheme(theme: ThemeApp) {
     self.theme = theme
   }
@@ -21,10 +21,9 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   
   @IBOutlet weak var viewOutlet: UIView!
   @IBOutlet weak var imageViewOutlet: UIImageView!
-
+  
   @IBOutlet weak var GCDButton: UIButton!
   @IBOutlet weak var OperationButton: UIButton!
-  
   
   @IBOutlet weak var leftConstraint: NSLayoutConstraint!
   @IBOutlet weak var rightConstraint: NSLayoutConstraint!
@@ -42,14 +41,14 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   func create() {
     title = "My Profile"
     
-    leftConstraint.constant = view.bounds.width/2 + 10
-    rightConstraint.constant = view.bounds.width/2 + 10
+    leftConstraint.constant = view.bounds.width / 2 + 10
+    rightConstraint.constant = view.bounds.width / 2 + 10
     
-    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { (nc) in
+    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { _ in
       self.view.frame.origin.y = -150
     }
     
-    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { (nc) in
+    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { _ in
       self.view.frame.origin.y = 0.0
     }
     
@@ -80,25 +79,22 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     nameTexrFieldOutlet.textColor = theme.profileText
     descriptionTextViewOutlet.textColor = theme.profileText
     imageViewOutlet.image = imageInitials(name: nameTexrFieldOutlet.text)
-    
-    
     nameTexrFieldOutlet.delegate = self
     
-//    GCD.read()
+    //    GCD.read()
     Operation.read()
   }
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    imageViewOutlet.layer.cornerRadius = imageViewOutlet.layer.frame.height/2
-    GCDButton.layer.cornerRadius = GCDButton.layer.frame.height/3
-    OperationButton.layer.cornerRadius = OperationButton.layer.frame.height/3
+    imageViewOutlet.layer.cornerRadius = imageViewOutlet.layer.frame.height / 2
+    GCDButton.layer.cornerRadius = GCDButton.layer.frame.height / 3
+    OperationButton.layer.cornerRadius = OperationButton.layer.frame.height / 3
   }
-  
   
   @IBAction func editPhotoButtonAction(_ sender: Any) {
     if isEdit {
-    showPhotoPicker()
+      showPhotoPicker()
     }
   }
   
@@ -143,13 +139,7 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     sleep(1)
     Operation.read()
   }
-
-  
-
-
 }
-
-
 
 extension ProfileViewController {
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -162,7 +152,7 @@ extension ProfileViewController {
     checkEditing()
     return true
   }
-
+  
   func checkEditing() {
     
     guard let name = nameTexrFieldOutlet.text,
@@ -171,28 +161,20 @@ extension ProfileViewController {
     
     if isEdit == true, nameString == name, descriptionString == description, image == imag {
       buttonBlock()
-      print(1)
-      print(nameString)
-      print(image)
-      print(imag)
     } else if isEdit == true {
-      print(2)
       buttonUnBlock()
     } else {
-      print(3)
       buttonBlock()
     }
     
   }
 }
 
-
-
-
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  // MARK:- Alert Helper Methods
+  // MARK: - Alert Helper Methods
   func alertCameraSimulator() {
-    let alert = UIAlertController(title: "Упс... На симуляторе нет камеры!", message: "Попробуйте на реальном девайсе. Кнопка представлена на симуляторе в целях прототипирования для разработчиков.", preferredStyle: .alert)
+    let alert = UIAlertController(title: "Упс... На симуляторе нет камеры!",
+                                  message: "Попробуйте на реальном девайсе. Кнопка представлена на симуляторе в целях прототипирования для разработчиков.", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
     alert.addAction(cancelAction)
     present(alert, animated: true, completion: nil)
@@ -223,7 +205,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     present(alert, animated: true, completion: nil)
   }
   
-  // MARK:- Image Helper Methods
+  // MARK: - Image Helper Methods
   
   func showPhotoPicker() {
     let photoAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -246,7 +228,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     present(photoAlert, animated: true, completion: nil)
   }
   
-  // MARK:- Image Picker Delegates
+  // MARK: - Image Picker Delegates
   
   func takePhotoWithCamera() {
     let imagePicker = UIImagePickerController()
@@ -264,8 +246,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     present(imagePicker, animated: true, completion: nil)
   }
   
-  
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     guard let image = info[.editedImage] as? UIImage else { return }
     
     imageViewOutlet.image = image
@@ -274,5 +255,3 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
   }
   
 }
-
-

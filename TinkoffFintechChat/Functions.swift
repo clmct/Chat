@@ -24,7 +24,7 @@ public func imageInitials(name: String?) -> UIImage? {
         initials = String(firstLetter).capitalized
       }
     }
-    if let lastWord = initialsArray.last, initialsArray.count > 1  {
+    if let lastWord = initialsArray.last, initialsArray.count > 1 {
       if let lastLetter = lastWord.first {
         initials += String(lastLetter).capitalized
       }
