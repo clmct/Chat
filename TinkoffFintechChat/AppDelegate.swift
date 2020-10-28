@@ -19,6 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     FireStoreService.shared.configure()
     
+    
+
+    CoreDataStack.shared.enableObservers()
+    
+//    let chatRequest = ChatRequest(coreDataStack: CoreDataStack.shared)
+//    chatRequest.makeRequest()
+    
+    CoreDataStack.shared.didUpdateDataBase = { stack in
+      stack.printDataStatisitice()
+    }
+    
+    
+    
+    
     let themeMain = ThemeApp(theme: .classic)
     if let defaults = UserDefaults.standard.object(forKey: "theme") as? String {
       switch defaults {

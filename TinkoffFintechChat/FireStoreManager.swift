@@ -32,6 +32,7 @@ class FireStoreService {
         let model = ChannelModel(identifier: id, name: name, lastMessage: lastMessage, lastActivity: lastActivity?.dateValue())
         dataChannels.append(model)
       })
+      ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannel(channelModels: dataChannels)
       completion(dataChannels)
     }
   }
