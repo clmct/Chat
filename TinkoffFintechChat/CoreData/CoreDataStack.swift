@@ -109,7 +109,7 @@ class CoreDataStack {
   private func managedObjectContextObjectsDidChange(notification: NSNotification) {
     guard let userInfo = notification.userInfo else { return }
     didUpdateDataBase?(self)
-    print("\n\n----------------------", terminator: Array(repeating: "\n", count: 10).joined())
+    print("\n\n-------------------\n")
     if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
       print("Добавлено обьектов: ", inserts.count)
     }
@@ -124,8 +124,11 @@ class CoreDataStack {
   func printDataStatisitice() {
     mainContext.perform {
       do {
-        let count = try self.mainContext.count(for: ChannelMO.fetchRequest())
-        print("Чатов: \(count) ")
+        print("\n-------------------")
+        let countChannels = try self.mainContext.count(for: ChannelMO.fetchRequest())
+        print("Всего чатов: \(countChannels) ")
+        let countMessages = try self.mainContext.count(for: MessageMO.fetchRequest())
+        print("Всего ообщений: \(countMessages) ")
         let array = try self.mainContext.fetch(ChannelMO.fetchRequest()) as? [ChannelMO] ?? []
         array.forEach { item in
           let index = array.firstIndex(of: item)

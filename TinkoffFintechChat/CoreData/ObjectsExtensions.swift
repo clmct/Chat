@@ -58,7 +58,7 @@ extension ChannelMO {
     
     let messagesCount: Int = self.messages?.count ?? 0
     
-    let aboutString = " identifier: \(identifier)\n name: \(name) \n lastMessage: \(lastMessage) \n lastActivity: \(lastActivity)\n number of messages: \(messagesCount)"
+    let aboutString = " identifier: \(identifier)\n name: \(name) \n last message: \(lastMessage) \n last activity: \(lastActivity)\n NUMBER OF MESSAGES(CoreData): \(messagesCount)"
     
     return aboutString
   }
