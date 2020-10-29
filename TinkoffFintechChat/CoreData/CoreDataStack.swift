@@ -18,9 +18,7 @@ class CoreDataStack {
   private var storeUrl: URL = {
     guard let documentUrl = FileManager.default.urls(for: .documentDirectory,
                                                      in: .userDomainMask).last else {
-                                                      fatalError("document patch not found")
-                                                      
-    }
+                                                      fatalError("document patch not found") }
     return documentUrl.appendingPathComponent("Chat.sqlite")
   }()
   
@@ -34,17 +32,14 @@ class CoreDataStack {
                                          withExtension: self.dataModelExtension) else {
                                           fatalError("model not found")
     }
-    
     guard let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) else {
       fatalError("managedObjectModel cound not be created")
     }
-    
     return managedObjectModel
   }()
   
   private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = { // отдельная очередь
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-    
     do {
       try coordinator.addPersistentStore(ofType: NSSQLiteStoreType,
                                          configurationName: nil,
@@ -66,14 +61,14 @@ class CoreDataStack {
   }()
   
   private(set) lazy var mainContext: NSManagedObjectContext = {
-    let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.parent = writterContext
     context.automaticallyMergesChangesFromParent = true
     context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
     return context
   }()
   
-  private func saveContext() -> NSManagedObjectContext { // можно сделать публичным, в данном случае приватный
+  private func saveContext() -> NSManagedObjectContext {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.parent = mainContext
     context.automaticallyMergesChangesFromParent = true
@@ -88,8 +83,9 @@ class CoreDataStack {
     context.performAndWait {
       block(context)
       if context.hasChanges {
-        do { try performSave(in: context) }
-        catch { assertionFailure(error.localizedDescription) }
+        do {
+          try performSave(in: context)
+        } catch { assertionFailure(error.localizedDescription) }
       }
     }
   }
@@ -112,17 +108,13 @@ class CoreDataStack {
   @objc
   private func managedObjectContextObjectsDidChange(notification: NSNotification) {
     guard let userInfo = notification.userInfo else { return }
-    
     didUpdateDataBase?(self)
-    
     if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
       print("Добавлено обьектов: ", inserts.count)
     }
-    
     if let updated = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updated.count > 0 {
       print("Обновлено обьектов: ", updated.count)
     }
-    
     if let deleted = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deleted.count > 0 {
       print("Удалено обьектов: ", deleted.count)
     }
@@ -132,11 +124,15 @@ class CoreDataStack {
     mainContext.perform {
       do {
         let count = try self.mainContext.count(for: ChannelMO.fetchRequest())
-        print("\(count) чатов")
+                print("\n\n ----------------------", terminator: Array(repeating: "\n", count: 100).joined())
+        print("Чатов: \(count) ")
         let array = try self.mainContext.fetch(ChannelMO.fetchRequest()) as? [ChannelMO] ?? []
         array.forEach { item in
-          print(item.about)
-  
+          let index = array.firstIndex(of: item)
+          print("\nИндекс канала: \(index ?? 0)")
+          print("Название канала: \(item.name ?? "")")
+          print("Кол-во сообщений: \(item.messagesCount)")
+          //          print(item.about)
         }
       } catch {
         fatalError(error.localizedDescription)
@@ -145,5 +141,3 @@ class CoreDataStack {
   }
   
 }
-
-

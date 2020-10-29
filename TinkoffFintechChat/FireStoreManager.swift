@@ -26,13 +26,14 @@ class FireStoreService {
         let id = QueryDocumentSnapshot.documentID
         let data = QueryDocumentSnapshot.data()
         guard let name = data["name"] as? String else { return }
-        if name == "" { return }
+        let isEmptyString = name.components(separatedBy: " ").filter { $0 != ""}
+        if isEmptyString.isEmpty { return }
         let lastMessage = data["lastMessage"] as? String
         let lastActivity = data["lastActivity"] as? Timestamp
         let model = ChannelModel(identifier: id, name: name, lastMessage: lastMessage, lastActivity: lastActivity?.dateValue())
         dataChannels.append(model)
       })
-      ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannel(channelModels: dataChannels)
+      ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannels(channelModels: dataChannels)
       completion(dataChannels)
     }
   }
@@ -52,9 +53,12 @@ class FireStoreService {
         guard let created = data["created"] as? Timestamp else { return }
         guard let senderId = data["senderId"] as? String else { return }
         guard let senderName = data["senderName"] as? String else { return }
-        let model = MessageModel(content: content, created: created.dateValue(), senderId: senderId, senderName: senderName)
+        let model = MessageModel(identifier: id, content: content, created: created.dateValue(), senderId: senderId, senderName: senderName)
         dataMessages.append(model)
       })
+      self.fetchData { dataChannels in
+        ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannelWithMessages(channelModels: dataChannels, messagesModels: dataMessages)
+      }
       completion(dataMessages)
     }
   }
@@ -69,4 +73,3 @@ class FireStoreService {
         "senderName": "Alex"])
   }
 }
-

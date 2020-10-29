@@ -22,8 +22,6 @@
 		B28FE2E4254751690043BCC0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E3254751690043BCC0 /* CoreDataStack.swift */; };
 		B28FE2E7254751EC0043BCC0 /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E5254751EC0043BCC0 /* Chat.xcdatamodeld */; };
 		B28FE2E9254753D30043BCC0 /* ObjectsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */; };
-		B28FE2F425475BBA0043BCC0 /* ChannelDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2F325475BBA0043BCC0 /* ChannelDB.swift */; };
-		B28FE2F625475BC60043BCC0 /* MessageDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2F525475BC60043BCC0 /* MessageDB.swift */; };
 		B29AB32F254880D600EE28A7 /* ChatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29AB32E254880D600EE28A7 /* ChatRequest.swift */; };
 		B29D5DEB253C4AD700432982 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29D5DEA253C4AD700432982 /* FireStoreManager.swift */; };
 		B2A2A191252E631E008C998D /* Themes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2A2A190252E631E008C998D /* Themes.storyboard */; };
@@ -60,8 +58,6 @@
 		B28FE2E3254751690043BCC0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B28FE2E6254751EC0043BCC0 /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
 		B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectsExtensions.swift; sourceTree = "<group>"; };
-		B28FE2F325475BBA0043BCC0 /* ChannelDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDB.swift; sourceTree = "<group>"; };
-		B28FE2F525475BC60043BCC0 /* MessageDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDB.swift; sourceTree = "<group>"; };
 		B29AB32E254880D600EE28A7 /* ChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequest.swift; sourceTree = "<group>"; };
 		B29D5DEA253C4AD700432982 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		B2A2A190252E631E008C998D /* Themes.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Themes.storyboard; sourceTree = "<group>"; };
@@ -159,12 +155,10 @@
 		B28FE2F225475AE20043BCC0 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */,
 				B28FE2E5254751EC0043BCC0 /* Chat.xcdatamodeld */,
 				B28FE2E3254751690043BCC0 /* CoreDataStack.swift */,
 				B29AB32E254880D600EE28A7 /* ChatRequest.swift */,
-				B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */,
-				B28FE2F325475BBA0043BCC0 /* ChannelDB.swift */,
-				B28FE2F525475BC60043BCC0 /* MessageDB.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -375,7 +369,6 @@
 				B271C9D4250E5D550084B7AB /* Logger.swift in Sources */,
 				B20854CC25364BF2008985D2 /* GCDDataManager.swift in Sources */,
 				B2FFD3AF25223AB40001CCAC /* ConversationModel.swift in Sources */,
-				B28FE2F425475BBA0043BCC0 /* ChannelDB.swift in Sources */,
 				B2FFD3AD25223AAA0001CCAC /* ConversationCell.swift in Sources */,
 				B2FFD3A22522393F0001CCAC /* Functions.swift in Sources */,
 				B2FFD3B2252251870001CCAC /* ConfiguratableView.swift in Sources */,
@@ -389,7 +382,6 @@
 				B2A6709C25323BF50039C923 /* TableView + Deselect .swift in Sources */,
 				B29AB32F254880D600EE28A7 /* ChatRequest.swift in Sources */,
 				B2FFD3A825223A0F0001CCAC /* ConversationListModel.swift in Sources */,
-				B28FE2F625475BC60043BCC0 /* MessageDB.swift in Sources */,
 				B2FFD3A4252239F30001CCAC /* ConversationsListViewController.swift in Sources */,
 				B24D7B782537A86200638464 /* DataManagerProtocol.swift in Sources */,
 			);

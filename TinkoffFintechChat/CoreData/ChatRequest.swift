@@ -15,28 +15,28 @@ struct ChatRequest {
     self.coreDataStack = coreDataStack
   }
   
-  func makeRequest() {
+  func makeRequestChannels(channelModels models: [ChannelModel]) {
     coreDataStack.performSave { context in
-//      let modelC = ChannelModel(identifier: "1", name: "name", lastMessage: "my chat", lastActivity: Date())
-//      let modelM = MessageModel(content: "hi", created: Date(), senderId: "XYZ", senderName: "Alex")
-//      let modelM1 = MessageModel(content: "its worl", created: Date(), senderId: "XYZ", senderName: "Alex")
-//
-//      let channel1 = ChannelMO(model: modelC, in: context)
-//      let message1 = MessageMO(model: modelM, in: context)
-//      let message2 = MessageMO(model: modelM1, in: context)
-//      let message3 = MessageMO(model: modelM1, in: context)
-//
-//      let modelC2 = ChannelModel(identifier: "2", name: "name", lastMessage: "my chat", lastActivity: Date())
-//      let channel2 = ChannelMO(model: modelC2, in: context)
-//      [message1, message2, message3].forEach { channel1.addToMessages($0) }
+      models.forEach { model in
+        _ = ChannelMO(model: model, in: context)
+      }
     }
   }
   
-  func makeRequestChannel(channelModels models: [ChannelModel]) {
+  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel]) {
     coreDataStack.performSave { context in
-      models.forEach { model in
-//        _ = ChannelMO(model: model, in: context)
+      var messagesMO: [MessageMO] = [MessageMO]()
+      messages.forEach { model in // update messages data for one channel
+        let messageMO = MessageMO(model: model, in: context)
+        messagesMO.append(messageMO)
       }
+      channels.forEach { model in // update channels data
+        let channelMO = ChannelMO(model: model, in: context)
+        if model.identifier == messages.last?.identifier {
+          messagesMO.forEach { channelMO.addToMessages($0) }
+        }
+      }
+      
     }
   }
 }
