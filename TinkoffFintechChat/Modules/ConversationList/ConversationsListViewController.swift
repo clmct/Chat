@@ -20,6 +20,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     FireStoreService.shared.fetchData { data in
       self.dataChannels = data
       self.tableView.reloadData()
+      ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannels(channelModels: data)
     }
     DispatchQueue.main.async {
       self.tableView.refreshControl?.endRefreshing()

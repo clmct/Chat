@@ -47,9 +47,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   }()
   
   override var inputAccessoryView: UIView? {
-    get {
       return inputContainerView
-    }
   }
   
   override var canBecomeFirstResponder: Bool { return true }

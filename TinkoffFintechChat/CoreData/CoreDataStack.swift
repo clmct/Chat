@@ -124,15 +124,13 @@ class CoreDataStack {
     mainContext.perform {
       do {
         let count = try self.mainContext.count(for: ChannelMO.fetchRequest())
-                print("\n\n ----------------------", terminator: Array(repeating: "\n", count: 100).joined())
+        print("\n\n ----------------------", terminator: Array(repeating: "\n", count: 100).joined())
         print("Чатов: \(count) ")
         let array = try self.mainContext.fetch(ChannelMO.fetchRequest()) as? [ChannelMO] ?? []
         array.forEach { item in
           let index = array.firstIndex(of: item)
           print("\nИндекс канала: \(index ?? 0)")
-          print("Название канала: \(item.name ?? "")")
-          print("Кол-во сообщений: \(item.messagesCount)")
-          //          print(item.about)
+          print(item.about)
         }
       } catch {
         fatalError(error.localizedDescription)

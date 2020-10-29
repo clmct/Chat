@@ -13,7 +13,7 @@ class OperationDataManager: DataManagerProtocol {
   private let nameFile = "name.txt"
   private let descriptionFile = "description.txt"
   private let imageFile = "image.png"
-  private var vc: ProfileViewController
+  private weak var vc: ProfileViewController?
   
   var name: String?
   var description: String?
@@ -24,13 +24,13 @@ class OperationDataManager: DataManagerProtocol {
   }
   
   func write() {
-    vc.activityIndicatorOutlet.isHidden = false
+    vc?.activityIndicatorOutlet.isHidden = false
     if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
       let nameURL = dir.appendingPathComponent(self.nameFile)
       let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
       let imageURL = dir.appendingPathComponent(self.imageFile)
       let operationQueue = OperationQueue()
-      let operation = WriteOperation(vc: vc)
+      let operation = WriteOperation(vc: vc ?? ProfileViewController())
       operation.nameURL = nameURL
       operation.descriptionURL = descriptionURL
       operation.imageURL = imageURL
@@ -38,7 +38,7 @@ class OperationDataManager: DataManagerProtocol {
       operation.descriptionString = description
       operation.image = image
       operationQueue.addOperation(operation)
-      vc.activityIndicatorOutlet.isHidden = true
+      vc?.activityIndicatorOutlet.isHidden = true
     }
   }
   
@@ -48,7 +48,7 @@ class OperationDataManager: DataManagerProtocol {
       let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
       let imageURL = dir.appendingPathComponent(self.imageFile)
       let operationQueue = OperationQueue()
-      let operation = ReadOperation(vc: vc)
+      let operation = ReadOperation(vc: vc ?? ProfileViewController())
       operation.nameURL = nameURL
       operation.descriptionURL = descriptionURL
       operation.imageURL = imageURL
@@ -62,7 +62,6 @@ class WriteOperation: Operation {
   var nameURL: URL?
   var descriptionURL: URL?
   var imageURL: URL?
-  
   var nameString: String?
   var descriptionString: String?
   var image: UIImage?
@@ -130,7 +129,6 @@ class ReadOperation: Operation {
         self.vc.image = image ?? UIImage()
         self.vc.activityIndicatorOutlet.isHidden = true
       }
-      
     } catch {
       print("error write operation")
     }

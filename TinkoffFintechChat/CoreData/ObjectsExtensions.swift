@@ -63,20 +63,18 @@ extension ChannelMO {
       lastActivity = "nil"
     }
     
-    let messages = self.messages?.allObjects
+    _ = self.messages?.allObjects
       .compactMap { $0 as? MessageMO }
       .map { "\($0.about)" }
       .joined(separator: "\n") ?? ""
     
-    let aboutString = " identifier = \(identifier) \n name = \(name) \n lastMessage = \(lastMessage) \n lastActivity = \(lastActivity)\n"
+    let messagesCount: Int = self.messages?.count ?? 0
     
-    return aboutString + messages
-  }
-  
-  var messagesCount: Int {
-    return messages?.count ?? 0
+    let aboutString = " identifier: \(identifier)\n name: \(name) \n lastMessage: \(lastMessage) \n lastActivit: \(lastActivity)\n number of messages: \(messagesCount)"
     
+    return aboutString
   }
+
 }
 
 extension MessageMO {
