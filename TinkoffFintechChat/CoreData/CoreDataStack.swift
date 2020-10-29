@@ -109,6 +109,7 @@ class CoreDataStack {
   private func managedObjectContextObjectsDidChange(notification: NSNotification) {
     guard let userInfo = notification.userInfo else { return }
     didUpdateDataBase?(self)
+    print("\n\n----------------------", terminator: Array(repeating: "\n", count: 10).joined())
     if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
       print("Добавлено обьектов: ", inserts.count)
     }
@@ -124,12 +125,11 @@ class CoreDataStack {
     mainContext.perform {
       do {
         let count = try self.mainContext.count(for: ChannelMO.fetchRequest())
-        print("\n\n ----------------------", terminator: Array(repeating: "\n", count: 100).joined())
         print("Чатов: \(count) ")
         let array = try self.mainContext.fetch(ChannelMO.fetchRequest()) as? [ChannelMO] ?? []
         array.forEach { item in
           let index = array.firstIndex(of: item)
-          print("\nИндекс канала: \(index ?? 0)")
+          print("\nИндекс чата: \(index ?? 0)")
           print(item.about)
         }
       } catch {

@@ -14,7 +14,6 @@ struct ChatRequest {
   init(coreDataStack: CoreDataStack) {
     self.coreDataStack = coreDataStack
   }
-  
   func makeRequestChannels(channelModels models: [ChannelModel]) {
     coreDataStack.performSave { context in
       models.forEach { model in
@@ -22,7 +21,6 @@ struct ChatRequest {
       }
     }
   }
-  
   func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel]) {
     coreDataStack.performSave { context in
       var messagesMO: [MessageMO] = [MessageMO]()
@@ -36,7 +34,6 @@ struct ChatRequest {
           messagesMO.forEach { channelMO.addToMessages($0) }
         }
       }
-      
     }
   }
 }

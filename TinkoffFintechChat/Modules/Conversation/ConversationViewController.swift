@@ -16,6 +16,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   lazy private var tableView = UITableView()
   var messageTextField = String()
   var id: String?
+  weak var VC: ConversationsListViewController?
   
   lazy var inputContainerView: UIView = {
     let containerView = UIView()
@@ -52,6 +53,11 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   
   override var canBecomeFirstResponder: Bool { return true }
 
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    VC?.fetchData()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     createTableView()
