@@ -34,22 +34,10 @@ extension ChannelMO {
   
   var about: String {
     
-    let identifier: String
-    let name: String
+    let identifier: String = self.identifier
+    let name: String = self.name
     let lastMessage: String
     let lastActivity: String
-    
-    if let id = self.identifier {
-      identifier = id
-    } else {
-      identifier = "nil"
-    }
-    
-    if let nam = self.name {
-      name = nam
-    } else {
-      name = "nil"
-    }
     
     if let message = self.lastMessage {
       lastMessage = message
@@ -70,25 +58,22 @@ extension ChannelMO {
     
     let messagesCount: Int = self.messages?.count ?? 0
     
-    let aboutString = " identifier: \(identifier)\n name: \(name) \n lastMessage: \(lastMessage) \n lastActivit: \(lastActivity)\n number of messages: \(messagesCount)"
+    let aboutString = " identifier: \(identifier)\n name: \(name) \n lastMessage: \(lastMessage) \n lastActivity: \(lastActivity)\n number of messages: \(messagesCount)"
     
     return aboutString
   }
-
+  
 }
 
 extension MessageMO {
   
   var about: String {
-    if let content = self.content, let created = self.created, let senderId = self.senderId, let senderName = self.senderName {
-      let content: String = content
-      let created: String = Date.stringFromDate(day: created)
-      let senderId: String = senderId
-      let senderName: String = senderName
-      
-      let aboutString = "  content = \(content) \n  created = \(created) \n  senderId = \(senderId) \n  senderName = \(senderName)\n"
-      return aboutString
-    }
-    return "Not valid"
+    let content: String = self.content
+    let created: String = Date.stringFromDate(day: self.created)
+    let senderId: String = self.senderId
+    let senderName: String = self.senderName
+    
+    let aboutString = "  content = \(content) \n  created = \(created) \n  senderId = \(senderId) \n  senderName = \(senderName)\n"
+    return aboutString
   }
 }
