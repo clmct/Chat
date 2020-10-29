@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
 
     FireStoreService.shared.configure()
+    CoreDataStack.shared.enableObservers()
+    CoreDataStack.shared.didUpdateDataBase = { stack in
+      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов
+    }
     
     let themeMain = ThemeApp(theme: .classic)
     if let defaults = UserDefaults.standard.object(forKey: "theme") as? String {

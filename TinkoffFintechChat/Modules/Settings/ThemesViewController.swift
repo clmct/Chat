@@ -15,8 +15,7 @@ protocol ThemesPickerDelegate: class {
 
 // retain cycle мог возникунть при сильных ссылках
 // двух классов друг на друга
-// в нашем случае он не мог возникнуть, так как ThemesViewController
-// кладется в стек и удаляется из него при выходе
+// в нашем случае он не мог возникнуть
 
 class ThemesViewController: UIViewController { // TO DO upgrade?
   
@@ -26,7 +25,7 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
   
   @IBOutlet weak var nightOutlet: UIButton!
   
-  var delegate: ThemesPickerDelegate?
+  weak var delegate: ThemesPickerDelegate?
   
   var closure: ((ThemeApp) -> Void )?
   
@@ -93,9 +92,11 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
   
   func updateTheme() {
     navigationController?.navigationBar.barTintColor = theme.navigationBar
-    //delegate?.updateTheme(theme: theme)
-    closure?(theme)
-    UserDefaults.standard.set(theme.theme.rawValue, forKey: "theme")
+    DispatchQueue.main.async {
+//      self.delegate?.updateTheme(theme: self.theme)
+      self.closure?(self.theme)
+      UserDefaults.standard.set(self.theme.theme.rawValue, forKey: "theme")
+    }
   }
   
   @IBAction func classicAction(_ sender: Any) {

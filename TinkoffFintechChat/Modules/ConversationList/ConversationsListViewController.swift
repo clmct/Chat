@@ -17,10 +17,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   }
   
   @objc func handleRefreshControl() {
-    FireStoreService.shared.fetchData { data in
-      self.dataChannels = data
-      self.tableView.reloadData()
-    }
     DispatchQueue.main.async {
       self.tableView.refreshControl?.endRefreshing()
     }
@@ -39,7 +35,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   var theme = ThemeApp(theme: .night)
   var dataChannels: [ChannelModel] = [ChannelModel]()
   
-  lazy private var tableView = UITableView()
+  var tableView = UITableView()
   private let identifire = "conversationsList"
   
   lazy private var image = imageInitials(name: "Marina Dudarenko")
@@ -116,15 +112,19 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.navigationItem.rightBarButtonItems = [imageButton, addChannelButton]
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     createTableView()
-    FireStoreService.shared.fetchData { data in
-      self.dataChannels = data
-      self.tableView.reloadData()
-    }
+    fetchData()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.tableView.deselectSelectedRow(animated: true)
+  }
+  
+  func fetchData() {
+    FireStoreService.shared.fetchData { data in
+      self.dataChannels = data
+      self.tableView.reloadData()
+    }
   }
   
   func createTableView() {
@@ -170,6 +170,7 @@ extension ConversationsListViewController: UITableViewDataSource {
     FireStoreService.shared.fetchDataMessages(identifire: id) { [weak self] data in
       controller.data = data
       controller.id = self?.dataChannels[indexPath.row].identifier
+      controller.VC = self
       self?.navigationController?.pushViewController(controller, animated: true)
     }
   }

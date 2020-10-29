@@ -98,4 +98,3 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
   }
   
 }
-

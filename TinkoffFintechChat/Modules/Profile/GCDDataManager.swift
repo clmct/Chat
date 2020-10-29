@@ -14,11 +14,10 @@ class GCDDataManager: DataManagerProtocol {
   }
   
   private var serialQueue = DispatchQueue(label: "serial")
-  
   private var test1 = "Marina Dudarenko"
   private var test2 = "UX/UI designer, web-designer Moscow, Russia"
   
-  private let vc: ProfileViewController
+  private weak var vc: ProfileViewController?
   var name: String?
   var description: String?
   var image: UIImage?
@@ -28,7 +27,7 @@ class GCDDataManager: DataManagerProtocol {
   private let imageFile = "image.png"
   
   func write() {
-    vc.activityIndicatorOutlet.isHidden = false
+    vc?.activityIndicatorOutlet.isHidden = false
     serialQueue.asyncAfter(deadline: .now(), execute: {
       
       if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -49,13 +48,13 @@ class GCDDataManager: DataManagerProtocol {
           }
           
           DispatchQueue.main.async {
-            self.vc.activityIndicatorOutlet.isHidden = true
-            self.vc.alertOK()
+            self.vc?.activityIndicatorOutlet.isHidden = true
+            self.vc?.alertOK()
           }
         } catch {
           DispatchQueue.main.async {
-            self.vc.activityIndicatorOutlet.isHidden = true
-            self.vc.alertError()
+            self.vc?.activityIndicatorOutlet.isHidden = true
+            self.vc?.alertError()
           }
         }
       }
@@ -78,13 +77,13 @@ class GCDDataManager: DataManagerProtocol {
           let image = UIImage(data: imageData)
           
           DispatchQueue.main.async {
-            self.vc.nameTexrFieldOutlet.text = name
-            self.vc.descriptionTextViewOutlet.text = description
-            self.vc.imageViewOutlet.image = image
+            self.vc?.nameTexrFieldOutlet.text = name
+            self.vc?.descriptionTextViewOutlet.text = description
+            self.vc?.imageViewOutlet.image = image
             
-            self.vc.nameString = name
-            self.vc.descriptionString = description
-            self.vc.image = image ?? UIImage()
+            self.vc?.nameString = name
+            self.vc?.descriptionString = description
+            self.vc?.image = image ?? UIImage()
           }
           
         } catch {

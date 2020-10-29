@@ -44,11 +44,11 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     leftConstraint.constant = view.bounds.width / 2 + 10
     rightConstraint.constant = view.bounds.width / 2 + 10
     
-    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { _ in
+     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { _ in
       self.view.frame.origin.y = -150
     }
     
-    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { _ in
+    _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { _ in
       self.view.frame.origin.y = 0.0
     }
     
