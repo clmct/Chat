@@ -18,7 +18,7 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
     backgroundColor = theme.backgroundColor
   }
   
-  typealias ConversationModel = MessageModel
+  typealias ConversationModel = MessageMO
   
   func configure(with model: ConversationModel) {
     messageLbael.text = model.content

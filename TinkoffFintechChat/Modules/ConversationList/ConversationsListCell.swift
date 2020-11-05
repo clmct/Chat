@@ -18,7 +18,7 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDe
     dateLabel.textColor = theme.messageColor
   }
   
-  typealias ConversationModel = ChannelModel
+  typealias ConversationModel = ChannelMO
   
   var delegate = "delegate"
   var closure = "closure"

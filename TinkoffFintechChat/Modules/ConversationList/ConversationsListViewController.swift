@@ -8,8 +8,41 @@
 
 import UIKit
 import Firebase
+import CoreData
 
 class ConversationsListViewController: UIViewController, UITableViewDelegate, ThemesPickerDelegate {
+  
+  lazy var fetchedResultsController: NSFetchedResultsController<ChannelMO> = {
+    let fetchRequest = NSFetchRequest<ChannelMO>()
+    let enity = ChannelMO.entity()
+    let sort1 = NSSortDescriptor(key: "lastActivity", ascending: false)
+    let sort2 = NSSortDescriptor(key: "identifier", ascending: true)
+    fetchRequest.entity = enity
+    fetchRequest.sortDescriptors = [sort1, sort2]
+    fetchRequest.resultType = .managedObjectResultType
+    
+    let fetchedRequestController = NSFetchedResultsController(
+      fetchRequest: fetchRequest,
+      managedObjectContext: CoreDataStack.shared.mainContext,
+      sectionNameKeyPath: nil,
+      cacheName: nil)
+    
+    fetchedRequestController.delegate = self
+    return fetchedRequestController
+  }()
+  
+  deinit {
+    fetchedResultsController.delegate = nil
+  }
+    
+  func performFetch() {
+    do {
+      try fetchedResultsController.performFetch()
+      tableView.reloadData()
+    } catch {
+      fatalError()
+    }
+  }
   
   func configureRefreshControl() {
     tableView.refreshControl = UIRefreshControl()
@@ -24,7 +57,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   
   func updateTheme(theme: ThemeApp) {
     self.theme = theme
-    tableView.reloadData()
+//    tableView.reloadData()
     navigationController?.navigationBar.barTintColor = theme.navigationBar
     UINavigationBar.appearance().barStyle = theme.barStyle
     navigationController?.navigationBar.titleTextAttributes = [
@@ -33,7 +66,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   }
   
   var theme = ThemeApp(theme: .night)
-  var dataChannels: [ChannelModel] = [ChannelModel]()
+//  var dataChannels: [ChannelModel] = [ChannelModel]()
   
   var tableView = UITableView()
   private let identifire = "conversationsList"
@@ -49,7 +82,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     let storyboard = UIStoryboard(name: "Profile", bundle: nil)
     if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
       let navVC = UINavigationController(rootViewController: controller)
-      // controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
+       controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
       controller.updateTheme(theme: theme)
       show(navVC, sender: nil)
     } else {
@@ -86,12 +119,8 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
       let nameChannel = alert.textFields?.first?.text
       
       UIAlertAction.isEnabled = false
-      
       FireStoreService.shared.createChannel(newChannel: nameChannel ?? "")
-      FireStoreService.shared.fetchData { data in
-        self.dataChannels = data
-        self.tableView.reloadData()
-      }
+      FireStoreService.shared.fetchData()
     }
     let cancelAction = UIAlertAction(title: "Отмена", style: .destructive, handler: nil)
     alert.addAction(createAction)
@@ -112,19 +141,13 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.navigationItem.rightBarButtonItems = [imageButton, addChannelButton]
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     createTableView()
-    fetchData()
+    FireStoreService.shared.fetchData()
+    performFetch()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.tableView.deselectSelectedRow(animated: true)
-  }
-  
-  func fetchData() {
-    FireStoreService.shared.fetchData { data in
-      self.dataChannels = data
-      self.tableView.reloadData()
-    }
   }
   
   func createTableView() {
@@ -136,9 +159,32 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     view.addSubview(tableView)
     configureRefreshControl()
   }
+  
+  func validateIndexPath(_ indexPath: IndexPath) -> Bool {
+    if let sections = self.fetchedResultsController.sections,
+      indexPath.section < sections.count {
+         if indexPath.row < sections[indexPath.section].numberOfObjects {
+            return true
+         }
+      }
+      return false
+  }
 }
 
 extension ConversationsListViewController: UITableViewDataSource {
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      let channel = fetchedResultsController.object(at: indexPath)
+      CoreDataStack.shared.mainContext.delete(channel)
+      do {
+        try CoreDataStack.shared.mainContext.save()
+        tableView.deleteRows(at: [indexPath], with: .fade)
+      } catch {
+        fatalError()
+      }
+    }
+  }
   
   func numberOfSections(in tableView: UITableView) -> Int {
     1
@@ -163,16 +209,15 @@ extension ConversationsListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let id = dataChannels[indexPath.row].identifier
     let controller = ConversationViewController()
     controller.updateTheme(theme: self.theme)
-    controller.title = self.dataChannels[indexPath.row].name
-    FireStoreService.shared.fetchDataMessages(identifire: id) { [weak self] data in
-      controller.data = data
-      controller.id = self?.dataChannels[indexPath.row].identifier
-      controller.VC = self
-      self?.navigationController?.pushViewController(controller, animated: true)
-    }
+    controller.title = self.fetchedResultsController.object(at: indexPath).name
+    guard let model = fetchedResultsController.fetchedObjects?[indexPath.row] else { return }
+    guard let data = model.messages?.allObjects as? [MessageMO] else { return }
+    controller.data = data
+    controller.VC = self
+    controller.id = self.fetchedResultsController.object(at: indexPath).identifier
+    self.navigationController?.pushViewController(controller, animated: true)
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -180,17 +225,67 @@ extension ConversationsListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    dataChannels.count
+    let count = fetchedResultsController.fetchedObjects?.count ?? 0
+    return count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if let cell = tableView.dequeueReusableCell(withIdentifier: identifire, for: indexPath) as? ConversationsListCell {
-      let modelCell = dataChannels[indexPath.row]
+      let modelCell = fetchedResultsController.object(at: indexPath)
       cell.configure(with: modelCell)
       cell.updateTheme(theme: theme)
+      if self.validateIndexPath(indexPath) == false { return UITableViewCell() }
       return cell
     } else {
       return UITableViewCell()
     }
   }
+}
+
+extension ConversationsListViewController: NSFetchedResultsControllerDelegate {
+  
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    print("\(#function)")
+    self.tableView.beginUpdates()
+  }
+  
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    print("\(#function)")
+    self.tableView.endUpdates()
+  }
+  
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                  didChange anObject: Any,
+                  at indexPath: IndexPath?,
+                  for type: NSFetchedResultsChangeType,
+                  newIndexPath: IndexPath?) {
+    
+    switch type {
+    case .insert:
+      print("\(#function) - type insert")
+      guard let newIndexPath = newIndexPath else { return }
+      tableView.insertRows(at: [newIndexPath], with: .automatic)
+    case .move:
+      print("\(#function) - type move")
+      guard let newIndexPath = newIndexPath, let indexPath = indexPath else { return }
+      tableView.deleteRows(at: [indexPath], with: .automatic)
+      tableView.insertRows(at: [newIndexPath], with: .automatic)
+    case .update:
+      print("\(#function) - type update")
+      guard let indexPath = indexPath else { return }
+      if let cell = tableView.cellForRow(at: indexPath) as? ConversationsListCell {
+        guard let channel = controller.object(at: indexPath) as? ChannelMO else { return }
+        cell.configure(with: channel)
+      }
+      tableView.reloadRows(at: [indexPath], with: .automatic)
+    case .delete:
+      print("\(#function) - type delete")
+      guard let indexPath = indexPath else { return }
+      tableView.deleteRows(at: [indexPath], with: .automatic)
+    default:
+      print("switch type is defuailt")
+    }
+    
+  }
+  
 }
