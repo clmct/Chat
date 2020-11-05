@@ -21,6 +21,17 @@ class FireStoreService {
   
   func fetchData(completion: @escaping ([ChannelModel]) -> Void) {
     var dataChannels = [ChannelModel]()
+//    // MARK: - Mock Data
+//    
+//    let test1 = ChannelModel(identifier: "1", name: "name1", lastMessage: "1", lastActivity: Date())
+//    let test2 = ChannelModel(identifier: "2", name: "name2", lastMessage: "2", lastActivity: Date())
+//    let test3 = ChannelModel(identifier: "3", name: "name3", lastMessage: "3", lastActivity: Date())
+//    let test4 = ChannelModel(identifier: "4", name: "name4", lastMessage: "4", lastActivity: Date())
+//    dataChannels.append(test1)
+//    dataChannels.append(test2)
+//    dataChannels.append(test3)
+//    dataChannels.append(test4)
+    
     reference.getDocuments { QuerySnapshot, _ in
       _ = QuerySnapshot?.documents.map({ QueryDocumentSnapshot in
         let id = QueryDocumentSnapshot.documentID
