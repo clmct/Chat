@@ -12,7 +12,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   
   var theme: ThemeApp = ThemeApp(theme: .classic)
   private let identifire = "conversation"
-  var data: [MessageModel] = [MessageModel]()
+  var data: [MessageMO] = [MessageMO]()
   lazy private var tableView = UITableView()
   var messageTextField = String()
   var id: String?
@@ -55,7 +55,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    VC?.fetchData()
+    VC?.performFetch()
   }
   
   override func viewDidLoad() {
@@ -110,10 +110,6 @@ extension ConversationViewController: UITextFieldDelegate {
     if let id = id, let message = textField.text {
       FireStoreService.shared.createMessage(identifire: id, newMessage: message)
       textField.text = ""
-      FireStoreService.shared.fetchDataMessages(identifire: id) { data in
-        self.data = data
-        self.tableView.reloadData()
-      }
     }
     return true
   }

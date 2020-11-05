@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     FireStoreService.shared.configure()
     CoreDataStack.shared.enableObservers()
-    CoreDataStack.shared.didUpdateDataBase = { stack in
-      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов
-    }
+//    CoreDataStack.shared.didUpdateDataBase = { stack in
+//      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов
+//    }
     
     let themeMain = ThemeApp(theme: .classic)
     if let defaults = UserDefaults.standard.object(forKey: "theme") as? String {

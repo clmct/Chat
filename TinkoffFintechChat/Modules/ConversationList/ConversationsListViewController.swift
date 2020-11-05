@@ -15,10 +15,10 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   lazy var fetchedResultsController: NSFetchedResultsController<ChannelMO> = {
     let fetchRequest = NSFetchRequest<ChannelMO>()
     let enity = ChannelMO.entity()
-//    let sort1 = NSSortDescriptor(key: "lastActivity", ascending: false)
-    let sort1 = NSSortDescriptor(key: "identifier", ascending: true)
+    let sort1 = NSSortDescriptor(key: "lastActivity", ascending: false)
+    let sort2 = NSSortDescriptor(key: "identifier", ascending: true)
     fetchRequest.entity = enity
-    fetchRequest.sortDescriptors = [sort1]
+    fetchRequest.sortDescriptors = [sort1, sort2]
     fetchRequest.resultType = .managedObjectResultType
     
     let fetchedRequestController = NSFetchedResultsController(
@@ -38,6 +38,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   func performFetch() {
     do {
       try fetchedResultsController.performFetch()
+      tableView.reloadData()
     } catch {
       fatalError()
     }
@@ -81,7 +82,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     let storyboard = UIStoryboard(name: "Profile", bundle: nil)
     if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
       let navVC = UINavigationController(rootViewController: controller)
-      // controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
+       controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
       controller.updateTheme(theme: theme)
       show(navVC, sender: nil)
     } else {
@@ -96,7 +97,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
       controller.theme = theme
       controller.closure = {  [weak self] theme in
         self?.theme = theme
-//        self?.tableView.reloadData()
+        self?.tableView.reloadData()
         self?.navigationController?.navigationBar.barTintColor = theme.navigationBar
         UINavigationBar.appearance().barStyle = theme.barStyle
         self?.navigationController?.navigationBar.titleTextAttributes = [
@@ -118,10 +119,8 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
       let nameChannel = alert.textFields?.first?.text
       
       UIAlertAction.isEnabled = false
-      
       FireStoreService.shared.createChannel(newChannel: nameChannel ?? "")
-      FireStoreService.shared.fetchData { _ in
-      }
+      FireStoreService.shared.fetchData()
     }
     let cancelAction = UIAlertAction(title: "Отмена", style: .destructive, handler: nil)
     alert.addAction(createAction)
@@ -142,18 +141,13 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.navigationItem.rightBarButtonItems = [imageButton, addChannelButton]
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     createTableView()
-    fetchData()
+    FireStoreService.shared.fetchData()
     performFetch()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.tableView.deselectSelectedRow(animated: true)
-  }
-  
-  func fetchData() {
-    FireStoreService.shared.fetchData { _ in
-    }
   }
   
   func createTableView() {
@@ -165,24 +159,31 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     view.addSubview(tableView)
     configureRefreshControl()
   }
+  
+  func validateIndexPath(_ indexPath: IndexPath) -> Bool {
+    if let sections = self.fetchedResultsController.sections,
+      indexPath.section < sections.count {
+         if indexPath.row < sections[indexPath.section].numberOfObjects {
+            return true
+         }
+      }
+      return false
+  }
 }
 
 extension ConversationsListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-      if editingStyle == .delete {
-        let channel = fetchedResultsController.object(at: indexPath)
-        CoreDataStack.shared.mainContext.delete(channel)
-        do {
-          try CoreDataStack.shared.mainContext.save()
-          tableView.deleteRows(at: [indexPath], with: .fade)
-        } catch {
-          fatalError()
-        }
- 
-      } else if editingStyle == .insert {
-          // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    if editingStyle == .delete {
+      let channel = fetchedResultsController.object(at: indexPath)
+      CoreDataStack.shared.mainContext.delete(channel)
+      do {
+        try CoreDataStack.shared.mainContext.save()
+        tableView.deleteRows(at: [indexPath], with: .fade)
+      } catch {
+        fatalError()
       }
+    }
   }
   
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -208,17 +209,15 @@ extension ConversationsListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let object = fetchedResultsController.object(at: indexPath)
-    let id = object.identifier
     let controller = ConversationViewController()
     controller.updateTheme(theme: self.theme)
     controller.title = self.fetchedResultsController.object(at: indexPath).name
-    FireStoreService.shared.fetchDataMessages(identifire: id) { [weak self] data in
-      controller.data = data
-      controller.id = self?.fetchedResultsController.object(at: indexPath).identifier
-      controller.VC = self
-      self?.navigationController?.pushViewController(controller, animated: true)
-    }
+    guard let model = fetchedResultsController.fetchedObjects?[indexPath.row] else { return }
+    guard let data = model.messages?.allObjects as? [MessageMO] else { return }
+    controller.data = data
+    controller.VC = self
+    controller.id = self.fetchedResultsController.object(at: indexPath).identifier
+    self.navigationController?.pushViewController(controller, animated: true)
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -226,9 +225,8 @@ extension ConversationsListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    let count = fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    let count = fetchedResultsController.fetchedObjects?.count ?? 0
     return count
-//    return fetchedResultsController.fetchedObjects?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -236,6 +234,7 @@ extension ConversationsListViewController: UITableViewDataSource {
       let modelCell = fetchedResultsController.object(at: indexPath)
       cell.configure(with: modelCell)
       cell.updateTheme(theme: theme)
+      if self.validateIndexPath(indexPath) == false { return UITableViewCell() }
       return cell
     } else {
       return UITableViewCell()
@@ -273,11 +272,11 @@ extension ConversationsListViewController: NSFetchedResultsControllerDelegate {
       tableView.insertRows(at: [newIndexPath], with: .automatic)
     case .update:
       print("\(#function) - type update")
-      if let cell = tableView.cellForRow(at: indexPath!) as? ConversationsListCell {
-        let channel = controller.object(at: indexPath!) as? ChannelMO
-        cell.configure(with: channel!)
-      }
       guard let indexPath = indexPath else { return }
+      if let cell = tableView.cellForRow(at: indexPath) as? ConversationsListCell {
+        guard let channel = controller.object(at: indexPath) as? ChannelMO else { return }
+        cell.configure(with: channel)
+      }
       tableView.reloadRows(at: [indexPath], with: .automatic)
     case .delete:
       print("\(#function) - type delete")

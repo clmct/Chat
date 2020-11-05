@@ -19,10 +19,9 @@ class FireStoreService {
     FirebaseApp.configure()
   }
   
-  func fetchData(completion: @escaping ([ChannelModel]) -> Void) {
+  func fetchData() {
     var dataChannels = [ChannelModel]()
 //    // MARK: - Mock Data
-//    
 //    let test1 = ChannelModel(identifier: "1", name: "name1", lastMessage: "1", lastActivity: Date())
 //    let test2 = ChannelModel(identifier: "2", name: "name2", lastMessage: "2", lastActivity: Date())
 //    let test3 = ChannelModel(identifier: "3", name: "name3", lastMessage: "3", lastActivity: Date())
@@ -45,7 +44,7 @@ class FireStoreService {
         dataChannels.append(model)
       })
       ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannels(channelModels: dataChannels)
-      completion(dataChannels)
+      
     }
   }
   
@@ -69,9 +68,9 @@ class FireStoreService {
         let model = MessageModel(identifier: id, content: content, created: created.dateValue(), senderId: senderId, senderName: senderName)
         dataMessages.append(model)
       })
-      self.fetchData { dataChannels in
-        ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannelWithMessages(channelModels: dataChannels, messagesModels: dataMessages)
-      }
+//      self.fetchData { dataChannels in
+//        ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannelWithMessages(channelModels: dataChannels, messagesModels: dataMessages)
+//      }
       completion(dataMessages)
     }
   }
