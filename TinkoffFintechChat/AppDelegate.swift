@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   
+  private let rootAssembly = RootAssembly()
+  
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
 
@@ -37,10 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     window = UIWindow()
-    let controller = ConversationsListViewController()
-    controller.updateTheme(theme: themeMain)
-    controller.navigationController?.navigationBar.barTintColor = themeMain.navigationBar
-    window?.rootViewController = UINavigationController(rootViewController: controller)
+//    let controller = ConversationsListViewController()
+//    controller.updateTheme(theme: themeMain)
+//    controller.navigationController?.navigationBar.barTintColor = themeMain.navigationBar
+//    window?.rootViewController = UINavigationController(rootViewController: controller)
+//    window?.makeKeyAndVisible()
+    
+    let controller = rootAssembly.presentationAssembly.conversationsListViewController()
+    let navigationController = UINavigationController(rootViewController: controller)
+    window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
     
     return true

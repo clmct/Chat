@@ -9,22 +9,22 @@
 import UIKit
 
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ThemesPickerDelegate {
-  
+  // MARK: Stored Properties
   var theme: ThemeApp = ThemeApp(theme: .classic)
   private let identifire = "conversation"
   var data: [MessageMO] = [MessageMO]()
-  lazy private var tableView = UITableView()
   var messageTextField = String()
   var id: String?
   weak var VC: ConversationsListViewController?
-  
+
+  // MARK: Lazy Stored Properties
+  lazy private var tableView = UITableView()
   lazy var inputContainerView: UIView = {
     let containerView = UIView()
     containerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 80)
     containerView.autoresizingMask = [.flexibleHeight]
     containerView.translatesAutoresizingMaskIntoConstraints = false
     containerView.backgroundColor = theme.barTint.withAlphaComponent(0.97)
-    
     let textField = UITextField()
     textField.placeholder = "Enter message..."
     textField.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     textField.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -30).isActive = true
     textField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5).isActive = true
     textField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -30).isActive = true
-    
     let separatorLineView = UIView()
     separatorLineView.translatesAutoresizingMaskIntoConstraints = false
     containerView.addSubview(separatorLineView)
@@ -47,17 +46,13 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     return containerView
   }()
   
+  // MARK: Override Properties
   override var inputAccessoryView: UIView? {
-      return inputContainerView
+    return inputContainerView
   }
-  
   override var canBecomeFirstResponder: Bool { return true }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    VC?.performFetch()
-  }
   
+  // MARK: View Controller Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     createTableView()
@@ -65,11 +60,17 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 60, right: 0)
   }
   
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    NotificationCenter.default.removeObserver(self)
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    VC?.performFetch()
   }
   
+  deinit {
+    //    NotificationCenter.default.removeObserver()
+    print("deinit ConversationViewController")
+  }
+  
+  // MARK: Functions
   func updateTheme(theme: ThemeApp) {
     self.theme = theme
   }
@@ -104,6 +105,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   }
 }
 
+// MARK: UITextFieldDelegate
 extension ConversationViewController: UITextFieldDelegate {
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {

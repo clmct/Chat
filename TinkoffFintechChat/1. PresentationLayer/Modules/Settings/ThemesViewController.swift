@@ -25,7 +25,7 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
   
   @IBOutlet weak var nightOutlet: UIButton!
   
-  weak var delegate: ThemesPickerDelegate?
+  var delegate: ThemesPickerDelegate?
   
   var closure: ((ThemeApp) -> Void )?
   
@@ -35,10 +35,15 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
     self.navigationController?.popViewController(animated: true)
     
   }
+
+  deinit {
+    print("deinit")
+  }
   
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    print("init")
     view.backgroundColor = UIColor(red: 0.10, green: 0.21, blue: 0.38, alpha: 1.00)
     classicOutlet.layer.cornerRadius = 18
     classicOutlet.layer.masksToBounds = true

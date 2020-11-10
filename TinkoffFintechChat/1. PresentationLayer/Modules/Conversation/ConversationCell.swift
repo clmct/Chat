@@ -9,49 +9,14 @@
 import UIKit
 
 class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegate {
-  
+  // MARK: Stored Properties
   var theme: ThemeApp = ThemeApp(theme: .classic)
-  
-  func updateTheme(theme: ThemeApp) {
-    bubblebackroundView.backgroundColor = messageIncoming ? theme.messageOutcoming : theme.messageIncoming
-    messageLbael.textColor = messageIncoming ? theme.textOutcoming : theme.textIncoming
-    backgroundColor = theme.backgroundColor
-  }
-  
-  typealias ConversationModel = MessageMO
-  
-  func configure(with model: ConversationModel) {
-    messageLbael.text = model.content
-    nameLbael.text = model.senderName
-    if model.senderId != UIDevice.current.identifierForVendor?.uuidString {
-      trailingConstraint?.isActive = false
-      leadingConstraint?.isActive = true
-      nameTopAnchor?.isActive = true
-      bubblebackroundView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
-      if model.senderName.count > model.content.count {
-        bubbleConstarintMessage?.isActive = false
-        bubbleConstarintName?.isActive = true
-      } else {
-        bubbleConstarintName?.isActive = false
-        bubbleConstarintMessage?.isActive = true
-      }
-      messageIncoming = false
-    } else {
-      leadingConstraint?.isActive = false
-      trailingConstraint?.isActive = true
-      bubblebackroundView.backgroundColor = UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00)
-      messageIncoming = true
-      bubbleConstarintName?.isActive = false
-      bubbleConstarintMessage?.isActive = false
-      messageTopAnchor?.isActive = true
-      nameLbael.isHidden = true
-    }
-  }
-  
   var messageIncoming = false
+  
   lazy private var messageLbael = UILabel()
   lazy private var nameLbael = UILabel()
   lazy private var bubblebackroundView = UIView()
+  
   private var leadingConstraint: NSLayoutConstraint?
   private var trailingConstraint: NSLayoutConstraint?
   private var bubbleConstarintName: NSLayoutConstraint?
@@ -59,6 +24,9 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
   private var nameTopAnchor: NSLayoutConstraint?
   private var messageTopAnchor: NSLayoutConstraint?
   
+  typealias ConversationModel = MessageMO
+  
+  // MARK: Life Cycle - init
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     self.isUserInteractionEnabled = false
@@ -95,6 +63,41 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: Functions
+  func configure(with model: ConversationModel) {
+    messageLbael.text = model.content
+    nameLbael.text = model.senderName
+    if model.senderId != UIDevice.current.identifierForVendor?.uuidString {
+      trailingConstraint?.isActive = false
+      leadingConstraint?.isActive = true
+      nameTopAnchor?.isActive = true
+      bubblebackroundView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+      if model.senderName.count > model.content.count {
+        bubbleConstarintMessage?.isActive = false
+        bubbleConstarintName?.isActive = true
+      } else {
+        bubbleConstarintName?.isActive = false
+        bubbleConstarintMessage?.isActive = true
+      }
+      messageIncoming = false
+    } else {
+      leadingConstraint?.isActive = false
+      trailingConstraint?.isActive = true
+      bubblebackroundView.backgroundColor = UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00)
+      messageIncoming = true
+      bubbleConstarintName?.isActive = false
+      bubbleConstarintMessage?.isActive = false
+      messageTopAnchor?.isActive = true
+      nameLbael.isHidden = true
+    }
+  }
+  
+  func updateTheme(theme: ThemeApp) {
+    bubblebackroundView.backgroundColor = messageIncoming ? theme.messageOutcoming : theme.messageIncoming
+    messageLbael.textColor = messageIncoming ? theme.textOutcoming : theme.textIncoming
+    backgroundColor = theme.backgroundColor
   }
   
 }

@@ -9,12 +9,20 @@
 import UIKit
 
 class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate { // TO DO fix and upgrade
-  func updateTheme(theme: ThemeApp) {
-    self.theme = theme
-  }
+  
+  // MARK: Stored Properties
+  private var isGCD = false
+  private var isEdit = false
+  var nameString = ""
+  var descriptionString = ""
+  var image = UIImage()
+  
+  // MARK: Lazy Stored Propertirs
+  lazy var GCD = GCDDataManager(vc: self)
+  lazy var Operation = OperationDataManager(vc: self)
   
   var theme = ThemeApp(theme: .classic)
-  
+  // MARK: IBoutlets
   @IBOutlet weak var activityIndicatorOutlet: UIActivityIndicatorView!
   @IBOutlet weak var nameTexrFieldOutlet: UITextField!
   @IBOutlet weak var descriptionTextViewOutlet: UITextView!
@@ -28,46 +36,9 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   @IBOutlet weak var leftConstraint: NSLayoutConstraint!
   @IBOutlet weak var rightConstraint: NSLayoutConstraint!
   
-  lazy var GCD = GCDDataManager(vc: self)
-  lazy var Operation = OperationDataManager(vc: self)
   
-  private var isGCD = false
-  private var isEdit = false
   
-  var nameString = ""
-  var descriptionString = ""
-  var image = UIImage()
-  
-  func create() {
-    title = "My Profile"
-    
-    leftConstraint.constant = view.bounds.width / 2 + 10
-    rightConstraint.constant = view.bounds.width / 2 + 10
-    
-     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { _ in
-      self.view.frame.origin.y = -150
-    }
-    
-    _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { _ in
-      self.view.frame.origin.y = 0.0
-    }
-    
-  }
-  
-  func buttonBlock() {
-    GCDButton.isUserInteractionEnabled = false
-    OperationButton.isUserInteractionEnabled = false
-    GCDButton.isHighlighted = true
-    OperationButton.isHighlighted = true
-  }
-  
-  func buttonUnBlock() {
-    GCDButton.isUserInteractionEnabled = true
-    OperationButton.isUserInteractionEnabled = true
-    GCDButton.isHighlighted = false
-    OperationButton.isHighlighted = false
-  }
-  
+  // MARK: View Controller Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     create()
@@ -92,6 +63,7 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     OperationButton.layer.cornerRadius = OperationButton.layer.frame.height / 3
   }
   
+  // MARK: IBActions
   @IBAction func editPhotoButtonAction(_ sender: Any) {
     if isEdit {
       showPhotoPicker()
@@ -110,6 +82,40 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   }
   @IBAction func OperationButtonAction(_ sender: Any) {
     OperationButtonActionFunc()
+  }
+  
+  // MARK: Methods
+  func updateTheme(theme: ThemeApp) {
+    self.theme = theme
+  }
+  
+  func create() {
+    title = "My Profile"
+    
+    leftConstraint.constant = view.bounds.width / 2 + 10
+    rightConstraint.constant = view.bounds.width / 2 + 10
+    
+     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { _ in
+      self.view.frame.origin.y = -150
+    }
+    
+    _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { _ in
+      self.view.frame.origin.y = 0.0
+    }
+  }
+  
+  func buttonBlock() {
+    GCDButton.isUserInteractionEnabled = false
+    OperationButton.isUserInteractionEnabled = false
+    GCDButton.isHighlighted = true
+    OperationButton.isHighlighted = true
+  }
+  
+  func buttonUnBlock() {
+    GCDButton.isUserInteractionEnabled = true
+    OperationButton.isUserInteractionEnabled = true
+    GCDButton.isHighlighted = false
+    OperationButton.isHighlighted = false
   }
   
   func GCDButtonActionFunc() {
@@ -141,6 +147,7 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   }
 }
 
+// MARK: extension text field
 extension ProfileViewController {
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     descriptionTextViewOutlet.resignFirstResponder()
@@ -170,6 +177,7 @@ extension ProfileViewController {
   }
 }
 
+// MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   // MARK: - Alert Helper Methods
   func alertCameraSimulator() {

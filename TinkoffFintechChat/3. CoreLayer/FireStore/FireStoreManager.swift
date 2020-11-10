@@ -9,11 +9,18 @@
 import Foundation
 import Firebase
 
-class FireStoreService {
-  lazy var reference = Firestore.firestore().collection("channels")
-  private init() {}
+// MARK: Protocol
+protocol FireStoreProtocol {
+  
+}
+
+// MARK: Class
+class FireStoreService: FireStoreProtocol {
+  private lazy var reference = Firestore.firestore().collection("channels")
+  init() {
+  }
   static var shared = FireStoreService()
-  let senderId = UIDevice.current.identifierForVendor?.uuidString
+  private let senderId = UIDevice.current.identifierForVendor?.uuidString
   
   func configure() {
     FirebaseApp.configure()

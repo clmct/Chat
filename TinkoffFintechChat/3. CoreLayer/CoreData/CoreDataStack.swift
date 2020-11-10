@@ -9,7 +9,11 @@
 import Foundation
 import CoreData
 
-class CoreDataStack {
+protocol CoreDataProtocol {
+  
+}
+
+class CoreDataStack: CoreDataProtocol {
   
   static var shared = CoreDataStack()
   
@@ -109,31 +113,31 @@ class CoreDataStack {
   private func managedObjectContextObjectsDidChange(notification: NSNotification) {
     guard let userInfo = notification.userInfo else { return }
     didUpdateDataBase?(self)
-    print("\n\n-------------------\n")
+//    print("\n\n-------------------\n")
     if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
-      print("Добавлено обьектов: ", inserts.count)
+//      print("Добавлено обьектов: ", inserts.count)
     }
     if let updated = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updated.count > 0 {
-      print("Обновлено обьектов: ", updated.count)
+//      print("Обновлено обьектов: ", updated.count)
     }
     if let deleted = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deleted.count > 0 {
-      print("Удалено обьектов: ", deleted.count)
+//      print("Удалено обьектов: ", deleted.count)
     }
   }
   
   func printDataStatisitice() {
     mainContext.perform {
       do {
-        print("\n-------------------")
+//        print("\n-------------------")
         let countChannels = try self.mainContext.count(for: ChannelMO.fetchRequest())
-        print("Всего чатов: \(countChannels) ")
+//        print("Всего чатов: \(countChannels) ")
         let countMessages = try self.mainContext.count(for: MessageMO.fetchRequest())
-        print("Всего ообщений: \(countMessages) ")
+//        print("Всего ообщений: \(countMessages) ")
         let array = try self.mainContext.fetch(ChannelMO.fetchRequest()) as? [ChannelMO] ?? []
         array.forEach { item in
           let index = array.firstIndex(of: item)
-          print("\nИндекс чата: \(index ?? 0)")
-          print(item.about)
+//          print("\nИндекс чата: \(index ?? 0)")
+//          print(item.about)
         }
       } catch {
         fatalError(error.localizedDescription)

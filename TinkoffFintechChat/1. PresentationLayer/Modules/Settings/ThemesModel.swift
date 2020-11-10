@@ -9,9 +9,9 @@
 import UIKit
 
 enum ThemeMode: String {
-  case classic = "classic"
-  case day = "day"
-  case night = "night"
+  case classic
+  case day
+  case night
 }
 
 class ThemeApp {

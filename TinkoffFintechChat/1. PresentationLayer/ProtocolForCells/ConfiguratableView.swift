@@ -9,8 +9,6 @@
 import Foundation
 
 protocol ConfiguratableView {
-  
   associatedtype ConversationModel
-  
   func configure(with model: ConversationModel)
 }

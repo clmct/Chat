@@ -10,8 +10,15 @@ import UIKit
 import Firebase
 import CoreData
 
-class ConversationsListViewController: UIViewController, UITableViewDelegate, ThemesPickerDelegate {
+class ConversationsListViewController: UIViewController, UITableViewDelegate, ThemesPickerDelegate { // контроллер
   
+  // MARK: Stored Properties
+  private var tableView = UITableView()
+  private let identifire = "conversationsList"
+  
+  var theme = ThemeApp(theme: .night)
+  
+  // MARK: Lazy Stored Properties
   lazy var fetchedResultsController: NSFetchedResultsController<ChannelMO> = {
     let fetchRequest = NSFetchRequest<ChannelMO>()
     let enity = ChannelMO.entity()
@@ -31,53 +38,16 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     return fetchedRequestController
   }()
   
-  deinit {
-    fetchedResultsController.delegate = nil
-  }
-    
-  func performFetch() {
-    do {
-      try fetchedResultsController.performFetch()
-      tableView.reloadData()
-    } catch {
-      fatalError()
-    }
-  }
-  
-  func configureRefreshControl() {
-    tableView.refreshControl = UIRefreshControl()
-    tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-  }
-  
-  @objc func handleRefreshControl() {
-    DispatchQueue.main.async {
-      self.tableView.refreshControl?.endRefreshing()
-    }
-  }
-  
-  func updateTheme(theme: ThemeApp) {
-    self.theme = theme
-//    tableView.reloadData()
-    navigationController?.navigationBar.barTintColor = theme.navigationBar
-    UINavigationBar.appearance().barStyle = theme.barStyle
-    navigationController?.navigationBar.titleTextAttributes = [
-      NSAttributedString.Key.foregroundColor:
-        theme.navigationBarTitle ]
-  }
-  
-  var theme = ThemeApp(theme: .night)
-//  var dataChannels: [ChannelModel] = [ChannelModel]()
-  
-  var tableView = UITableView()
-  private let identifire = "conversationsList"
-  
   lazy private var image = imageInitials(name: "Marina Dudarenko")
+
+//  var dataChannels: [ChannelModel] = [ChannelModel]()
   
   lazy private var button: UIButton = {
     var btn = UIButton()
     return btn
   }()
   
+  // MARK: Objective-C Functions
   @objc func methodBar() {
     let storyboard = UIStoryboard(name: "Profile", bundle: nil)
     if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
@@ -128,6 +98,13 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     present(alert, animated: true, completion: nil)
   }
   
+  @objc func handleRefreshControl() {
+    DispatchQueue.main.async {
+      self.tableView.refreshControl?.endRefreshing()
+    }
+  }
+  
+  // MARK: View Controller Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     title = "Tinkoff Chat"
@@ -150,6 +127,36 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.tableView.deselectSelectedRow(animated: true)
   }
   
+  deinit {
+    fetchedResultsController.delegate = nil
+  }
+  
+  // MARK: Methods
+  
+    func performFetch() {
+      do {
+        try fetchedResultsController.performFetch()
+        tableView.reloadData()
+      } catch {
+        fatalError()
+      }
+    }
+    
+    func configureRefreshControl() {
+      tableView.refreshControl = UIRefreshControl()
+      tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    func updateTheme(theme: ThemeApp) { // загружать тип темы из памяти, а не передовать
+      self.theme = theme
+  //    tableView.reloadData()
+      navigationController?.navigationBar.barTintColor = theme.navigationBar
+      UINavigationBar.appearance().barStyle = theme.barStyle
+      navigationController?.navigationBar.titleTextAttributes = [
+        NSAttributedString.Key.foregroundColor:
+          theme.navigationBarTitle ]
+    }
+  
   func createTableView() {
     self.tableView = UITableView(frame: view.bounds, style: .plain)
     tableView.register(ConversationsListCell.self, forCellReuseIdentifier: identifire)
@@ -171,6 +178,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   }
 }
 
+// MARK: UITableViewDataSource
 extension ConversationsListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -209,6 +217,7 @@ extension ConversationsListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
     let controller = ConversationViewController()
     controller.updateTheme(theme: self.theme)
     controller.title = self.fetchedResultsController.object(at: indexPath).name
@@ -242,15 +251,16 @@ extension ConversationsListViewController: UITableViewDataSource {
   }
 }
 
+// MARK: NSFetchedResultsControllerDelegate
 extension ConversationsListViewController: NSFetchedResultsControllerDelegate {
   
   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    print("\(#function)")
+//    print("\(#function)")
     self.tableView.beginUpdates()
   }
   
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    print("\(#function)")
+//    print("\(#function)")
     self.tableView.endUpdates()
   }
   
@@ -262,16 +272,16 @@ extension ConversationsListViewController: NSFetchedResultsControllerDelegate {
     
     switch type {
     case .insert:
-      print("\(#function) - type insert")
+//      print("\(#function) - type insert")
       guard let newIndexPath = newIndexPath else { return }
       tableView.insertRows(at: [newIndexPath], with: .automatic)
     case .move:
-      print("\(#function) - type move")
+//      print("\(#function) - type move")
       guard let newIndexPath = newIndexPath, let indexPath = indexPath else { return }
       tableView.deleteRows(at: [indexPath], with: .automatic)
       tableView.insertRows(at: [newIndexPath], with: .automatic)
     case .update:
-      print("\(#function) - type update")
+//      print("\(#function) - type update")
       guard let indexPath = indexPath else { return }
       if let cell = tableView.cellForRow(at: indexPath) as? ConversationsListCell {
         guard let channel = controller.object(at: indexPath) as? ChannelMO else { return }
@@ -279,7 +289,7 @@ extension ConversationsListViewController: NSFetchedResultsControllerDelegate {
       }
       tableView.reloadRows(at: [indexPath], with: .automatic)
     case .delete:
-      print("\(#function) - type delete")
+//      print("\(#function) - type delete")
       guard let indexPath = indexPath else { return }
       tableView.deleteRows(at: [indexPath], with: .automatic)
     default:

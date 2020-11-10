@@ -14,3 +14,9 @@ struct ChannelModel {
   let lastMessage: String?
   let lastActivity: Date?
 }
+protocol ConversationsListModelProtocol {
+  
+}
+class ConversationsListModel: ConversationsListModelProtocol { // логига
+  
+}
