@@ -121,8 +121,9 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.navigationItem.rightBarButtonItems = [imageButton, addChannelButton]
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     createTableView()
-    model.fetchData()
+    
     performFetch()
+    model.fetchData()
   }
   
   override func viewWillAppear(_ animated: Bool) {

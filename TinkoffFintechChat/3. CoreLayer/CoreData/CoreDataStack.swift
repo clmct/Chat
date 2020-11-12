@@ -64,7 +64,7 @@ class CoreDataStack: CoreDataStackProtocol {
   private lazy var writterContext: NSManagedObjectContext = {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = persistentStoreCoordinator
-    context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    context.mergePolicy = NSOverwriteMergePolicy
     return context
   }()
   
@@ -72,7 +72,7 @@ class CoreDataStack: CoreDataStackProtocol {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.parent = writterContext
     context.automaticallyMergesChangesFromParent = true
-    context.mergePolicy = NSOverwriteMergePolicy
+    context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
     return context
   }()
   
@@ -80,22 +80,23 @@ class CoreDataStack: CoreDataStackProtocol {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.parent = mainContext
     context.automaticallyMergesChangesFromParent = true
-    context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
     return context
   }
   
   // MARK: - Save Context
   
   func performSave(_ block: (NSManagedObjectContext) -> Void) {
-//    guard mainContext.hasChanges || writterContext.hasChanges else { return }
-    
     let context = saveContext()
     context.performAndWait {
       block(context)
       if context.hasChanges {
         do {
+          try context.obtainPermanentIDs(for: Array(context.insertedObjects))
           try performSave(in: context)
-        } catch { assertionFailure(error.localizedDescription) }
+        } catch {
+          assertionFailure(error.localizedDescription)
+        }
       }
     }
   }
@@ -104,24 +105,7 @@ class CoreDataStack: CoreDataStackProtocol {
     try context.save()
     if let parent = context.parent { try performSave(in: parent) }
   }
-  
-//  public func performSave(context: NSManagedObjectContext, completion: (() -> Void)?){
-//      if context.hasChanges {
-//          do {
-//              try context.save()
-//          } catch {
-//              print("Context has error: \(error)")
-//          }
-//          if let parent = context.parent {
-//              self.performSave(context: parent, completion: completion)
-//          } else {
-//              completion?()
-//          }
-//      } else {
-//          completion?()
-//      }
-//  }
-  
+
   // MARK: - CoreData Observers
   
   func enableObservers() {

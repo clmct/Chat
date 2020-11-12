@@ -27,6 +27,7 @@
 		B28FE2E4254751690043BCC0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E3254751690043BCC0 /* CoreDataStack.swift */; };
 		B28FE2E7254751EC0043BCC0 /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E5254751EC0043BCC0 /* Chat.xcdatamodeld */; };
 		B28FE2E9254753D30043BCC0 /* ObjectsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */; };
+		B2981025255D653C00A605C4 /* ProfilleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2981024255D653C00A605C4 /* ProfilleModel.swift */; };
 		B29AB32F254880D600EE28A7 /* ChatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29AB32E254880D600EE28A7 /* ChatRequest.swift */; };
 		B29D5DEB253C4AD700432982 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29D5DEA253C4AD700432982 /* FireStoreManager.swift */; };
 		B2A2A191252E631E008C998D /* Themes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2A2A190252E631E008C998D /* Themes.storyboard */; };
@@ -73,6 +74,7 @@
 		B28FE2E3254751690043BCC0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B28FE2E6254751EC0043BCC0 /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
 		B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectsExtensions.swift; sourceTree = "<group>"; };
+		B2981024255D653C00A605C4 /* ProfilleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilleModel.swift; sourceTree = "<group>"; };
 		B29AB32E254880D600EE28A7 /* ChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequest.swift; sourceTree = "<group>"; };
 		B29D5DEA253C4AD700432982 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		B2A2A190252E631E008C998D /* Themes.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Themes.storyboard; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			children = (
 				B28454F6255956DF00135C74 /* CoreDataService.swift */,
 				B29D5DEA253C4AD700432982 /* FireStoreManager.swift */,
+				B29AB32E254880D600EE28A7 /* ChatRequest.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -261,9 +264,16 @@
 				B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */,
 				B28FE2E5254751EC0043BCC0 /* Chat.xcdatamodeld */,
 				B28FE2E3254751690043BCC0 /* CoreDataStack.swift */,
-				B29AB32E254880D600EE28A7 /* ChatRequest.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		B2981023255D653100A605C4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B2981024255D653C00A605C4 /* ProfilleModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		B2A2A18F252DEDDE008C998D /* Settings */ = {
@@ -348,13 +358,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		B2C9541B255AD0FB00B5EFAA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		B2C9541C255AD15E00B5EFAA /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,7 +385,7 @@
 		B2FFD39E252238AD0001CCAC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				B2C9541B255AD0FB00B5EFAA /* Model */,
+				B2981023255D653100A605C4 /* Model */,
 				B2C9541A255AD0F800B5EFAA /* View */,
 				B2C95419255AD0F500B5EFAA /* Controller */,
 				B20854CB25364BF2008985D2 /* GCDDataManager.swift */,
@@ -592,6 +595,7 @@
 				B220CCC5255B03D50049D8A1 /* FireStore.swift in Sources */,
 				B2EA0862254B1C04009E1F77 /* MessageMO+CoreDataProperties.swift in Sources */,
 				B271C9C0250E5B330084B7AB /* AppDelegate.swift in Sources */,
+				B2981025255D653C00A605C4 /* ProfilleModel.swift in Sources */,
 				B20854CE25364C05008985D2 /* OperationDataManager.swift in Sources */,
 				B2EA0864254B1C04009E1F77 /* ChannelMO+CoreDataProperties.swift in Sources */,
 				B2FFD3A625223A040001CCAC /* ConversationsListCell.swift in Sources */,

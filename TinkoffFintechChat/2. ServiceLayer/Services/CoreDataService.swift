@@ -12,10 +12,6 @@ protocol CoreDataServiceProtocol {
   func printDataStatisitics()
   var mainContext: NSManagedObjectContext { get }
   var coreDataStack: CoreDataStackProtocol { get }
-//  func getChats() -> [ChannelMO]
-//  func getMessagesForChat() -> [MessageMO]
-//  func createChannel() // подумать над обработкой результата
-//  func sendMessage(idChannel id: String) // передавать id канала или нет?
 }
 
 class CoreDataService: CoreDataServiceProtocol {
