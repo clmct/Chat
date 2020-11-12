@@ -65,7 +65,7 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: Functions
+  // MARK: Methods
   func configure(with model: ConversationModel) {
     messageLbael.text = model.content
     nameLbael.text = model.senderName

@@ -7,8 +7,11 @@
 //
 
 import Foundation
-
+import CoreData
 protocol CoreDataServiceProtocol {
+  func printDataStatisitics()
+  var mainContext: NSManagedObjectContext { get }
+  var coreDataStack: CoreDataStackProtocol { get }
 //  func getChats() -> [ChannelMO]
 //  func getMessagesForChat() -> [MessageMO]
 //  func createChannel() // подумать над обработкой результата
@@ -16,11 +19,27 @@ protocol CoreDataServiceProtocol {
 }
 
 class CoreDataService: CoreDataServiceProtocol {
+  lazy var mainContext: NSManagedObjectContext = {
+    return coreDataStack.mainContext
+  }()
   
-  let coreData: CoreDataProtocol
+  func printDataStatisitics() {
+    coreDataStack.enableObservers()
+    coreDataStack.didUpdateDataBase = { a in
+      a.printDataStatisitics()
+    }
+  }
   
-  init(coreData: CoreDataProtocol) {
-    self.coreData = CoreDataStack()
+  var coreDataStack: CoreDataStackProtocol
+  
+  init(coreDataStack: CoreDataStackProtocol) {
+    self.coreDataStack = coreDataStack
+    self.coreDataStack.enableObservers()
   }
   
 }
+//  CoreDataStack.shared.enableObservers()
+//    CoreDataStack.shared.didUpdateDataBase = { stack in
+//      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов
+//    }
+  

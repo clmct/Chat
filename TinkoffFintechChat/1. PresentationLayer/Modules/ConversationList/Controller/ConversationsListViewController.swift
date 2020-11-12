@@ -7,30 +7,29 @@
 //
 
 import UIKit
-import Firebase
+//import Firebase
 import CoreData
 
-class ConversationsListViewController: UIViewController, UITableViewDelegate, ThemesPickerDelegate { // контроллер
-  
+class ConversationsListViewController: UIViewController, UITableViewDelegate, ThemesPickerDelegate {
   // MARK: Stored Properties
   private var tableView = UITableView()
   private let identifire = "conversationsList"
-  
-  var theme = ThemeApp(theme: .night)
+  private let presentationAssembly: PresentationAssemblyProtocol
+  internal var theme = ThemeApp(theme: .night)
+  private let model: ConversationsListModelProtocol
   
   // MARK: Lazy Stored Properties
   lazy var fetchedResultsController: NSFetchedResultsController<ChannelMO> = {
     let fetchRequest = NSFetchRequest<ChannelMO>()
     let enity = ChannelMO.entity()
     let sort1 = NSSortDescriptor(key: "lastActivity", ascending: false)
-    let sort2 = NSSortDescriptor(key: "identifier", ascending: true)
     fetchRequest.entity = enity
-    fetchRequest.sortDescriptors = [sort1, sort2]
+    fetchRequest.sortDescriptors = [sort1]
     fetchRequest.resultType = .managedObjectResultType
     
     let fetchedRequestController = NSFetchedResultsController(
       fetchRequest: fetchRequest,
-      managedObjectContext: CoreDataStack.shared.mainContext,
+      managedObjectContext: self.model.coreDataService.mainContext,
       sectionNameKeyPath: nil,
       cacheName: nil)
     
@@ -39,8 +38,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   }()
   
   lazy private var image = imageInitials(name: "Marina Dudarenko")
-
-//  var dataChannels: [ChannelModel] = [ChannelModel]()
   
   lazy private var button: UIButton = {
     var btn = UIButton()
@@ -49,20 +46,17 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   
   // MARK: Objective-C Functions
   @objc func methodBar() {
-    let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-    if let controller = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController {
-      let navVC = UINavigationController(rootViewController: controller)
+    if let controller = presentationAssembly.profileViewController() {
        controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
       controller.updateTheme(theme: theme)
-      show(navVC, sender: nil)
+      show(controller, sender: nil)
     } else {
       return
     }
   }
   
   @objc func settingsMethod() {
-    let storyboard = UIStoryboard(name: "Themes", bundle: nil)
-    if let controller = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController {
+    if let controller = presentationAssembly.themesViewController() {
       controller.delegate = self
       controller.theme = theme
       controller.closure = {  [weak self] theme in
@@ -89,8 +83,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
       let nameChannel = alert.textFields?.first?.text
       
       UIAlertAction.isEnabled = false
-      FireStoreService.shared.createChannel(newChannel: nameChannel ?? "")
-      FireStoreService.shared.fetchData()
+      self.model.fireStoreService.createChannel(newChannel: nameChannel ?? "")
     }
     let cancelAction = UIAlertAction(title: "Отмена", style: .destructive, handler: nil)
     alert.addAction(createAction)
@@ -105,6 +98,16 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   }
   
   // MARK: View Controller Cycle
+  init(model: ConversationsListModelProtocol, presentationAssembly: PresentationAssemblyProtocol) {
+    self.model = model
+    self.presentationAssembly = presentationAssembly
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     title = "Tinkoff Chat"
@@ -118,7 +121,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.navigationItem.rightBarButtonItems = [imageButton, addChannelButton]
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     createTableView()
-    FireStoreService.shared.fetchData()
+    model.fetchData()
     performFetch()
   }
   
@@ -135,7 +138,8 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   
     func performFetch() {
       do {
-        try fetchedResultsController.performFetch()
+        try
+        fetchedResultsController.performFetch()
         tableView.reloadData()
       } catch {
         fatalError()
@@ -184,9 +188,10 @@ extension ConversationsListViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       let channel = fetchedResultsController.object(at: indexPath)
-      CoreDataStack.shared.mainContext.delete(channel)
+//      CoreDataStack.shared.mainContext.delete(channel)
+      model.coreDataService.mainContext.delete(channel)
       do {
-        try CoreDataStack.shared.mainContext.save()
+        try model.coreDataService.mainContext.save()
         tableView.deleteRows(at: [indexPath], with: .fade)
       } catch {
         fatalError()
@@ -217,15 +222,14 @@ extension ConversationsListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-    let controller = ConversationViewController()
+    let id = fetchedResultsController.object(at: indexPath).identifier
+    let controller = presentationAssembly.conversationViewController(idChannel: id, id: id)
     controller.updateTheme(theme: self.theme)
     controller.title = self.fetchedResultsController.object(at: indexPath).name
-    guard let model = fetchedResultsController.fetchedObjects?[indexPath.row] else { return }
-    guard let data = model.messages?.allObjects as? [MessageMO] else { return }
-    controller.data = data
     controller.VC = self
-    controller.id = self.fetchedResultsController.object(at: indexPath).identifier
+    
+    self.model.fetchDataMessages(identifire: id)
+    
     self.navigationController?.pushViewController(controller, animated: true)
   }
   
@@ -235,6 +239,8 @@ extension ConversationsListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     let count = fetchedResultsController.fetchedObjects?.count ?? 0
+    print("count = ")
+    print(count)
     return count
   }
   

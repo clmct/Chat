@@ -11,11 +11,9 @@ import UIKit
 class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegate {
   
   // MARK: Stored Properties
-  var theme: ThemeApp = ThemeApp(theme: .night)
   typealias ConversationModel = ChannelMO
-  var delegate = "delegate"
-  var closure = "closure"
-  var isOnline = false
+  internal var theme: ThemeApp = ThemeApp(theme: .night)
+  private var isOnline = false // больше нет онлайна
   
   // MARK: Lazy Stored Properties
   lazy private var nameLabel: UILabel = {
@@ -43,7 +41,7 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDe
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
-
+  
   // MARK: Life Cycle - init
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -72,41 +70,40 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDe
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: Functions
-    func updateTheme(theme: ThemeApp) {
-      backgroundColor = isOnline ? theme.onlineBackground : theme.backgroundColor
-      nameLabel.textColor = isOnline ? theme.onlineName : theme.nameColor
-      messageLabel.textColor = theme.messageColor
-      dateLabel.textColor = theme.messageColor
-    }
-    
-    func configure(with model: ConversationModel) {
-      nameLabel.text = model.name
-      if let lastActivity = model.lastActivity {
-        dateLabel.text = Date.stringFromDate(day: lastActivity)
-      } else {
-        dateLabel.text = ""
-      }
-      if let lastMessage = model.lastMessage {
-        messageLabel.text = lastMessage
-      } else {
-        messageLabel.text = "No messages yet"
-        messageLabel.font = UIFont(name: "Futura", size: 14)
-      }
-  //    messageLabel.text = model.lastMessage
-  //    if messageLabel.text == "No messages yet" {
-  //      messageLabel.font = UIFont(name: "Futura", size: 14)
-  //      dateLabel.text = ""
-  //    } else {
-  //      messageLabel.font = model.hasUnreadMessages ? UIFont.boldSystemFont(ofSize: 14) : UIFont.systemFont(ofSize: 14)
-  //    }
-  //    backgroundColor = model.isOnline ? UIColor(red: 1.00, green: 0.95, blue: 0.74, alpha: 1.00) : .clear
-  //    isOnline = model.isOnline
-    }
+  // MARK: Methods
+  private func addLabels() {
+    addSubview(nameLabel)
+    addSubview(messageLabel)
+    addSubview(dateLabel)
+  }
+  public func updateTheme(theme: ThemeApp) {
+    backgroundColor = isOnline ? theme.onlineBackground : theme.backgroundColor
+    nameLabel.textColor = isOnline ? theme.onlineName : theme.nameColor
+    messageLabel.textColor = theme.messageColor
+    dateLabel.textColor = theme.messageColor
+  }
   
-    func addLabels() {
-      addSubview(nameLabel)
-      addSubview(messageLabel)
-      addSubview(dateLabel)
+  public func configure(with model: ConversationModel) {
+    nameLabel.text = model.name
+    if let lastActivity = model.lastActivity {
+      dateLabel.text = Date.stringFromDate(day: lastActivity)
+    } else {
+      dateLabel.text = ""
     }
+    if let lastMessage = model.lastMessage {
+      messageLabel.text = lastMessage
+    } else {
+      messageLabel.text = "No messages yet"
+      messageLabel.font = UIFont(name: "Futura", size: 14)
+    }
+    //    messageLabel.text = model.lastMessage
+    //    if messageLabel.text == "No messages yet" {
+    //      messageLabel.font = UIFont(name: "Futura", size: 14)
+    //      dateLabel.text = ""
+    //    } else {
+    //      messageLabel.font = model.hasUnreadMessages ? UIFont.boldSystemFont(ofSize: 14) : UIFont.systemFont(ofSize: 14)
+    //    }
+    //    backgroundColor = model.isOnline ? UIColor(red: 1.00, green: 0.95, blue: 0.74, alpha: 1.00) : .clear
+    //    isOnline = model.isOnline
+  }
 }

@@ -9,11 +9,11 @@
 import Foundation
 
 protocol CoreAssemblyProtocol {
-  var coreData: CoreDataProtocol { get }
+  var coreDataStack: CoreDataStackProtocol { get set }
   var fireStore: FireStoreProtocol { get }
 }
 
 class CoreAssembly: CoreAssemblyProtocol {
-  lazy var coreData: CoreDataProtocol = CoreDataStack()
-  lazy var fireStore: FireStoreProtocol = FireStoreService()
+  lazy var coreDataStack: CoreDataStackProtocol = CoreDataStack()
+  lazy var fireStore: FireStoreProtocol = FireStore()
 }

@@ -9,13 +9,17 @@
 import Foundation
 import CoreData
 
-protocol CoreDataProtocol {
-  
+protocol CoreDataStackProtocol {
+  func printDataStatisitics()
+  func enableObservers()
+  var didUpdateDataBase: ((CoreDataStack) -> Void)? { get set }
+  var mainContext: NSManagedObjectContext { get }
+  func performSave(_ block: (NSManagedObjectContext) -> Void)
 }
 
-class CoreDataStack: CoreDataProtocol {
+class CoreDataStack: CoreDataStackProtocol {
   
-  static var shared = CoreDataStack()
+//  static var shared = CoreDataStack()
   
   var didUpdateDataBase: ((CoreDataStack) -> Void)?
   
@@ -60,7 +64,7 @@ class CoreDataStack: CoreDataProtocol {
   private lazy var writterContext: NSManagedObjectContext = {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = persistentStoreCoordinator
-    context.mergePolicy = NSOverwriteMergePolicy
+    context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     return context
   }()
   
@@ -68,7 +72,7 @@ class CoreDataStack: CoreDataProtocol {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.parent = writterContext
     context.automaticallyMergesChangesFromParent = true
-    context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+    context.mergePolicy = NSOverwriteMergePolicy
     return context
   }()
   
@@ -83,6 +87,8 @@ class CoreDataStack: CoreDataProtocol {
   // MARK: - Save Context
   
   func performSave(_ block: (NSManagedObjectContext) -> Void) {
+//    guard mainContext.hasChanges || writterContext.hasChanges else { return }
+    
     let context = saveContext()
     context.performAndWait {
       block(context)
@@ -98,6 +104,23 @@ class CoreDataStack: CoreDataProtocol {
     try context.save()
     if let parent = context.parent { try performSave(in: parent) }
   }
+  
+//  public func performSave(context: NSManagedObjectContext, completion: (() -> Void)?){
+//      if context.hasChanges {
+//          do {
+//              try context.save()
+//          } catch {
+//              print("Context has error: \(error)")
+//          }
+//          if let parent = context.parent {
+//              self.performSave(context: parent, completion: completion)
+//          } else {
+//              completion?()
+//          }
+//      } else {
+//          completion?()
+//      }
+//  }
   
   // MARK: - CoreData Observers
   
@@ -125,19 +148,19 @@ class CoreDataStack: CoreDataProtocol {
     }
   }
   
-  func printDataStatisitice() {
+  func printDataStatisitics() {
     mainContext.perform {
       do {
-//        print("\n-------------------")
+        print("\n-------------------")
         let countChannels = try self.mainContext.count(for: ChannelMO.fetchRequest())
-//        print("Всего чатов: \(countChannels) ")
+        print("Всего чатов: \(countChannels) ")
         let countMessages = try self.mainContext.count(for: MessageMO.fetchRequest())
-//        print("Всего ообщений: \(countMessages) ")
+        print("Всего ообщений: \(countMessages) ")
         let array = try self.mainContext.fetch(ChannelMO.fetchRequest()) as? [ChannelMO] ?? []
         array.forEach { item in
           let index = array.firstIndex(of: item)
-//          print("\nИндекс чата: \(index ?? 0)")
-//          print(item.about)
+          print("\nИндекс чата: \(index ?? 0)")
+          print(item.about)
         }
       } catch {
         fatalError(error.localizedDescription)

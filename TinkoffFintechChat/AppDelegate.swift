@@ -19,12 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
 
-    FireStoreService.shared.configure()
-    CoreDataStack.shared.enableObservers()
+//    FireStoreService.shared.configure()
+//    CoreDataStack.shared.enableObservers()
 //    CoreDataStack.shared.didUpdateDataBase = { stack in
 //      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов
 //    }
-    
+    FirebaseApp.configure()
     let themeMain = ThemeApp(theme: .classic)
     if let defaults = UserDefaults.standard.object(forKey: "theme") as? String {
       switch defaults {
@@ -46,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    window?.makeKeyAndVisible()
     
     let controller = rootAssembly.presentationAssembly.conversationsListViewController()
+    controller.updateTheme(theme: themeMain)
     let navigationController = UINavigationController(rootViewController: controller)
     window?.rootViewController = navigationController
     window?.makeKeyAndVisible()

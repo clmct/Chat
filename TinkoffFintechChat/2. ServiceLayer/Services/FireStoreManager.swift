@@ -10,34 +10,21 @@ import Foundation
 import Firebase
 
 // MARK: Protocol
-protocol FireStoreProtocol {
-  
+protocol FireStoreServiceProtocol {
+  func fetchData(completion: @escaping ([ChannelModel]) -> Void)
+  func createChannel(newChannel channel: String)
+  func fetchDataMessages(identifire id: String, completion: @escaping ([MessageModel]) -> Void)
+  func createMessage(identifire id: String, newMessage message: String)
 }
 
 // MARK: Class
-class FireStoreService: FireStoreProtocol {
+class FireStoreService: FireStoreServiceProtocol {
   private lazy var reference = Firestore.firestore().collection("channels")
-  init() {
-  }
-  static var shared = FireStoreService()
+
   private let senderId = UIDevice.current.identifierForVendor?.uuidString
   
-  func configure() {
-    FirebaseApp.configure()
-  }
-  
-  func fetchData() {
+  func fetchData(completion: @escaping ([ChannelModel]) -> Void) {
     var dataChannels = [ChannelModel]()
-//    // MARK: - Mock Data
-//    let test1 = ChannelModel(identifier: "1", name: "name1", lastMessage: "1", lastActivity: Date())
-//    let test2 = ChannelModel(identifier: "2", name: "name2", lastMessage: "2", lastActivity: Date())
-//    let test3 = ChannelModel(identifier: "3", name: "name3", lastMessage: "3", lastActivity: Date())
-//    let test4 = ChannelModel(identifier: "4", name: "name4", lastMessage: "4", lastActivity: Date())
-//    dataChannels.append(test1)
-//    dataChannels.append(test2)
-//    dataChannels.append(test3)
-//    dataChannels.append(test4)
-    
     reference.getDocuments { QuerySnapshot, _ in
       _ = QuerySnapshot?.documents.map({ QueryDocumentSnapshot in
         let id = QueryDocumentSnapshot.documentID
@@ -50,8 +37,15 @@ class FireStoreService: FireStoreProtocol {
         let model = ChannelModel(identifier: id, name: name, lastMessage: lastMessage, lastActivity: lastActivity?.dateValue())
         dataChannels.append(model)
       })
-      ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannels(channelModels: dataChannels)
-      
+          // MARK: - Mock Data
+//          let test1 = ChannelModel(identifier: "1", name: "name1", lastMessage: "1", lastActivity: Date())
+//          let test2 = ChannelModel(identifier: "2", name: "name2", lastMessage: "2", lastActivity: Date())
+//          let test3 = ChannelModel(identifier: "3", name: "name3", lastMessage: "3", lastActivity: Date())
+//          let test4 = ChannelModel(identifier: "6", name: "test", lastMessage: "test", lastActivity: Date())
+//          dataChannels.append(test1)
+//          dataChannels.append(test2)
+//          dataChannels.append(test3)
+      completion(dataChannels)
     }
   }
   
@@ -61,7 +55,7 @@ class FireStoreService: FireStoreProtocol {
     reference.addDocument(data: ["name": channel] )
   }
   
-  func fetchDataMessages(identifire id: String, completion: @escaping ([MessageModel]) -> Void) { 
+  func fetchDataMessages(identifire id: String, completion: @escaping ([MessageModel]) -> Void) {
     var dataMessages = [MessageModel]()
     reference.document(id).collection("messages").getDocuments { QuerySnapshot, _ in
       _ = QuerySnapshot?.documents.map({ QueryDocumentSnapshot in
@@ -75,9 +69,6 @@ class FireStoreService: FireStoreProtocol {
         let model = MessageModel(identifier: id, content: content, created: created.dateValue(), senderId: senderId, senderName: senderName)
         dataMessages.append(model)
       })
-//      self.fetchData { dataChannels in
-//        ChatRequest(coreDataStack: CoreDataStack.shared).makeRequestChannelWithMessages(channelModels: dataChannels, messagesModels: dataMessages)
-//      }
       completion(dataMessages)
     }
   }

@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ThemesPickerDelegate {
   // MARK: Stored Properties
   var theme: ThemeApp = ThemeApp(theme: .classic)
   private let identifire = "conversation"
-  var data: [MessageMO] = [MessageMO]()
+//  var data: [MessageMO]
   var messageTextField = String()
-  var id: String?
+  var id: String
   weak var VC: ConversationsListViewController?
-
+  private let model: ConversationViewModelProtocol
   // MARK: Lazy Stored Properties
   lazy private var tableView = UITableView()
   lazy var inputContainerView: UIView = {
@@ -46,6 +47,25 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     return containerView
   }()
   
+  lazy var fetchedResultsController: NSFetchedResultsController<MessageMO> = {
+    let fetchRequest = NSFetchRequest<MessageMO>()
+    let enity = MessageMO.entity()
+    let sort1 = NSSortDescriptor(key: "created", ascending: false)
+    fetchRequest.predicate = NSPredicate(format: "identifier = %@", id)
+    fetchRequest.entity = enity
+    fetchRequest.sortDescriptors = [sort1]
+    fetchRequest.resultType = .managedObjectResultType
+    
+    let fetchedRequestController = NSFetchedResultsController(
+      fetchRequest: fetchRequest,
+      managedObjectContext: self.model.coreDataService.mainContext,
+      sectionNameKeyPath: nil,
+      cacheName: nil)
+    
+    fetchedRequestController.delegate = self
+    return fetchedRequestController
+  }()
+  
   // MARK: Override Properties
   override var inputAccessoryView: UIView? {
     return inputContainerView
@@ -53,11 +73,41 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   override var canBecomeFirstResponder: Bool { return true }
   
   // MARK: View Controller Cycle
+  init(model: ConversationViewModelProtocol, id: String) {
+    self.model = model
+//    self.data = data
+    self.id = id
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     createTableView()
     tableView.keyboardDismissMode = .interactive
     tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 60, right: 0)
+//    model.fireStoreService.fetchDataMessages(identifire: id)
+    performFetch()
+  }
+  
+  deinit {
+    fetchedResultsController.delegate = nil
+    //    NotificationCenter.default.removeObserver()
+//    print("deinit ConversationViewController")
+  }
+  
+  func performFetch() {
+    do {
+      try fetchedResultsController.performFetch()
+    } catch {
+      fatalError()
+    }
+    DispatchQueue.global().async {
+      self.tableView.reloadData()
+    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -65,12 +115,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     VC?.performFetch()
   }
   
-  deinit {
-    //    NotificationCenter.default.removeObserver()
-    print("deinit ConversationViewController")
-  }
-  
-  // MARK: Functions
+  // MARK: Methods
   func updateTheme(theme: ThemeApp) {
     self.theme = theme
   }
@@ -88,12 +133,13 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   // MARK: Table View
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return data.count
+    let count = fetchedResultsController.fetchedObjects?.count ?? 0
+    return count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if let cell = tableView.dequeueReusableCell(withIdentifier: identifire, for: indexPath) as? ConversationCell {
-      let message = data[indexPath.row]
+      let message = fetchedResultsController.object(at: indexPath)
       cell.configure(with: message)
       cell.updateTheme(theme: theme)
       return cell
@@ -109,10 +155,60 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
 extension ConversationViewController: UITextFieldDelegate {
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if let id = id, let message = textField.text {
-      FireStoreService.shared.createMessage(identifire: id, newMessage: message)
-      textField.text = ""
-    }
+//    if let id = id, let message = textField.text {
+//      model.coreDataService
+//      FireStoreService.shared.createMessage(identifire: id, newMessage: message)
+//      textField.text = ""
+//    }
     return true
   }
+}
+
+// MARK: NSFetchedResultsControllerDelegate
+extension ConversationViewController: NSFetchedResultsControllerDelegate {
+  
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//    print("\(#function)")
+    self.tableView.beginUpdates()
+  }
+  
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//    print("\(#function)")
+    self.tableView.endUpdates()
+  }
+  
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                  didChange anObject: Any,
+                  at indexPath: IndexPath?,
+                  for type: NSFetchedResultsChangeType,
+                  newIndexPath: IndexPath?) {
+    
+    switch type {
+    case .insert:
+//      print("\(#function) - type insert")
+      guard let newIndexPath = newIndexPath else { return }
+      tableView.insertRows(at: [newIndexPath], with: .automatic)
+    case .move:
+//      print("\(#function) - type move")
+      guard let newIndexPath = newIndexPath, let indexPath = indexPath else { return }
+      tableView.deleteRows(at: [indexPath], with: .automatic)
+      tableView.insertRows(at: [newIndexPath], with: .automatic)
+    case .update:
+//      print("\(#function) - type update")
+      guard let indexPath = indexPath else { return }
+      if let cell = tableView.cellForRow(at: indexPath) as? ConversationsListCell {
+        guard let channel = controller.object(at: indexPath) as? ChannelMO else { return }
+        cell.configure(with: channel)
+      }
+      tableView.reloadRows(at: [indexPath], with: .automatic)
+    case .delete:
+//      print("\(#function) - type delete")
+      guard let indexPath = indexPath else { return }
+      tableView.deleteRows(at: [indexPath], with: .automatic)
+    default:
+      print("switch type is defuailt")
+    }
+    
+  }
+  
 }

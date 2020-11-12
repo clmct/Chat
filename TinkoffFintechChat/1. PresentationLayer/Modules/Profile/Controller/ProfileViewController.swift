@@ -36,8 +36,6 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   @IBOutlet weak var leftConstraint: NSLayoutConstraint!
   @IBOutlet weak var rightConstraint: NSLayoutConstraint!
   
-  
-  
   // MARK: View Controller Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()

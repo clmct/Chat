@@ -11,9 +11,9 @@ import Foundation
 
 protocol PresentationAssemblyProtocol {
   func conversationsListViewController() -> ConversationsListViewController
-  func conversationViewController(idChannel: String) -> ConversationViewController
-  func profileViewController() -> ProfileViewController
-  func themesViewController() -> ThemesViewController
+  func conversationViewController(idChannel: String, id: String) -> ConversationViewController
+  func profileViewController() -> ProfileViewController?
+  func themesViewController() -> ThemesViewController?
 }
 
 class PresentationAssembly: PresentationAssemblyProtocol {
@@ -24,27 +24,38 @@ class PresentationAssembly: PresentationAssemblyProtocol {
   }
   
   func conversationsListViewController() -> ConversationsListViewController {
-    let viewController = ConversationsListViewController()
+    var model = conversationsListModel()
+    let viewController = ConversationsListViewController(model: model, presentationAssembly: self)
+    model.delegateFRC = viewController
     return viewController
   }
   
-  func conversationViewController(idChannel: String) -> ConversationViewController {
-    let viewController = ConversationViewController()
+  func conversationViewController(idChannel: String, id: String) -> ConversationViewController {
+    let model = conversationModel()
+    let viewController = ConversationViewController(model: model, id: id)
+    viewController.id = idChannel
     return viewController
   }
   
-  func profileViewController() -> ProfileViewController {
-    let viewController = ProfileViewController()
+  func profileViewController() -> ProfileViewController? {
+    let storyboard = UIStoryboard(name: "Profile", bundle: nil)
+    let viewController = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController
     return viewController
   }
   
-  func themesViewController() -> ThemesViewController {
-    let viewController = ThemesViewController()
+  func themesViewController() -> ThemesViewController? {
+    let storyboard = UIStoryboard(name: "Themes", bundle: nil)
+    let viewController = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController
     return viewController
   }
   
   private func conversationsListModel() -> ConversationsListModelProtocol {
-    let model = ConversationsListModel()
+    let model = ConversationsListModel(coreDataService: serviceAssembly.coreDataService, fireStoreService: serviceAssembly.fireStoreService)
+    return model
+  }
+  
+  private func conversationModel() -> ConversationViewModelProtocol {
+    let model = ConversationViewModel(coreDataService: serviceAssembly.coreDataService, fireStoreService: serviceAssembly.fireStoreService)
     return model
   }
 }

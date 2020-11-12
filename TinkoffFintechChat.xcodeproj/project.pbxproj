@@ -13,6 +13,7 @@
 		B215BC282557F5DD00DEF548 /* PresentationAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215BC272557F5DD00DEF548 /* PresentationAssembly.swift */; };
 		B215BC2C2557F61200DEF548 /* ServicesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215BC2B2557F61200DEF548 /* ServicesAssembly.swift */; };
 		B215BC2E2557F62100DEF548 /* CoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215BC2D2557F62100DEF548 /* CoreAssembly.swift */; };
+		B220CCC5255B03D50049D8A1 /* FireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B220CCC4255B03D50049D8A1 /* FireStore.swift */; };
 		B23E2EA12539F26F003B3808 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B23E2EA02539F26F003B3808 /* GoogleService-Info.plist */; };
 		B24D7B782537A86200638464 /* DataManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24D7B772537A86200638464 /* DataManagerProtocol.swift */; };
 		B268F92F251A2EB7009C503E /* UIImage + Resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = B268F92E251A2EB7009C503E /* UIImage + Resized.swift */; };
@@ -56,6 +57,7 @@
 		B215BC272557F5DD00DEF548 /* PresentationAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationAssembly.swift; sourceTree = "<group>"; };
 		B215BC2B2557F61200DEF548 /* ServicesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesAssembly.swift; sourceTree = "<group>"; };
 		B215BC2D2557F62100DEF548 /* CoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAssembly.swift; sourceTree = "<group>"; };
+		B220CCC4255B03D50049D8A1 /* FireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStore.swift; sourceTree = "<group>"; };
 		B23E2EA02539F26F003B3808 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B24D7B772537A86200638464 /* DataManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerProtocol.swift; sourceTree = "<group>"; };
 		B268F92E251A2EB7009C503E /* UIImage + Resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Resized.swift"; sourceTree = "<group>"; };
@@ -199,7 +201,7 @@
 		B258F68E255921E70054758B /* FireStore */ = {
 			isa = PBXGroup;
 			children = (
-				B29D5DEA253C4AD700432982 /* FireStoreManager.swift */,
+				B220CCC4255B03D50049D8A1 /* FireStore.swift */,
 			);
 			path = FireStore;
 			sourceTree = "<group>";
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				B28454F6255956DF00135C74 /* CoreDataService.swift */,
+				B29D5DEA253C4AD700432982 /* FireStoreManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -266,9 +269,9 @@
 		B2A2A18F252DEDDE008C998D /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				B2A85A80252B980900454B9B /* ThemesViewController.swift */,
-				B2A2A192252E63B6008C998D /* ThemesModel.swift */,
-				B2A2A190252E631E008C998D /* Themes.storyboard */,
+				B2C9541C255AD15E00B5EFAA /* Model */,
+				B2C9541D255AD16300B5EFAA /* View */,
+				B2C9541E255AD16A00B5EFAA /* Controller */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -305,14 +308,86 @@
 			path = ProtocolForCells;
 			sourceTree = "<group>";
 		};
-		B2FFD39E252238AD0001CCAC /* Profile */ = {
+		B2C95416255AD0BB00B5EFAA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B2FFD3AA25223AA10001CCAC /* ConversationViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B2C95417255AD0C000B5EFAA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B2FFD3AC25223AAA0001CCAC /* ConversationCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B2C95418255AD0C300B5EFAA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B2FFD3AE25223AB40001CCAC /* ConversationModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B2C95419255AD0F500B5EFAA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				B271C9C3250E5B330084B7AB /* ProfileViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B2C9541A255AD0F800B5EFAA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B271C9C5250E5B330084B7AB /* Profile.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B2C9541B255AD0FB00B5EFAA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B2C9541C255AD15E00B5EFAA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B2A2A192252E63B6008C998D /* ThemesModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B2C9541D255AD16300B5EFAA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B2A2A190252E631E008C998D /* Themes.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B2C9541E255AD16A00B5EFAA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B2A85A80252B980900454B9B /* ThemesViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B2FFD39E252238AD0001CCAC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B2C9541B255AD0FB00B5EFAA /* Model */,
+				B2C9541A255AD0F800B5EFAA /* View */,
+				B2C95419255AD0F500B5EFAA /* Controller */,
 				B20854CB25364BF2008985D2 /* GCDDataManager.swift */,
 				B20854CD25364C05008985D2 /* OperationDataManager.swift */,
 				B24D7B772537A86200638464 /* DataManagerProtocol.swift */,
-				B271C9C5250E5B330084B7AB /* Profile.storyboard */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -348,9 +423,9 @@
 		B2FFD3B025223ABB0001CCAC /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
-				B2FFD3AA25223AA10001CCAC /* ConversationViewController.swift */,
-				B2FFD3AC25223AAA0001CCAC /* ConversationCell.swift */,
-				B2FFD3AE25223AB40001CCAC /* ConversationModel.swift */,
+				B2C95418255AD0C300B5EFAA /* Model */,
+				B2C95417255AD0C000B5EFAA /* View */,
+				B2C95416255AD0BB00B5EFAA /* Controller */,
 			);
 			path = Conversation;
 			sourceTree = "<group>";
@@ -514,6 +589,7 @@
 				B215BC282557F5DD00DEF548 /* PresentationAssembly.swift in Sources */,
 				B2A85A81252B980900454B9B /* ThemesViewController.swift in Sources */,
 				B29D5DEB253C4AD700432982 /* FireStoreManager.swift in Sources */,
+				B220CCC5255B03D50049D8A1 /* FireStore.swift in Sources */,
 				B2EA0862254B1C04009E1F77 /* MessageMO+CoreDataProperties.swift in Sources */,
 				B271C9C0250E5B330084B7AB /* AppDelegate.swift in Sources */,
 				B20854CE25364C05008985D2 /* OperationDataManager.swift in Sources */,

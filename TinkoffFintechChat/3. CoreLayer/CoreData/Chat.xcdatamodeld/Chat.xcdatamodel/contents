@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17183" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ChannelMO" representedClassName="ChannelMO" syncable="YES">
         <attribute name="identifier" attributeType="String"/>
         <attribute name="lastActivity" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -9,6 +9,7 @@
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="identifier"/>
+                <constraint value="name"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
