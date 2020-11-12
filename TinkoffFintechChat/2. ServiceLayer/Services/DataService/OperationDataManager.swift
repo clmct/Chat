@@ -8,18 +8,18 @@
 
 import UIKit
 
-class OperationDataManager: DataManagerProtocol {
+class OperationDataManager: DataComponentProtocol {
   
   private let nameFile = "name.txt"
   private let descriptionFile = "description.txt"
   private let imageFile = "image.png"
-  private weak var vc: ProfileViewController?
+  private weak var vc: ProfileViewControllerProtocol?
   
   var name: String?
   var description: String?
   var image: UIImage?
   
-  init(vc: ProfileViewController) {
+  init(vc: ProfileViewControllerProtocol) {
     self.vc = vc
   }
   
@@ -30,7 +30,8 @@ class OperationDataManager: DataManagerProtocol {
       let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
       let imageURL = dir.appendingPathComponent(self.imageFile)
       let operationQueue = OperationQueue()
-      let operation = WriteOperation(vc: vc ?? ProfileViewController())
+      guard let vc = vc else { return }
+      let operation = WriteOperation(vc: vc)
       operation.nameURL = nameURL
       operation.descriptionURL = descriptionURL
       operation.imageURL = imageURL
@@ -38,7 +39,7 @@ class OperationDataManager: DataManagerProtocol {
       operation.descriptionString = description
       operation.image = image
       operationQueue.addOperation(operation)
-      vc?.activityIndicatorOutlet.isHidden = true
+      vc.activityIndicatorOutlet.isHidden = true
     }
   }
   
@@ -48,7 +49,8 @@ class OperationDataManager: DataManagerProtocol {
       let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
       let imageURL = dir.appendingPathComponent(self.imageFile)
       let operationQueue = OperationQueue()
-      let operation = ReadOperation(vc: vc ?? ProfileViewController())
+      guard let vc = vc else { return }
+      let operation = ReadOperation(vc: vc)
       operation.nameURL = nameURL
       operation.descriptionURL = descriptionURL
       operation.imageURL = imageURL
@@ -66,9 +68,9 @@ class WriteOperation: Operation {
   var descriptionString: String?
   var image: UIImage?
   
-  private var vc: ProfileViewController
+  private var vc: ProfileViewControllerProtocol
   
-  init(vc: ProfileViewController) {
+  init(vc: ProfileViewControllerProtocol) {
     self.vc = vc
   }
   
@@ -103,9 +105,9 @@ class ReadOperation: Operation {
   var descriptionURL: URL?
   var imageURL: URL?
   
-  var vc: ProfileViewController
+  var vc: ProfileViewControllerProtocol
   
-  init(vc: ProfileViewController) {
+  init(vc: ProfileViewControllerProtocol) {
     self.vc = vc
   }
   override func main() {

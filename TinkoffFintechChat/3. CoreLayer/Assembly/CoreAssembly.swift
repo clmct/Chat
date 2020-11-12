@@ -11,6 +11,8 @@ import Foundation
 protocol CoreAssemblyProtocol {
   var coreDataStack: CoreDataStackProtocol { get set }
   var fireStore: FireStoreProtocol { get }
+//  var gcdComponent: DataComponentProtocol { get }
+//  var operationComponent: DataComponentProtocol { get }
 }
 
 class CoreAssembly: CoreAssemblyProtocol {

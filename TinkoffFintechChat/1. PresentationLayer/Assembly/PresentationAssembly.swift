@@ -38,14 +38,17 @@ class PresentationAssembly: PresentationAssemblyProtocol {
   }
   
   func profileViewController() -> ProfileViewController? {
+    let model = profileModel()
     let storyboard = UIStoryboard(name: "Profile", bundle: nil)
     let viewController = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController
+    viewController?.setProperties(model: model)
     return viewController
   }
   
   func themesViewController() -> ThemesViewController? {
     let storyboard = UIStoryboard(name: "Themes", bundle: nil)
     let viewController = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController
+    
     return viewController
   }
   
@@ -58,4 +61,14 @@ class PresentationAssembly: PresentationAssemblyProtocol {
     let model = ConversationViewModel(coreDataService: serviceAssembly.coreDataService, fireStoreService: serviceAssembly.fireStoreService)
     return model
   }
+  
+  private func profileModel() -> ProfileModelProtocol {
+    let model = ProfileModel()
+    return model
+  }
+  
+//  private func settingsModel() -> ConversationViewModelProtocol {
+//    let model = ConversationViewModel(coreDataService: serviceAssembly.coreDataService, fireStoreService: serviceAssembly.fireStoreService)
+//    return model
+//  }
 }

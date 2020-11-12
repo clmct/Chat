@@ -8,16 +8,13 @@
 
 import UIKit
 
-class GCDDataManager: DataManagerProtocol {
-  init(vc: ProfileViewController) {
-    self.vc = vc
-  }
-  
+class GCDDataManager: DataComponentProtocol {
+
   private var serialQueue = DispatchQueue(label: "serial")
   private var test1 = "Marina Dudarenko"
   private var test2 = "UX/UI designer, web-designer Moscow, Russia"
   
-  private weak var vc: ProfileViewController?
+  private weak var vc: ProfileViewControllerProtocol?
   var name: String?
   var description: String?
   var image: UIImage?
@@ -25,6 +22,10 @@ class GCDDataManager: DataManagerProtocol {
   private let nameFile = "name.txt"
   private let descriptionFile = "description.txt"
   private let imageFile = "image.png"
+  
+  init(vc: ProfileViewControllerProtocol) {
+    self.vc = vc
+  }
   
   func write() {
     vc?.activityIndicatorOutlet.isHidden = false

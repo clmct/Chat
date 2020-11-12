@@ -18,10 +18,17 @@ struct MessageModel {
 protocol ConversationViewModelProtocol {
   var coreDataService: CoreDataServiceProtocol { get }
   var fireStoreService: FireStoreServiceProtocol { get }
+  func createMessage(identifire: String, newMessage: String)
 }
 
 class ConversationViewModel: ConversationViewModelProtocol {
-  
+  func createMessage(identifire: String, newMessage: String) {
+    fireStoreService.createMessage(identifire: identifire, newMessage: newMessage)
+    fireStoreService.fetchDataMessages(identifire: identifire) { data in
+      ChatRequest(coreDataStack: self.coreDataService.coreDataStack).makeRequestMessages(messagesModels: data)
+    }
+  }
+    
   public var coreDataService: CoreDataServiceProtocol
   public var fireStoreService: FireStoreServiceProtocol
   

@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
 
-//    FireStoreService.shared.configure()
 //    CoreDataStack.shared.enableObservers()
 //    CoreDataStack.shared.didUpdateDataBase = { stack in
 //      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов

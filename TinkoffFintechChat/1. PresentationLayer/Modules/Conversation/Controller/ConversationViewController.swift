@@ -50,7 +50,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   lazy var fetchedResultsController: NSFetchedResultsController<MessageMO> = {
     let fetchRequest = NSFetchRequest<MessageMO>()
     let enity = MessageMO.entity()
-    let sort1 = NSSortDescriptor(key: "created", ascending: false)
+    let sort1 = NSSortDescriptor(key: "created", ascending: true)
     fetchRequest.predicate = NSPredicate(format: "identifier = %@", id)
     fetchRequest.entity = enity
     fetchRequest.sortDescriptors = [sort1]
@@ -155,11 +155,10 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
 extension ConversationViewController: UITextFieldDelegate {
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//    if let id = id, let message = textField.text {
-//      model.coreDataService
-//      FireStoreService.shared.createMessage(identifire: id, newMessage: message)
-//      textField.text = ""
-//    }
+    if let message = textField.text {
+      model.createMessage(identifire: id, newMessage: message)
+      textField.text = ""
+    }
     return true
   }
 }

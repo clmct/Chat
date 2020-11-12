@@ -23,8 +23,9 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     let fetchRequest = NSFetchRequest<ChannelMO>()
     let enity = ChannelMO.entity()
     let sort1 = NSSortDescriptor(key: "lastActivity", ascending: false)
+    let sort2 = NSSortDescriptor(key: "name", ascending: true)
     fetchRequest.entity = enity
-    fetchRequest.sortDescriptors = [sort1]
+    fetchRequest.sortDescriptors = [sort1, sort2]
     fetchRequest.resultType = .managedObjectResultType
     
     let fetchedRequestController = NSFetchedResultsController(
@@ -50,6 +51,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
        controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
       controller.updateTheme(theme: theme)
       show(controller, sender: nil)
+//      showDetailViewController(controller, sender: nil)
     } else {
       return
     }
@@ -83,7 +85,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
       let nameChannel = alert.textFields?.first?.text
       
       UIAlertAction.isEnabled = false
-      self.model.fireStoreService.createChannel(newChannel: nameChannel ?? "")
+      self.model.createChannel(newChannel: nameChannel ?? "")
     }
     let cancelAction = UIAlertAction(title: "Отмена", style: .destructive, handler: nil)
     alert.addAction(createAction)
@@ -92,6 +94,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   }
   
   @objc func handleRefreshControl() {
+    model.fetchData()
     DispatchQueue.main.async {
       self.tableView.refreshControl?.endRefreshing()
     }
@@ -240,8 +243,8 @@ extension ConversationsListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     let count = fetchedResultsController.fetchedObjects?.count ?? 0
-    print("count = ")
-    print(count)
+//    print("count = ")
+//    print(count)
     return count
   }
   

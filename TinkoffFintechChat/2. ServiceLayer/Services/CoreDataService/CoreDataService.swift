@@ -34,8 +34,4 @@ class CoreDataService: CoreDataServiceProtocol {
   }
   
 }
-//  CoreDataStack.shared.enableObservers()
-//    CoreDataStack.shared.didUpdateDataBase = { stack in
-//      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов
-//    }
   

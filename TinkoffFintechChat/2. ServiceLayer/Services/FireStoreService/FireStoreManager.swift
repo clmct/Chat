@@ -20,7 +20,6 @@ protocol FireStoreServiceProtocol {
 // MARK: Class
 class FireStoreService: FireStoreServiceProtocol {
   private lazy var reference = Firestore.firestore().collection("channels")
-
   private let senderId = UIDevice.current.identifierForVendor?.uuidString
   
   func fetchData(completion: @escaping ([ChannelModel]) -> Void) {
@@ -37,14 +36,6 @@ class FireStoreService: FireStoreServiceProtocol {
         let model = ChannelModel(identifier: id, name: name, lastMessage: lastMessage, lastActivity: lastActivity?.dateValue())
         dataChannels.append(model)
       })
-          // MARK: - Mock Data
-//          let test1 = ChannelModel(identifier: "1", name: "name1", lastMessage: "1", lastActivity: Date())
-//          let test2 = ChannelModel(identifier: "2", name: "name2", lastMessage: "2", lastActivity: Date())
-//          let test3 = ChannelModel(identifier: "3", name: "name3", lastMessage: "3", lastActivity: Date())
-//          let test4 = ChannelModel(identifier: "6", name: "test", lastMessage: "test", lastActivity: Date())
-//          dataChannels.append(test1)
-//          dataChannels.append(test2)
-//          dataChannels.append(test3)
       completion(dataChannels)
     }
   }

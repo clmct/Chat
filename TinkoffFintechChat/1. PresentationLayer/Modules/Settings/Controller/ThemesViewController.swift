@@ -37,7 +37,7 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
   }
 
   deinit {
-    print("deinit")
+//    print("deinit")
   }
   
   override func viewDidLoad() {

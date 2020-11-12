@@ -7,3 +7,21 @@
 //
 
 import Foundation
+protocol ProfileModelProtocol {
+//  func read()
+//  func write()
+//  var operation: DataComponentProtocol { get set }
+//  var gcd: DataComponentProtocol { get set }
+}
+
+class ProfileModel: ProfileModelProtocol {
+  
+//  var operation: DataComponentProtocol
+//  var gcd: DataComponentProtocol
+//  
+//  init(gcd: DataComponentProtocol, operation: DataComponentProtocol) {
+//    self.gcd = gcd
+//    self.operation = operation
+//  }
+  
+}

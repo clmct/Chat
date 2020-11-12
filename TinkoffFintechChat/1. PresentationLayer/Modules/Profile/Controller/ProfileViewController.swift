@@ -8,7 +8,19 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate { // TO DO fix and upgrade
+protocol ProfileViewControllerProtocol: class {
+  var activityIndicatorOutlet: UIActivityIndicatorView! { get set }
+  var nameTexrFieldOutlet: UITextField! { get set }
+  var descriptionTextViewOutlet: UITextView! { get set }
+  var imageViewOutlet: UIImageView! { get set }
+  var nameString: String { get set }
+  var descriptionString: String { get set }
+  var image: UIImage { get set }
+  func alertOK()
+  func alertError()
+}
+
+class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate, ProfileViewControllerProtocol { // TO DO fix and upgrade
   
   // MARK: Stored Properties
   private var isGCD = false
@@ -20,7 +32,7 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   // MARK: Lazy Stored Propertirs
   lazy var GCD = GCDDataManager(vc: self)
   lazy var Operation = OperationDataManager(vc: self)
-  
+  var model: ProfileModelProtocol?
   var theme = ThemeApp(theme: .classic)
   // MARK: IBoutlets
   @IBOutlet weak var activityIndicatorOutlet: UIActivityIndicatorView!
@@ -35,8 +47,11 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   
   @IBOutlet weak var leftConstraint: NSLayoutConstraint!
   @IBOutlet weak var rightConstraint: NSLayoutConstraint!
-  
   // MARK: View Controller Life Cycle
+  func setProperties(model: ProfileModelProtocol) {
+    self.model = model
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     create()

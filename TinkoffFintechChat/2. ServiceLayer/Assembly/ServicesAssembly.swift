@@ -11,15 +11,15 @@ import Foundation
 protocol ServiceAssemblyProtocol {
   var coreDataService: CoreDataServiceProtocol { get }
   var fireStoreService: FireStoreServiceProtocol { get }
+//  var dataService: DataServiceProtocol { get }
 }
 
 class ServiceAssembly: ServiceAssemblyProtocol {
-  private let coreAssembly: CoreAssemblyProtocol
   
+  private let coreAssembly: CoreAssemblyProtocol
   lazy var coreDataService: CoreDataServiceProtocol = CoreDataService(coreDataStack: coreAssembly.coreDataStack)
   
   lazy var fireStoreService: FireStoreServiceProtocol = FireStoreService()
-  
   init(coreAssembly: CoreAssemblyProtocol) {
     self.coreAssembly = coreAssembly
   }

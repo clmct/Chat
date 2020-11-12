@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import CoreData
 
-struct ChatRequest {
+struct ChatRequest { // should it be a struct?
   let coreDataStack: CoreDataStackProtocol
   
   init(coreDataStack: CoreDataStackProtocol) {
@@ -37,7 +36,6 @@ struct ChatRequest {
       }
     }
   } // не рационально, лучше при возваращение на главный экран делать запрос каналов
-  
   func makeRequestMessages(messagesModels messages: [MessageModel]) {
     coreDataStack.performSave { context in
       var messagesMO: [MessageMO] = [MessageMO]()
@@ -46,11 +44,11 @@ struct ChatRequest {
         messagesMO.append(messageMO)
       }
       guard let id = messagesMO.last?.identifier else { return }
-      let a = GetData(context: coreDataStack.mainContext)
-      let channel = a.fetchRequestChannelByID(id: id)
       
-      let idd: String = channel?.identifier ?? "id"
-      let nam: String = channel?.name ?? "name"
+      let channel = getChannelByID(context: context, id: id)
+      
+      guard let idd: String = channel?.identifier else { return }
+      guard let nam: String = channel?.name else { return }
       let lm: String? = channel?.lastMessage
       let ld: Date? = channel?.lastActivity
       
@@ -59,34 +57,7 @@ struct ChatRequest {
       let channelMO = ChannelMO(model: model, in: context)
       messagesMO.forEach { channelMO.addToMessages($0) }
       
-//      channels.forEach { model in // update channels data
-//        let channelMO = ChannelMO(model: model, in: context)
-//        if model.identifier == messages.last?.identifier {
-//          messagesMO.forEach { channelMO.addToMessages($0) }
-//        }
-//      }
-      
     }
   }
   
-}
-
-struct GetData {
-  let context: NSManagedObjectContext
-  init(context: NSManagedObjectContext) {
-    self.context = context
-  }
-  
-  func fetchRequestChannelByID(id: String) -> ChannelMO? {
-    let request: NSFetchRequest<ChannelMO> = ChannelMO.fetchRequest()
-    request.predicate = NSPredicate(format: "identifier == %@", id)
-    request.fetchLimit = 1
-    do {
-      let result = try context.fetch(request)
-      return result.first
-    } catch {
-      print(error.localizedDescription)
-    }
-    return nil
-  }
 }
