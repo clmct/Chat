@@ -12,6 +12,6 @@ protocol DataComponentProtocol {
   var name: String? { get set }
   var description: String? { get set }
   var image: UIImage? { get set }
-  func write()
+  func write(profileData: ProfileData)
   func read()
 }

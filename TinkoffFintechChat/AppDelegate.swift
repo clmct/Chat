@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Logger.printLogsAD(nameFuncAD: #function, stateFrom: .notrunning, stateTo: .inactive)
 
-//    CoreDataStack.shared.enableObservers()
 //    CoreDataStack.shared.didUpdateDataBase = { stack in
 //      stack.printDataStatisitice() // Логи выводятся два раза из за двух контекстов
 //    }
@@ -44,8 +43,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    window?.rootViewController = UINavigationController(rootViewController: controller)
 //    window?.makeKeyAndVisible()
     
-    let controller = rootAssembly.presentationAssembly.conversationsListViewController()
-    controller.updateTheme(theme: themeMain)
+//    let controller = rootAssembly.presentationAssembly.conversationsListViewController()
+//    controller.updateTheme(theme: themeMain)
+//    let controller = rootAssembly.presentationAssembly.profileViewController()!
+    let controller = rootAssembly.presentationAssembly.picturesViewController()
     let navigationController = UINavigationController(rootViewController: controller)
     window?.rootViewController = navigationController
     window?.makeKeyAndVisible()

@@ -17,15 +17,20 @@ struct ChannelModel {
 }
 
 protocol ConversationsListModelProtocol {
-  var delegateFRC: NSFetchedResultsControllerDelegate? { get set }
-  var coreDataService: CoreDataServiceProtocol { get }
-  var fireStoreService: FireStoreServiceProtocol { get }
+//  var delegateFRC: NSFetchedResultsControllerDelegate? { get set }
   func createChannel(newChannel: String)
-  func createMessage(identifire: String, newMessage: String)
   func fetchData()
-  func fetchDataMessages(identifire: String)
+  var mainContext: NSManagedObjectContext { get }
+  // Сначало принимаю даннеы сообщений из сервера
+  // потом они сохроняются в CoreData
+  // потом уже в VC диалога они читаются через FRC
+  //
+  // можно делeть запрос в VC чата в ViewDidLoad ----- !
+  // я его длеаю при отправки сообщения
+  // это будет правильно с точки зрения SRP
+//  func fetchDataMessages(identifire: String)
   
-//  var delegate: ConversationsListModelDelegate? { get set }
+  //  var delegate: ConversationsListModelDelegate? { get set }
 }
 
 //protocol ConversationsListModelDelegate: class { у меня даннеы загружаются из FRC
@@ -33,42 +38,48 @@ protocol ConversationsListModelProtocol {
 //}
 
 class ConversationsListModel: ConversationsListModelProtocol {
+  
   func createChannel(newChannel: String) {
     fireStoreService.createChannel(newChannel: newChannel)
     fireStoreService.fetchData { data in
-      ChatRequest(coreDataStack: self.coreDataService.coreDataStack).makeRequestChannels(channelModels: data)
+      self.saveDataService.makeRequestChannels(channelModels: data)
     }
   }
   
-  func createMessage(identifire: String, newMessage: String) {
-    fireStoreService.createMessage(identifire: identifire, newMessage: newMessage)
-  }
+  lazy var mainContext: NSManagedObjectContext = coreDataService.mainContext
   
   // load data from server
   // need to save in CoreData
   func fetchData() {
     fireStoreService.fetchData { data in
-      ChatRequest(coreDataStack: self.coreDataService.coreDataStack).makeRequestChannels(channelModels: data)
+      self.saveDataService.makeRequestChannels(channelModels: data)
     }
   }
   
-  // load data messages by ID from server
-  // need to save in CoreData
-  func fetchDataMessages(identifire: String) {
-    fireStoreService.fetchDataMessages(identifire: identifire) { data in
-      ChatRequest(coreDataStack: self.coreDataService.coreDataStack).makeRequestMessages(messagesModels: data)
-    }
-  }
+//   load data messages by ID from server
+//   need to save in CoreData
+//  func fetchDataMessages(identifire: String) {
+//    fireStoreService.fetchDataMessages(identifire: identifire) { data in
+//      self.saveDataService.makeRequestMessages(messagesModels: data)
+//    }
+//  }
+  
   // BLL
-  var delegateFRC: NSFetchedResultsControllerDelegate?
+  //  var delegateFRC: NSFetchedResultsControllerDelegate?
+  //  weak var delegate: ConversationsListModelDelagate?
+
+  // Services
+  private var fireStoreService: FireStoreServiceProtocol
   
-  public var coreDataService: CoreDataServiceProtocol
-  public var fireStoreService: FireStoreServiceProtocol
+  private var saveDataService: SaveDataServiceProtocol
+  private var coreDataService: CoreDataServiceProtocol
   
-//  weak var delegate: ConversationsListModelDelagate?
-  
-  init(coreDataService: CoreDataServiceProtocol, fireStoreService: FireStoreServiceProtocol) {
-    self.coreDataService = coreDataService
+  // init
+  init(fireStoreService: FireStoreServiceProtocol,
+       saveDataService: SaveDataServiceProtocol,
+       coreDataService: CoreDataServiceProtocol) {
+    self.saveDataService = saveDataService
     self.fireStoreService = fireStoreService
+    self.coreDataService = coreDataService
   }
 }

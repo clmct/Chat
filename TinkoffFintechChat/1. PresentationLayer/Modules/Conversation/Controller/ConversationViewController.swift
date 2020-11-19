@@ -12,14 +12,15 @@ import CoreData
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ThemesPickerDelegate {
   // MARK: Stored Properties
   var theme: ThemeApp = ThemeApp(theme: .classic)
-  private let identifire = "conversation"
-//  var data: [MessageMO]
-  var messageTextField = String()
   var id: String
-  weak var VC: ConversationsListViewController?
+  weak var VC: ConversationsListViewController? // подумать над другим решением
+  
+  private let identifire = "conversation"
+  private var messageTextField = String()
   private let model: ConversationViewModelProtocol
   // MARK: Lazy Stored Properties
   lazy private var tableView = UITableView()
+  
   lazy var inputContainerView: UIView = {
     let containerView = UIView()
     containerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 80)
@@ -58,7 +59,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     let fetchedRequestController = NSFetchedResultsController(
       fetchRequest: fetchRequest,
-      managedObjectContext: self.model.coreDataService.mainContext,
+      managedObjectContext: self.model.mainContext,
       sectionNameKeyPath: nil,
       cacheName: nil)
     
@@ -90,6 +91,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     tableView.keyboardDismissMode = .interactive
     tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 60, right: 0)
 //    model.fireStoreService.fetchDataMessages(identifire: id)
+    model.fetchDataMessages(identifire: id)
     performFetch()
   }
   

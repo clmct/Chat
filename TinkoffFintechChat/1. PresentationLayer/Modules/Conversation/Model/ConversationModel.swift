@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 struct MessageModel {
   let identifier: String
@@ -16,25 +17,46 @@ struct MessageModel {
   let senderName: String
 }
 protocol ConversationViewModelProtocol {
-  var coreDataService: CoreDataServiceProtocol { get }
-  var fireStoreService: FireStoreServiceProtocol { get }
   func createMessage(identifire: String, newMessage: String)
+  func fetchDataMessages(identifire: String)
+  
+  // чтобы не использовать import обращаюсь из VC в service напрямую - false
+  //
+  // так как я абстрагируюсь, то VC завязан исключительно на Model
+  // в примере используется import
+  // Services отсаются приватными свойсвами модели
+    var mainContext: NSManagedObjectContext { get }
 }
 
 class ConversationViewModel: ConversationViewModelProtocol {
+  
+  // Methods
   func createMessage(identifire: String, newMessage: String) {
     fireStoreService.createMessage(identifire: identifire, newMessage: newMessage)
+    fetchDataMessages(identifire: identifire)
+  }
+  
+  func fetchDataMessages(identifire: String) {
     fireStoreService.fetchDataMessages(identifire: identifire) { data in
-      ChatRequest(coreDataStack: self.coreDataService.coreDataStack).makeRequestMessages(messagesModels: data)
+      self.saveDataService.makeRequestMessages(messagesModels: data)
     }
   }
-    
-  public var coreDataService: CoreDataServiceProtocol
-  public var fireStoreService: FireStoreServiceProtocol
   
-  init(coreDataService: CoreDataServiceProtocol, fireStoreService: FireStoreServiceProtocol) {
-    self.coreDataService = coreDataService
+  lazy var mainContext = coreDataService.mainContext
+  
+  // Services
+  private var fireStoreService: FireStoreServiceProtocol
+  
+  private var saveDataService: SaveDataServiceProtocol
+  private var coreDataService: CoreDataServiceProtocol
+  
+  // init
+  init(fireStoreService: FireStoreServiceProtocol,
+       saveDataService: SaveDataServiceProtocol,
+       coreDataService: CoreDataServiceProtocol) {
+    self.saveDataService = saveDataService
     self.fireStoreService = fireStoreService
+    self.coreDataService = coreDataService
   }
   
 }

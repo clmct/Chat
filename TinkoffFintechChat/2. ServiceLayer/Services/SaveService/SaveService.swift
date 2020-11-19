@@ -8,7 +8,15 @@
 
 import Foundation
 
-struct ChatRequest { // should it be a struct?
+protocol SaveDataServiceProtocol {
+  func makeRequestChannels(channelModels models: [ChannelModel])
+  func makeRequestMessages(messagesModels messages: [MessageModel])
+  // заменена на makeRequestMessages
+  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel])
+}
+
+class SaveDataService: SaveDataServiceProtocol {
+  
   let coreDataStack: CoreDataStackProtocol
   
   init(coreDataStack: CoreDataStackProtocol) {
@@ -21,6 +29,31 @@ struct ChatRequest { // should it be a struct?
       }
     }
   }
+
+  func makeRequestMessages(messagesModels messages: [MessageModel]) {
+    coreDataStack.performSave { context in
+      var messagesMO: [MessageMO] = [MessageMO]()
+      messages.forEach { model in // update messages data for one channel
+        let messageMO = MessageMO(model: model, in: context)
+        messagesMO.append(messageMO)
+      }
+      guard let id = messagesMO.last?.identifier else { return }
+      
+      let channel = getChannelByID(context: context, id: id)  // fetch request // обдумать решение мб добавить сущность
+      
+      guard let idd: String = channel?.identifier else { return }
+      guard let nam: String = channel?.name else { return }
+      let lm: String? = channel?.lastMessage
+      let ld: Date? = channel?.lastActivity
+      
+      let model = ChannelModel(identifier: idd, name: nam, lastMessage: lm, lastActivity: ld)
+      
+      let channelMO = ChannelMO(model: model, in: context)
+      messagesMO.forEach { channelMO.addToMessages($0) }
+      
+    }
+  }
+  
   func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel]) {
     coreDataStack.performSave { context in
       var messagesMO: [MessageMO] = [MessageMO]()
@@ -36,28 +69,5 @@ struct ChatRequest { // should it be a struct?
       }
     }
   } // не рационально, лучше при возваращение на главный экран делать запрос каналов
-  func makeRequestMessages(messagesModels messages: [MessageModel]) {
-    coreDataStack.performSave { context in
-      var messagesMO: [MessageMO] = [MessageMO]()
-      messages.forEach { model in // update messages data for one channel
-        let messageMO = MessageMO(model: model, in: context)
-        messagesMO.append(messageMO)
-      }
-      guard let id = messagesMO.last?.identifier else { return }
-      
-      let channel = getChannelByID(context: context, id: id)
-      
-      guard let idd: String = channel?.identifier else { return }
-      guard let nam: String = channel?.name else { return }
-      let lm: String? = channel?.lastMessage
-      let ld: Date? = channel?.lastActivity
-      
-      let model = ChannelModel(identifier: idd, name: nam, lastMessage: lm, lastActivity: ld)
-      
-      let channelMO = ChannelMO(model: model, in: context)
-      messagesMO.forEach { channelMO.addToMessages($0) }
-      
-    }
-  }
   
 }

@@ -30,7 +30,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     
     let fetchedRequestController = NSFetchedResultsController(
       fetchRequest: fetchRequest,
-      managedObjectContext: self.model.coreDataService.mainContext,
+      managedObjectContext: self.model.mainContext,
       sectionNameKeyPath: nil,
       cacheName: nil)
     
@@ -125,8 +125,8 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     createTableView()
     
-    performFetch()
     model.fetchData()
+    performFetch()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -144,7 +144,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
       do {
         try
         fetchedResultsController.performFetch()
-        tableView.reloadData()
+//        tableView.reloadData()
       } catch {
         fatalError()
       }
@@ -193,9 +193,9 @@ extension ConversationsListViewController: UITableViewDataSource {
     if editingStyle == .delete {
       let channel = fetchedResultsController.object(at: indexPath)
 //      CoreDataStack.shared.mainContext.delete(channel)
-      model.coreDataService.mainContext.delete(channel)
+      model.mainContext.delete(channel)
       do {
-        try model.coreDataService.mainContext.save()
+        try model.mainContext.save()
         tableView.deleteRows(at: [indexPath], with: .fade)
       } catch {
         fatalError()
@@ -230,10 +230,7 @@ extension ConversationsListViewController: UITableViewDataSource {
     let controller = presentationAssembly.conversationViewController(idChannel: id, id: id)
     controller.updateTheme(theme: self.theme)
     controller.title = self.fetchedResultsController.object(at: indexPath).name
-    controller.VC = self
-    
-    self.model.fetchDataMessages(identifire: id)
-    
+    controller.VC = self // зачем? больше не нужно
     self.navigationController?.pushViewController(controller, animated: true)
   }
   

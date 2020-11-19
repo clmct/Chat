@@ -8,93 +8,28 @@
 
 import UIKit
 
-class GCDDataManager: DataComponentProtocol {
+protocol DataManagerProtocol {
+  func write(data: Data, urlString: String)
+  func read(urlString: String, completion: @escaping (Data?) -> Void)
+}
+
+class GCDDataManager: DataManagerProtocol {
 
   private var serialQueue = DispatchQueue(label: "serial")
-  private var test1 = "Marina Dudarenko"
-  private var test2 = "UX/UI designer, web-designer Moscow, Russia"
   
-  private weak var vc: ProfileViewControllerProtocol?
-  var name: String?
-  var description: String?
-  var image: UIImage?
+  var fileManager = FileManagerComponent()
   
-  private let nameFile = "name.txt"
-  private let descriptionFile = "description.txt"
-  private let imageFile = "image.png"
-  
-  init(vc: ProfileViewControllerProtocol) {
-    self.vc = vc
+  func write(data: Data, urlString: String) {
+    serialQueue.asyncAfter(deadline: .now(), execute: {
+      self.fileManager.write(data: data, urlString: urlString)
+    })
   }
   
-  func write() {
-    vc?.activityIndicatorOutlet.isHidden = false
+  func read(urlString: String, completion: @escaping (Data?) -> Void) {
     serialQueue.asyncAfter(deadline: .now(), execute: {
-      
-      if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-        let nameURL = dir.appendingPathComponent(self.nameFile)
-        let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
-        let imageURL = dir.appendingPathComponent(self.imageFile)
-        do {
-          if let name = self.name {
-            try name.write(to: nameURL, atomically: false, encoding: .utf8)
-          }
-          
-          if let description = self.description {
-            try description.write(to: descriptionURL, atomically: false, encoding: .utf8)
-          }
-          
-          if let image = self.image {
-            try image.pngData()?.write(to: imageURL)
-          }
-          
-          DispatchQueue.main.async {
-            self.vc?.activityIndicatorOutlet.isHidden = true
-            self.vc?.alertOK()
-          }
-        } catch {
-          DispatchQueue.main.async {
-            self.vc?.activityIndicatorOutlet.isHidden = true
-            self.vc?.alertError()
-          }
-        }
-      }
-      
-    })
-    
-  }
-  
-  func read() {
-    serialQueue.asyncAfter(deadline: .now(), execute: {
-      
-      if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-        let nameURL = dir.appendingPathComponent(self.nameFile)
-        let descriptionURL = dir.appendingPathComponent(self.descriptionFile)
-        let imageURL = dir.appendingPathComponent(self.imageFile)
-        do {
-          let name = try String(contentsOf: nameURL, encoding: .utf8)
-          let description = try String(contentsOf: descriptionURL, encoding: .utf8)
-          let imageData = try Data(contentsOf: imageURL)
-          let image = UIImage(data: imageData)
-          
-          DispatchQueue.main.async {
-            self.vc?.nameTexrFieldOutlet.text = name
-            self.vc?.descriptionTextViewOutlet.text = description
-            self.vc?.imageViewOutlet.image = image
-            
-            self.vc?.nameString = name
-            self.vc?.descriptionString = description
-            self.vc?.image = image ?? UIImage()
-          }
-          
-        } catch {
-          print("error read")
-          print(error)
-        }
-        
-      }
-    })
-    
+      let data = self.fileManager.read(urlString: urlString)
+      completion(data)
+      })
   }
   
 }

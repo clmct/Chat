@@ -9,17 +9,26 @@
 import Foundation
 
 protocol ServiceAssemblyProtocol {
-  var coreDataService: CoreDataServiceProtocol { get }
   var fireStoreService: FireStoreServiceProtocol { get }
-//  var dataService: DataServiceProtocol { get }
+  var saveDataService: SaveDataServiceProtocol { get } // performSave
+  var coreDataService: CoreDataServiceProtocol { get } // main context, statistics
+  var networkService: NetworkServiceProtocol { get }
 }
 
 class ServiceAssembly: ServiceAssemblyProtocol {
+   
+  // Services
+  lazy var fireStoreService: FireStoreServiceProtocol = FireStoreService()
   
-  private let coreAssembly: CoreAssemblyProtocol
+  lazy var saveDataService: SaveDataServiceProtocol = SaveDataService(coreDataStack: coreAssembly.coreDataStack)
+  
   lazy var coreDataService: CoreDataServiceProtocol = CoreDataService(coreDataStack: coreAssembly.coreDataStack)
   
-  lazy var fireStoreService: FireStoreServiceProtocol = FireStoreService()
+  lazy var networkService: NetworkServiceProtocol = NetworkService(requestSender: coreAssembly.requestSender)
+  
+  // components from CoreLayer
+  private let coreAssembly: CoreAssemblyProtocol
+  
   init(coreAssembly: CoreAssemblyProtocol) {
     self.coreAssembly = coreAssembly
   }

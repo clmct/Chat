@@ -8,30 +8,30 @@
 
 import Foundation
 import CoreData
+
 protocol CoreDataServiceProtocol {
   func printDataStatisitics()
   var mainContext: NSManagedObjectContext { get }
-  var coreDataStack: CoreDataStackProtocol { get }
 }
 
 class CoreDataService: CoreDataServiceProtocol {
-  lazy var mainContext: NSManagedObjectContext = {
-    return coreDataStack.mainContext
-  }()
   
   func printDataStatisitics() {
-    coreDataStack.enableObservers()
+//    coreDataStack.enableObservers()
     coreDataStack.didUpdateDataBase = { a in
       a.printDataStatisitics()
     }
   }
   
+  lazy var mainContext: NSManagedObjectContext = {
+    return coreDataStack.mainContext
+  }()
+
   var coreDataStack: CoreDataStackProtocol
-  
+
   init(coreDataStack: CoreDataStackProtocol) {
     self.coreDataStack = coreDataStack
     self.coreDataStack.enableObservers()
   }
-  
+
 }
-  

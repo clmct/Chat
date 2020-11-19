@@ -8,19 +8,43 @@
 
 import UIKit
 
-protocol ProfileViewControllerProtocol: class {
-  var activityIndicatorOutlet: UIActivityIndicatorView! { get set }
-  var nameTexrFieldOutlet: UITextField! { get set }
-  var descriptionTextViewOutlet: UITextView! { get set }
-  var imageViewOutlet: UIImageView! { get set }
-  var nameString: String { get set }
-  var descriptionString: String { get set }
-  var image: UIImage { get set }
-  func alertOK()
-  func alertError()
+extension ProfileViewController: ProfileModelDelegateProtocol {
+  func showAlertError() {
+    self.alertError()
+  }
+  
+  func showAlertOK() {
+    self.alertOK()
+  }
+  
+  func blockUI() { // TO-DO add edit from storyboard
+    self.navigationItem.rightBarButtonItem?.isEnabled = false
+    self.activityIndicatorOutlet.isHidden = false
+    GCDButton.isUserInteractionEnabled = false
+    OperationButton.isUserInteractionEnabled = false
+    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
+    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
+    
+//    GCDButton.isSelected = false
+//    OperationButton.isSelected = false
+//    GCDButton.isHighlighted = true
+//    OperationButton.isHighlighted = true
+  }
+  
+  func unBlockUI() {
+    self.navigationItem.rightBarButtonItem?.isEnabled = true
+    self.activityIndicatorOutlet.isHidden = true
+    GCDButton.isUserInteractionEnabled = true
+    OperationButton.isUserInteractionEnabled = true
+    self.nameTexrFieldOutlet.isUserInteractionEnabled = true
+    self.descriptionTextViewOutlet.isUserInteractionEnabled = true
+//    GCDButton.isHighlighted = false
+//    OperationButton.isHighlighted = false
+    
+  }
 }
 
-class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate, ProfileViewControllerProtocol { // TO DO fix and upgrade
+class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextFieldDelegate {
   
   // MARK: Stored Properties
   private var isGCD = false
@@ -30,8 +54,8 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   var image = UIImage()
   
   // MARK: Lazy Stored Propertirs
-  lazy var GCD = GCDDataManager(vc: self)
-  lazy var Operation = OperationDataManager(vc: self)
+//  lazy var GCD = GCDDataManager(vc: self)
+//  lazy var Operation = OperationDataManager(vc: self)
   var model: ProfileModelProtocol?
   var theme = ThemeApp(theme: .classic)
   // MARK: IBoutlets
@@ -55,7 +79,9 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   override func viewDidLoad() {
     super.viewDidLoad()
     create()
-    buttonBlock()
+//    buttonBlock()
+//    GCDButton.showsTouchWhenHighlighted = false
+//    OperationButton.showsTouchWhenHighlighted = false
     
     GCDButton.backgroundColor = theme.profileButton
     OperationButton.backgroundColor = theme.profileButton
@@ -66,7 +92,9 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     nameTexrFieldOutlet.delegate = self
     
     //    GCD.read()
-    Operation.read()
+    
+//    Operation.read()
+//    model.read()
   }
   
   override func viewDidLayoutSubviews() {
@@ -103,8 +131,12 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   }
   
   func create() {
-    title = "My Profile"
     
+    model?.read(type: .gcd, completion: { data in
+      print(data)
+    })
+    
+    title = "My Profile"
     leftConstraint.constant = view.bounds.width / 2 + 10
     rightConstraint.constant = view.bounds.width / 2 + 10
     
@@ -116,47 +148,41 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
       self.view.frame.origin.y = 0.0
     }
   }
-  
-  func buttonBlock() {
-    GCDButton.isUserInteractionEnabled = false
-    OperationButton.isUserInteractionEnabled = false
-    GCDButton.isHighlighted = true
-    OperationButton.isHighlighted = true
-  }
-  
-  func buttonUnBlock() {
-    GCDButton.isUserInteractionEnabled = true
-    OperationButton.isUserInteractionEnabled = true
-    GCDButton.isHighlighted = false
-    OperationButton.isHighlighted = false
-  }
-  
+
   func GCDButtonActionFunc() {
-    isGCD = true
-    buttonBlock()
-    GCD.name = nameTexrFieldOutlet.text
-    GCD.description = descriptionTextViewOutlet.text
-    GCD.image = imageViewOutlet.image
-    GCD.write()
-    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
-    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
-    isEdit = false
-    GCD.read()
+    //    isGCD = true
+    //    buttonBlock()
+    
+    let data = ProfileData(name: nameTexrFieldOutlet.text, description: descriptionTextViewOutlet.text, image: imageViewOutlet.image)
+    model?.write(type: .gcd, profileData: data)
+    //    GCD.name = nameTexrFieldOutlet.text
+    //    GCD.description = descriptionTextViewOutlet.text
+    //    GCD.image = imageViewOutlet.image
+    //    GCD.write()
+    //    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
+    //    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
+    //    isEdit = false
+    //    GCD.read()
+    
   }
   
   func OperationButtonActionFunc() {
-    isGCD = false
-    buttonBlock()
-    Operation.name = nameTexrFieldOutlet.text
-    Operation.description = descriptionTextViewOutlet.text
-    Operation.image = imageViewOutlet.image
-    activityIndicatorOutlet.isHidden = false
-    Operation.write()
-    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
-    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
-    isEdit = false
-    sleep(1)
-    Operation.read()
+    //    isGCD = false
+    //    buttonBlock()
+    
+    let data = ProfileData(name: nameTexrFieldOutlet.text, description: descriptionTextViewOutlet.text, image: imageViewOutlet.image)
+    model?.write(type: .operation, profileData: data)
+    
+    //    Operation.name = nameTexrFieldOutlet.text
+    //    Operation.description = descriptionTextViewOutlet.text
+    //    Operation.image = imageViewOutlet.image
+    //    activityIndicatorOutlet.isHidden = false
+    //    Operation.write()
+    //    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
+    //    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
+    //    isEdit = false
+    //    sleep(1)
+    //    Operation.read()
   }
 }
 
@@ -173,20 +199,26 @@ extension ProfileViewController {
     return true
   }
   
+  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    print("textFieldDidEndEditing")
+  }
   func checkEditing() {
     
     guard let name = nameTexrFieldOutlet.text,
       let description = descriptionTextViewOutlet.text,
       let imag = imageViewOutlet.image else { return }
-    
+
     if isEdit == true, nameString == name, descriptionString == description, image == imag {
-      buttonBlock()
+      GCDButton.isUserInteractionEnabled = false
+      OperationButton.isUserInteractionEnabled = false
     } else if isEdit == true {
-      buttonUnBlock()
+      GCDButton.isUserInteractionEnabled = true
+      OperationButton.isUserInteractionEnabled = true
     } else {
-      buttonBlock()
+      GCDButton.isUserInteractionEnabled = false
+      OperationButton.isUserInteractionEnabled = false
     }
-    
+
   }
 }
 
@@ -206,20 +238,20 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
     alert.addAction(cancelAction)
     present(alert, animated: true, completion: nil)
-    checkEditing()
+//    checkEditing()
   }
   
   func alertError() {
     let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
     let repeatAction = UIAlertAction(title: "Повторить", style: .default, handler: { _ in
-      if self.isGCD {
-        self.GCDButtonActionFunc()
-        self.checkEditing()
-      } else {
-        self.OperationButtonActionFunc()
-        self.checkEditing()
-      }
+//      if self.isGCD {
+//        self.GCDButtonActionFunc()
+//        self.checkEditing()
+//      } else {
+//        self.OperationButtonActionFunc()
+//        self.checkEditing()
+//      }
     })
     alert.addAction(cancelAction)
     alert.addAction(repeatAction)

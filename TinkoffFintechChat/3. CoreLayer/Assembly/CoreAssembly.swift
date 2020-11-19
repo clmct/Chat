@@ -10,12 +10,14 @@ import Foundation
 
 protocol CoreAssemblyProtocol {
   var coreDataStack: CoreDataStackProtocol { get set }
-  var fireStore: FireStoreProtocol { get }
+  var requestSender: RequestSenderProtocol { get }
+//  var fireStore: FireStoreProtocol { get }
 //  var gcdComponent: DataComponentProtocol { get }
 //  var operationComponent: DataComponentProtocol { get }
 }
 
 class CoreAssembly: CoreAssemblyProtocol {
   lazy var coreDataStack: CoreDataStackProtocol = CoreDataStack()
-  lazy var fireStore: FireStoreProtocol = FireStore()
+  lazy var requestSender: RequestSenderProtocol = RequestSender(requestConfig: RequestConfig(request: Request(), parser: Parser()))
+//  lazy var fireStore: FireStoreProtocol = FireStore()
 }
