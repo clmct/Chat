@@ -37,16 +37,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     window = UIWindow()
-//    let controller = ConversationsListViewController()
-//    controller.updateTheme(theme: themeMain)
-//    controller.navigationController?.navigationBar.barTintColor = themeMain.navigationBar
-//    window?.rootViewController = UINavigationController(rootViewController: controller)
-//    window?.makeKeyAndVisible()
     
-//    let controller = rootAssembly.presentationAssembly.conversationsListViewController()
-//    controller.updateTheme(theme: themeMain)
+    let controller = rootAssembly.presentationAssembly.conversationsListViewController()
+    controller.updateTheme(theme: themeMain)
 //    let controller = rootAssembly.presentationAssembly.profileViewController()!
-    let controller = rootAssembly.presentationAssembly.picturesViewController()
+//    let controller = rootAssembly.presentationAssembly.picturesViewController()
     let navigationController = UINavigationController(rootViewController: controller)
     window?.rootViewController = navigationController
     window?.makeKeyAndVisible()

@@ -13,6 +13,8 @@ protocol ServiceAssemblyProtocol {
   var saveDataService: SaveDataServiceProtocol { get } // performSave
   var coreDataService: CoreDataServiceProtocol { get } // main context, statistics
   var networkService: NetworkServiceProtocol { get }
+  var gcdService: DataManagerProtocol { get }
+  var operationService: DataManagerProtocol { get }
 }
 
 class ServiceAssembly: ServiceAssemblyProtocol {
@@ -25,6 +27,10 @@ class ServiceAssembly: ServiceAssemblyProtocol {
   lazy var coreDataService: CoreDataServiceProtocol = CoreDataService(coreDataStack: coreAssembly.coreDataStack)
   
   lazy var networkService: NetworkServiceProtocol = NetworkService(requestSender: coreAssembly.requestSender)
+  
+  lazy var gcdService: DataManagerProtocol = GCDDataManager()
+  
+  lazy var operationService: DataManagerProtocol = OperationDataManager()
   
   // components from CoreLayer
   private let coreAssembly: CoreAssemblyProtocol

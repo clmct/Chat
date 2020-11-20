@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fop-KJ-7kY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fop-KJ-7kY">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17120"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sQn-5o-Na9">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sQn-5o-Na9">
                                 <rect key="frame" x="20" y="592" width="105" height="45"/>
                                 <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -35,7 +36,7 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C5b-se-wnO">
                                         <rect key="frame" x="0.0" y="0.0" width="239" height="239"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4n-5J-xYq">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4n-5J-xYq">
                                         <rect key="frame" x="209" y="209" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="jPy-eG-bb7"/>
@@ -61,7 +62,7 @@
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="UX/UI designer, web-designer Moscow, Russia" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ljC-8d-CW3">
                                 <rect key="frame" x="78" y="409" width="219" height="143"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -74,7 +75,7 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P8z-HP-mvG">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P8z-HP-mvG">
                                 <rect key="frame" x="250" y="592" width="105" height="45"/>
                                 <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -88,7 +89,8 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="yEZ-LX-ucr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="QND-ce-zjc" firstAttribute="leading" secondItem="yEZ-LX-ucr" secondAttribute="leading" constant="68" id="3B6-iY-RUb"/>
                             <constraint firstItem="yEZ-LX-ucr" firstAttribute="trailing" secondItem="sQn-5o-Na9" secondAttribute="trailing" constant="250" id="6F4-Ew-8ER"/>
@@ -110,7 +112,6 @@
                             <constraint firstItem="sQn-5o-Na9" firstAttribute="left" secondItem="yEZ-LX-ucr" secondAttribute="left" constant="20" id="mQe-2o-ZPR"/>
                             <constraint firstItem="Jub-v1-I8Z" firstAttribute="top" secondItem="C5b-se-wnO" secondAttribute="bottom" constant="25" id="xt1-Xv-zXb"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="yEZ-LX-ucr"/>
                     </view>
                     <navigationItem key="navigationItem" id="wxg-94-iqc">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Gga-zr-jl3">
@@ -127,6 +128,7 @@
                         <outlet property="imageViewOutlet" destination="C5b-se-wnO" id="drp-yT-GYL"/>
                         <outlet property="leftConstraint" destination="7YI-Of-LLi" id="fTi-eA-BF5"/>
                         <outlet property="nameTexrFieldOutlet" destination="Jub-v1-I8Z" id="Twn-5u-4vd"/>
+                        <outlet property="photoButtonOutlet" destination="B4n-5J-xYq" id="TFW-eD-6TN"/>
                         <outlet property="rightConstraint" destination="6F4-Ew-8ER" id="r90-2o-8Sq"/>
                         <outlet property="viewOutlet" destination="QND-ce-zjc" id="HhT-zh-KMm"/>
                     </connections>
@@ -154,4 +156,12 @@
             <point key="canvasLocation" x="1074.4000000000001" y="859.52023988005999"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

@@ -31,23 +31,3 @@ class OperationDataManager: DataManagerProtocol {
     operationQueue.addOperation(operation)
   }
 }
-
-//class ReadOperation: Operation {
-//
-//  override init() {
-//  }
-//
-//  override func main() {
-//
-//  }
-//}
-//
-//class WriteOperation: Operation {
-//
-//  override init() {
-//  }
-//
-//  override func main() {
-//
-//  }
-//}

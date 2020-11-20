@@ -53,7 +53,7 @@ class PresentationAssembly: PresentationAssemblyProtocol {
     let storyboard = UIStoryboard(name: "Profile", bundle: nil)
     let viewController = storyboard.instantiateViewController(withIdentifier: "profile") as? ProfileViewController
     model.delegate = viewController
-    viewController?.setProperties(model: model)
+    viewController?.setProperties(model: model, presentationAssembly: self)
     return viewController
   }
   
@@ -78,9 +78,8 @@ class PresentationAssembly: PresentationAssemblyProtocol {
     return model
   }
   
-  // сделать DI!
   private func profileModel() -> ProfileModelProtocol {
-    let model = ProfileModel(dataManagerGCD: GCDDataManager(), dataManagerOperation: OperationDataManager())
+    let model = ProfileModel(dataManagerGCD: serviceAssembly.gcdService, dataManagerOperation: serviceAssembly.operationService)
     return model
   }
   

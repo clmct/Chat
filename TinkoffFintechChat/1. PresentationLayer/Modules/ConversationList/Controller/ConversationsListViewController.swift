@@ -48,7 +48,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   // MARK: Objective-C Functions
   @objc func methodBar() {
     if let controller = presentationAssembly.profileViewController() {
-       controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(cancelMethod))
       controller.updateTheme(theme: theme)
       show(controller, sender: nil)
 //      showDetailViewController(controller, sender: nil)
@@ -230,7 +229,7 @@ extension ConversationsListViewController: UITableViewDataSource {
     let controller = presentationAssembly.conversationViewController(idChannel: id, id: id)
     controller.updateTheme(theme: self.theme)
     controller.title = self.fetchedResultsController.object(at: indexPath).name
-    controller.VC = self // зачем? больше не нужно
+    controller.VC = self
     self.navigationController?.pushViewController(controller, animated: true)
   }
   
@@ -240,8 +239,7 @@ extension ConversationsListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     let count = fetchedResultsController.fetchedObjects?.count ?? 0
-//    print("count = ")
-//    print(count)
+
     return count
   }
   

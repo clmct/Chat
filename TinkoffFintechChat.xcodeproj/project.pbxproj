@@ -15,7 +15,6 @@
 		B215BC2E2557F62100DEF548 /* CoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215BC2D2557F62100DEF548 /* CoreAssembly.swift */; };
 		B22C6F5A256130A4004FC7C4 /* Pictures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22C6F59256130A4004FC7C4 /* Pictures.swift */; };
 		B22C6F5E256130B3004FC7C4 /* PicturesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22C6F5D256130B3004FC7C4 /* PicturesModel.swift */; };
-		B22C6F64256130EE004FC7C4 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22C6F63256130EE004FC7C4 /* CollectionViewController.swift */; };
 		B22C6F67256133AB004FC7C4 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22C6F66256133AB004FC7C4 /* CollectionViewCell.swift */; };
 		B22C6F6E2561AFAD004FC7C4 /* RequestSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22C6F6D2561AFAD004FC7C4 /* RequestSender.swift */; };
 		B23189C42566F57A003E67D4 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23189C32566F57A003E67D4 /* Request.swift */; };
@@ -41,7 +40,6 @@
 		B2A2A193252E63B6008C998D /* ThemeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A2A192252E63B6008C998D /* ThemeApp.swift */; };
 		B2A6709C25323BF50039C923 /* TableView + Deselect .swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A6709B25323BF50039C923 /* TableView + Deselect .swift */; };
 		B2A85A81252B980900454B9B /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A85A80252B980900454B9B /* ThemesViewController.swift */; };
-		B2A8AA05255DC940005E13D8 /* DataComponentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8AA04255DC940005E13D8 /* DataComponentProtocol.swift */; };
 		B2A8AA0B255DE111005E13D8 /* ThemesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8AA0A255DE111005E13D8 /* ThemesModel.swift */; };
 		B2D211D72557F76400CC9234 /* RootAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D211D62557F76400CC9234 /* RootAssembly.swift */; };
 		B2DB48E42566B9F900A2259A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DB48E32566B9F900A2259A /* Parser.swift */; };
@@ -70,7 +68,6 @@
 		B215BC2D2557F62100DEF548 /* CoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAssembly.swift; sourceTree = "<group>"; };
 		B22C6F59256130A4004FC7C4 /* Pictures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pictures.swift; sourceTree = "<group>"; };
 		B22C6F5D256130B3004FC7C4 /* PicturesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesModel.swift; sourceTree = "<group>"; };
-		B22C6F63256130EE004FC7C4 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		B22C6F66256133AB004FC7C4 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		B22C6F6D2561AFAD004FC7C4 /* RequestSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSender.swift; sourceTree = "<group>"; };
 		B23189C32566F57A003E67D4 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
@@ -98,7 +95,6 @@
 		B2A2A192252E63B6008C998D /* ThemeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeApp.swift; sourceTree = "<group>"; };
 		B2A6709B25323BF50039C923 /* TableView + Deselect .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView + Deselect .swift"; sourceTree = "<group>"; };
 		B2A85A80252B980900454B9B /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
-		B2A8AA04255DC940005E13D8 /* DataComponentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataComponentProtocol.swift; sourceTree = "<group>"; };
 		B2A8AA0A255DE111005E13D8 /* ThemesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesModel.swift; sourceTree = "<group>"; };
 		B2D211D62557F76400CC9234 /* RootAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootAssembly.swift; sourceTree = "<group>"; };
 		B2DB48E32566B9F900A2259A /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -249,10 +245,9 @@
 		B22C6F5825613083004FC7C4 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
-				B22C6F59256130A4004FC7C4 /* Pictures.swift */,
-				B22C6F5D256130B3004FC7C4 /* PicturesModel.swift */,
-				B22C6F66256133AB004FC7C4 /* CollectionViewCell.swift */,
-				B22C6F63256130EE004FC7C4 /* CollectionViewController.swift */,
+				B2A05E53256813BD00F2AEB9 /* Model */,
+				B2A05E54256813C900F2AEB9 /* View */,
+				B2A05E52256813B300F2AEB9 /* Controller */,
 			);
 			path = Pictures;
 			sourceTree = "<group>";
@@ -361,6 +356,30 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B2A05E52256813B300F2AEB9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B22C6F59256130A4004FC7C4 /* Pictures.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B2A05E53256813BD00F2AEB9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B22C6F5D256130B3004FC7C4 /* PicturesModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B2A05E54256813C900F2AEB9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B22C6F66256133AB004FC7C4 /* CollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		B2A2A18F252DEDDE008C998D /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,7 +393,6 @@
 		B2A8AA03255DC8C4005E13D8 /* DataService */ = {
 			isa = PBXGroup;
 			children = (
-				B2A8AA04255DC940005E13D8 /* DataComponentProtocol.swift */,
 				B20854CB25364BF2008985D2 /* GCDDataManager.swift */,
 				B20854CD25364C05008985D2 /* OperationDataManager.swift */,
 				B24F0891256421A40050E854 /* FileManager.swift */,
@@ -683,7 +701,6 @@
 				B2FFD3A22522393F0001CCAC /* Functions.swift in Sources */,
 				B2FFD3B2252251870001CCAC /* ConfiguratableView.swift in Sources */,
 				B2EA0861254B1C04009E1F77 /* MessageMO+CoreDataClass.swift in Sources */,
-				B22C6F64256130EE004FC7C4 /* CollectionViewController.swift in Sources */,
 				B28FE2E7254751EC0043BCC0 /* Chat.xcdatamodeld in Sources */,
 				B2D211D72557F76400CC9234 /* RootAssembly.swift in Sources */,
 				B2038B332524B41500381B3F /* Date + DateFormatter.swift in Sources */,
@@ -698,7 +715,6 @@
 				B2981025255D653C00A605C4 /* ProfilleModel.swift in Sources */,
 				B20854CE25364C05008985D2 /* OperationDataManager.swift in Sources */,
 				B2EA0864254B1C04009E1F77 /* ChannelMO+CoreDataProperties.swift in Sources */,
-				B2A8AA05255DC940005E13D8 /* DataComponentProtocol.swift in Sources */,
 				B2FFD3A625223A040001CCAC /* ConversationsListCell.swift in Sources */,
 				B22C6F5A256130A4004FC7C4 /* Pictures.swift in Sources */,
 				B298102B255D866C00A605C4 /* GetDataChannelFunc.swift in Sources */,

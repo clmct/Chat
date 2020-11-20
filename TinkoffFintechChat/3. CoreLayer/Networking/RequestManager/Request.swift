@@ -35,7 +35,7 @@ class Request: RequestProtocol {
   
   // MARK: - Initialization
   
-  init(pages: Int = 100) {
+  init(pages: Int = 150) {
     self.pages = pages
   }
 }

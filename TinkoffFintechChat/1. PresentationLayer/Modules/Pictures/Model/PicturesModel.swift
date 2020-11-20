@@ -15,7 +15,6 @@ protocol PicturesModelProtocol {
 
 protocol ModelDelegate: class {
     func setup(dataSource: [URL])
-
 }
 
 class PicturesModel: PicturesModelProtocol {
@@ -29,9 +28,11 @@ class PicturesModel: PicturesModelProtocol {
 
       switch result {
       case .success(let urls):
-        
-        self.delegate?.setup(dataSource: urls)
-//    urlsImages = urls
+        print(urls)
+        DispatchQueue.main.async {
+          self.delegate?.setup(dataSource: urls)
+        }
+       
       case .failure(let error):
         print(error.localizedDescription) 
       }

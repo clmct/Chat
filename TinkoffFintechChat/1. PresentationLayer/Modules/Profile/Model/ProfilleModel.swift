@@ -9,17 +9,17 @@
 import UIKit
 
 protocol ProfileModelProtocol: class {
-//  func read() -> ProfileData
   func read(type: Type, completion: @escaping (ProfileData) -> Void)
   func write(type: Type, profileData: ProfileData)
   var delegate: ProfileModelDelegateProtocol? { get set }
 }
 
 protocol ProfileModelDelegateProtocol: class {
-  func showAlertError()
-  func showAlertOK()
+  func alertOK()
+  func alertError()
   func blockUI()
   func unBlockUI()
+  func read(data: ProfileData)
 }
 
 struct ProfileData {
@@ -36,14 +36,13 @@ enum Type {
 class ProfileModel: ProfileModelProtocol {
   
   var delegate: ProfileModelDelegateProtocol?
-  
   let urlName = "name"
   let urlDescription = "description"
   let urlImage = "image"
   
-  internal func write(type: Type, profileData: ProfileData) { // вынести в сущность и сделть клмпдищн
+  internal func write(type: Type, profileData: ProfileData) { 
     
-//    delegate?.blockUI()
+    delegate?.blockUI()
     
     var dataManager: DataManagerProtocol
     if type == .gcd {
@@ -70,8 +69,8 @@ class ProfileModel: ProfileModelProtocol {
       }
     }
     
-//    delegate?.unBlockUI()
-    
+    delegate?.unBlockUI()
+    delegate?.alertOK()
   }
   
   func read(type: Type, completion: @escaping (ProfileData) -> Void) {

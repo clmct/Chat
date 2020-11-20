@@ -11,10 +11,13 @@ import UIKit
 class PicturesiewController: UIViewController, ModelDelegate {
   
   var myCollectionView: UICollectionView?
-  
+  let reuseIdentifier = "CellPhoto"
   var model: PicturesModelProtocol
   var dataSource: [URL]?
   var images: [UIImage]?
+  weak var vc: ProfileViewController?
+  
+  private let cache = NSCache<NSNumber, UIImage>()
   
   // MARK: init
   init(model: PicturesModelProtocol) {
@@ -31,52 +34,70 @@ class PicturesiewController: UIViewController, ModelDelegate {
     
     let view = UIView()
     view.backgroundColor = .white
-    
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    
     myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-    myCollectionView?.register(CollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+    myCollectionView?.register(CollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     myCollectionView?.backgroundColor = UIColor.white
-    
     view.addSubview(myCollectionView ?? UICollectionView())
-    
     self.view = view
-    
     myCollectionView?.dataSource = self
     myCollectionView?.delegate = self
-    
-//    model.send()
-    
+    model.send()
   }
   
   // MARK: - ModelDelegate
   
   func setup(dataSource: [URL]) {
     self.dataSource = dataSource
-//    DispatchQueue.global().async {
-//      self.myCollectionView?.reloadData()
-//    }
-    
+    self.myCollectionView?.reloadData()
   }
   
   fileprivate let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
   fileprivate let itemsPerRow: CGFloat = 3
+
 }
 
 extension PicturesiewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//    print(dataSource?.count)
-    return 100
+    return dataSource?.count ?? 0
+  }
+  
+  func set(url: URL, index: NSNumber) {
+
+  }
+  
+  private func loadImage(url: URL, completion: @escaping (UIImage?) -> Void) {
+    DispatchQueue.global().async {
+      guard let data = try? Data(contentsOf: url) else { return }
+      let image = UIImage(data: data)
+      DispatchQueue.main.async {
+        completion(image)
+      }
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? CollectionViewCell else { return UICollectionViewCell() }
-            myCell.backgroundColor = UIColor.blue
-//    myCell.set(image: UIImage().loadImage(url: dataSource[indexPath.row]))
-//    myCell.url = dataSource[indexPath.row]
-//    let image =
-//    myCell.image.load(url: dataSource[indexPath.row])
-    return myCell
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? CollectionViewCell else {
+      return UICollectionViewCell()
+    }
+      
+    if let data = dataSource {
+      let url = data[indexPath.row]
+      let index = NSNumber(value: indexPath.row)
+      
+      if let cachedImage = self.cache.object(forKey: index) {
+        cell.imageView.image = cachedImage
+      } else {
+        cell.imageView.image = UIImage(named: "image")
+        self.loadImage(url: url) { [weak self] (image) in
+          guard let self = self, let image = image else { return }
+          cell.imageView.image = image
+          self.cache.setObject(image, forKey: index)
+        }
+      }
+    }
+    
+    return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -92,20 +113,10 @@ extension PicturesiewController: UICollectionViewDataSource, UICollectionViewDel
 extension PicturesiewController: UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print("User tapped on item \(indexPath.row)")
-  }
-}
 
-extension UIImageView {
-  func load(url: URL) {
-    DispatchQueue.global().async { [weak self] in
-      if let data = try? Data(contentsOf: url) {
-        if let image = UIImage(data: data) {
-          DispatchQueue.main.async {
-            self?.image = image
-          }
-        }
-      }
+    if let cachedImage = self.cache.object(forKey: NSNumber(value: indexPath.row)) {
+      vc?.imageViewOutlet.image = cachedImage
+      dismiss(animated: true, completion: nil)
     }
   }
 }

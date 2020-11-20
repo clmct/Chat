@@ -24,7 +24,6 @@ class FileManagerComponent: FileManagerComponentProtocol {
         return }
       let url = dir.appendingPathComponent(urlString)
       try data.write(to: url)
-      print("data saved")
     } catch {
       print("couldn't write data")
     }
