@@ -188,20 +188,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
 // MARK: UITableViewDataSource
 extension ConversationsListViewController: UITableViewDataSource {
   
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    if editingStyle == .delete {
-      let channel = fetchedResultsController.object(at: indexPath)
-//      CoreDataStack.shared.mainContext.delete(channel)
-      model.mainContext.delete(channel)
-      do {
-        try model.mainContext.save()
-        tableView.deleteRows(at: [indexPath], with: .fade)
-      } catch {
-        fatalError()
-      }
-    }
-  }
-  
   func numberOfSections(in tableView: UITableView) -> Int {
     1
   }

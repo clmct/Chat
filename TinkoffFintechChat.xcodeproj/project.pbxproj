@@ -29,6 +29,8 @@
 		B271C9CC250E5B350084B7AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B271C9CA250E5B350084B7AB /* LaunchScreen.storyboard */; };
 		B271C9D4250E5D550084B7AB /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B271C9D3250E5D550084B7AB /* Logger.swift */; };
 		B28454F7255956DF00135C74 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28454F6255956DF00135C74 /* CoreDataService.swift */; };
+		B2886959256EFDBB00815497 /* AnimationTinkoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2886958256EFDBB00815497 /* AnimationTinkoff.swift */; };
+		B288695C256FDE7E00815497 /* AnimationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B288695B256FDE7E00815497 /* AnimationButton.swift */; };
 		B28FE2E4254751690043BCC0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E3254751690043BCC0 /* CoreDataStack.swift */; };
 		B28FE2E7254751EC0043BCC0 /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E5254751EC0043BCC0 /* Chat.xcdatamodeld */; };
 		B28FE2E9254753D30043BCC0 /* ObjectsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */; };
@@ -84,6 +86,8 @@
 		B271C9CD250E5B350084B7AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B271C9D3250E5D550084B7AB /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B28454F6255956DF00135C74 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		B2886958256EFDBB00815497 /* AnimationTinkoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTinkoff.swift; sourceTree = "<group>"; };
+		B288695B256FDE7E00815497 /* AnimationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationButton.swift; sourceTree = "<group>"; };
 		B28FE2E3254751690043BCC0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B28FE2E6254751EC0043BCC0 /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
 		B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectsExtensions.swift; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 		B215BC222557F3BA00DEF548 /* 1. PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
+				B28869692570048400815497 /* Animations */,
 				B2C95415255ACC9E00B5EFAA /* ProtocolForCells */,
 				B215BC262557F5BA00DEF548 /* Assembly */,
 				B2038B342524B43C00381B3F /* Modules */,
@@ -332,6 +337,22 @@
 				B2A8AA03255DC8C4005E13D8 /* DataService */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B28869672570046A00815497 /* AnimationButton */ = {
+			isa = PBXGroup;
+			children = (
+				B288695B256FDE7E00815497 /* AnimationButton.swift */,
+			);
+			path = AnimationButton;
+			sourceTree = "<group>";
+		};
+		B28869692570048400815497 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				B2886958256EFDBB00815497 /* AnimationTinkoff.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		B28FE2F225475AE20043BCC0 /* CoreData */ = {
@@ -500,6 +521,7 @@
 		B2FFD39E252238AD0001CCAC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				B28869672570046A00815497 /* AnimationButton */,
 				B2981023255D653100A605C4 /* Model */,
 				B2C9541A255AD0F800B5EFAA /* View */,
 				B2C95419255AD0F500B5EFAA /* Controller */,
@@ -705,6 +727,7 @@
 				B2D211D72557F76400CC9234 /* RootAssembly.swift in Sources */,
 				B2038B332524B41500381B3F /* Date + DateFormatter.swift in Sources */,
 				B28454F7255956DF00135C74 /* CoreDataService.swift in Sources */,
+				B288695C256FDE7E00815497 /* AnimationButton.swift in Sources */,
 				B215BC282557F5DD00DEF548 /* PresentationAssembly.swift in Sources */,
 				B2A85A81252B980900454B9B /* ThemesViewController.swift in Sources */,
 				B24F0892256421A40050E854 /* FileManager.swift in Sources */,
@@ -723,6 +746,7 @@
 				B29AB32F254880D600EE28A7 /* SaveService.swift in Sources */,
 				B2FFD3A825223A0F0001CCAC /* ConversationListModel.swift in Sources */,
 				B2DB48E42566B9F900A2259A /* Parser.swift in Sources */,
+				B2886959256EFDBB00815497 /* AnimationTinkoff.swift in Sources */,
 				B2FFD3A4252239F30001CCAC /* ConversationsListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

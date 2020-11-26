@@ -19,6 +19,8 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   var presentationAssembly: PresentationAssemblyProtocol?
   var model: ProfileModelProtocol?
   var theme = ThemeApp(theme: .classic)
+  lazy var animationButton = AnimationButton(button: photoButtonOutlet)
+  
   // MARK: IBoutlets
   @IBOutlet weak var activityIndicatorOutlet: UIActivityIndicatorView!
   @IBOutlet weak var nameTexrFieldOutlet: UITextField!
@@ -52,7 +54,9 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
           self.imageViewOutlet.image = data.image
         }
       }
+      
     })
+     
     GCDButton.backgroundColor = theme.profileButton
     OperationButton.backgroundColor = theme.profileButton
     view.backgroundColor = theme.backgroundColor
@@ -72,11 +76,13 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   // MARK: IBActions
   @IBAction func editPhotoButtonAction(_ sender: Any) {
     if isEdit {
+      animationButton.animationToogle()
       showPhotoPicker()
     }
   }
   
   @IBAction func editButtonAction(_ sender: Any) {
+        
     self.nameTexrFieldOutlet.isUserInteractionEnabled = true
     self.descriptionTextViewOutlet.isUserInteractionEnabled = true
     nameTexrFieldOutlet.becomeFirstResponder()
@@ -124,10 +130,6 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
 
 // MARK: extension text field
 extension ProfileViewController {
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    descriptionTextViewOutlet.resignFirstResponder()
-    checkEditing()
-  }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     nameTexrFieldOutlet.resignFirstResponder()
