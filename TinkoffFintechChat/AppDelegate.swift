@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   private let rootAssembly = RootAssembly()
   
-  lazy var animation = AnimationTinkoff(window: window!)
+  lazy var animation = AnimationTinkoff(window: window ?? UIWindow())
+  
   @objc func gestureFunc(gesture: UILongPressGestureRecognizer) {
     animation.animate(gesture: gesture)
 //    print(#function)
@@ -45,14 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     window = UIWindow()
-    
+
     let gest = UILongPressGestureRecognizer(target: self, action: #selector(gestureFunc(gesture:)))
     window?.addGestureRecognizer(gest)
     
     let controller = rootAssembly.presentationAssembly.conversationsListViewController()
     controller.updateTheme(theme: themeMain)
-//    let controller = rootAssembly.presentationAssembly.profileViewController()!
-//    let controller = rootAssembly.presentationAssembly.picturesViewController()
     let navigationController = UINavigationController(rootViewController: controller)
     window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
