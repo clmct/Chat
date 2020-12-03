@@ -342,10 +342,18 @@
 		B268DAE32578EC5000D9C59F /* ChatTests */ = {
 			isa = PBXGroup;
 			children = (
+				B268DAF12579146B00D9C59F /* Mocks */,
 				B268DAE42578EC5000D9C59F /* ChatTests.swift */,
 				B268DAE62578EC5000D9C59F /* Info.plist */,
 			);
 			path = ChatTests;
+			sourceTree = "<group>";
+		};
+		B268DAF12579146B00D9C59F /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		B271C9B3250E5B330084B7AB = {

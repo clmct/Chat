@@ -31,6 +31,31 @@ class ChatUITests: XCTestCase {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+  
+  func testProfilePage() throws {
+    
+    let app = XCUIApplication()
+    app.launch()
+    
+    let navBar = app.navigationBars
+    
+    let button = navBar.buttons["profileButton"]
+    _ = button.waitForExistence(timeout: 5)
+    XCTAssert(button.exists)
+    button.tap()
+    
+    let textField = app.textFields.firstMatch
+    _ = textField.waitForExistence(timeout: 3)
+    XCTAssert(textField.exists)
+    
+    let textView = app.textViews.firstMatch
+    _ = textView.waitForExistence(timeout: 3)
+    XCTAssert(textView.exists)
+
+//    let s = app.secureTextFields.firstMatch
+//    _ = s.waitForExistence(timeout: 3)
+//    XCTAssert(s.exists)
+  }
 
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
