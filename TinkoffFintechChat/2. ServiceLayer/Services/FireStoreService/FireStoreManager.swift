@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 // MARK: Protocol
 protocol FireStoreServiceProtocol {

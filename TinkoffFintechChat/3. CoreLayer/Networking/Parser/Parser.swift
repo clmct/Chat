@@ -8,6 +8,9 @@
 
 import Foundation
 
+protocol ImagesProtocol {
+  var previewURL: String? { get set }
+}
 struct RequestConfig {
   let request: RequestProtocol
   let parser: Parser
@@ -17,9 +20,9 @@ struct DataModel: Decodable {
   let hits: [Images]
 }
 
-struct Images: Decodable {
+struct Images: Decodable, ImagesProtocol {
 //    let webformatURL: String
-  let previewURL: String?
+  var previewURL: String?
 }
 
 protocol ParserProtocol {

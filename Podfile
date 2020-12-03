@@ -17,4 +17,11 @@ post_install do |installer|
   end
 end
 
+target 'ChatTests' do
+inherit! :search_paths
+#pod 'Firebase/firestore'
 end
+
+end
+
+

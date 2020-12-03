@@ -17,7 +17,11 @@ class GCDDataManager: DataManagerProtocol {
 
   private var serialQueue = DispatchQueue(label: "serial")
   
-  var fileManager = FileManagerComponent()
+  var fileManager: FileManagerComponentProtocol
+  
+  init(fileManager: FileManagerComponentProtocol) {
+    self.fileManager = fileManager
+  }
   
   func write(data: Data, urlString: String) {
     serialQueue.asyncAfter(deadline: .now(), execute: {
