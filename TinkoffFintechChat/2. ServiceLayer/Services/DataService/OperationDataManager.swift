@@ -10,7 +10,11 @@ import UIKit
 
 class OperationDataManager: DataManagerProtocol {
   
-  var fileManager = FileManagerComponent()
+  var fileManager: FileManagerComponentProtocol
+  
+  init(fileManager: FileManagerComponentProtocol) {
+    self.fileManager = fileManager
+  }
   
   func write(data: Data, urlString: String) {
     let operation = {

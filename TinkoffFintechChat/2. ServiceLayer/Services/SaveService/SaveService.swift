@@ -12,7 +12,7 @@ protocol SaveDataServiceProtocol {
   func makeRequestChannels(channelModels models: [ChannelModel])
   func makeRequestMessages(messagesModels messages: [MessageModel])
   // заменена на makeRequestMessages
-  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel])
+//  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel])
 }
 
 class SaveDataService: SaveDataServiceProtocol {
@@ -39,7 +39,7 @@ class SaveDataService: SaveDataServiceProtocol {
       }
       guard let id = messagesMO.last?.identifier else { return }
       
-      let channel = getChannelByID(context: context, id: id)  // fetch request // обдумать решение мб добавить сущность
+      let channel = getChannelByID(context: context, id: id)
       
       guard let idd: String = channel?.identifier else { return }
       guard let nam: String = channel?.name else { return }
@@ -54,20 +54,20 @@ class SaveDataService: SaveDataServiceProtocol {
     }
   }
   
-  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel]) {
-    coreDataStack.performSave { context in
-      var messagesMO: [MessageMO] = [MessageMO]()
-      messages.forEach { model in // update messages data for one channel
-        let messageMO = MessageMO(model: model, in: context)
-        messagesMO.append(messageMO)
-      }
-      channels.forEach { model in // update channels data
-        let channelMO = ChannelMO(model: model, in: context)
-        if model.identifier == messages.last?.identifier {
-          messagesMO.forEach { channelMO.addToMessages($0) }
-        }
-      }
-    }
-  } // не рационально, лучше при возваращение на главный экран делать запрос каналов
+//  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel]) {
+//    coreDataStack.performSave { context in
+//      var messagesMO: [MessageMO] = [MessageMO]()
+//      messages.forEach { model in // update messages data for one channel
+//        let messageMO = MessageMO(model: model, in: context)
+//        messagesMO.append(messageMO)
+//      }
+//      channels.forEach { model in // update channels data
+//        let channelMO = ChannelMO(model: model, in: context)
+//        if model.identifier == messages.last?.identifier {
+//          messagesMO.forEach { channelMO.addToMessages($0) }
+//        }
+//      }
+//    }
+//  } // не рационально, лучше при возваращение на главный экран делать запрос каналов
   
 }

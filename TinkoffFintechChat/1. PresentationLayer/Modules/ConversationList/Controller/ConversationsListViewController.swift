@@ -119,6 +119,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     button.clipsToBounds = true
     button.addTarget(self, action: #selector(methodBar), for: .touchUpInside)
     let imageButton = UIBarButtonItem(customView: button)
+    imageButton.accessibilityIdentifier = "profileButton"
     let addChannelButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addChannelMethod))
     self.navigationItem.rightBarButtonItems = [imageButton, addChannelButton]
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))

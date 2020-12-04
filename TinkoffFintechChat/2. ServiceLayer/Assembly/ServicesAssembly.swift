@@ -28,9 +28,9 @@ class ServiceAssembly: ServiceAssemblyProtocol {
   
   lazy var networkService: NetworkServiceProtocol = NetworkService(requestSender: coreAssembly.requestSender)
   
-  lazy var gcdService: DataManagerProtocol = GCDDataManager()
+  lazy var gcdService: DataManagerProtocol = GCDDataManager(fileManager: coreAssembly.fileManagerComponent)
   
-  lazy var operationService: DataManagerProtocol = OperationDataManager()
+  lazy var operationService: DataManagerProtocol = OperationDataManager(fileManager: coreAssembly.fileManagerComponent)
   
   // components from CoreLayer
   private let coreAssembly: CoreAssemblyProtocol
