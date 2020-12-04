@@ -42,7 +42,6 @@
 		B28FE2E7254751EC0043BCC0 /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E5254751EC0043BCC0 /* Chat.xcdatamodeld */; };
 		B28FE2E9254753D30043BCC0 /* ObjectsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */; };
 		B2981025255D653C00A605C4 /* ProfilleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2981024255D653C00A605C4 /* ProfilleModel.swift */; };
-		B298102B255D866C00A605C4 /* GetDataChannelFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B298102A255D866C00A605C4 /* GetDataChannelFunc.swift */; };
 		B29AB32F254880D600EE28A7 /* SaveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29AB32E254880D600EE28A7 /* SaveService.swift */; };
 		B29D5DEB253C4AD700432982 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29D5DEA253C4AD700432982 /* FireStoreManager.swift */; };
 		B2A2A191252E631E008C998D /* Themes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2A2A190252E631E008C998D /* Themes.storyboard */; };
@@ -56,6 +55,7 @@
 		B2EA0862254B1C04009E1F77 /* MessageMO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EA085E254B1C04009E1F77 /* MessageMO+CoreDataProperties.swift */; };
 		B2EA0863254B1C04009E1F77 /* ChannelMO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EA085F254B1C04009E1F77 /* ChannelMO+CoreDataClass.swift */; };
 		B2EA0864254B1C04009E1F77 /* ChannelMO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EA0860254B1C04009E1F77 /* ChannelMO+CoreDataProperties.swift */; };
+		B2EFAC76257A3A0200D6BA89 /* TestNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFAC75257A3A0200D6BA89 /* TestNetworkService.swift */; };
 		B2FFD3A22522393F0001CCAC /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFD3A12522393F0001CCAC /* Functions.swift */; };
 		B2FFD3A4252239F30001CCAC /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFD3A3252239F30001CCAC /* ConversationsListViewController.swift */; };
 		B2FFD3A625223A040001CCAC /* ConversationsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFD3A525223A040001CCAC /* ConversationsListCell.swift */; };
@@ -131,7 +131,6 @@
 		B28FE2E6254751EC0043BCC0 /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
 		B28FE2E8254753D30043BCC0 /* ObjectsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectsExtensions.swift; sourceTree = "<group>"; };
 		B2981024255D653C00A605C4 /* ProfilleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilleModel.swift; sourceTree = "<group>"; };
-		B298102A255D866C00A605C4 /* GetDataChannelFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataChannelFunc.swift; sourceTree = "<group>"; };
 		B29AB32E254880D600EE28A7 /* SaveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveService.swift; sourceTree = "<group>"; };
 		B29D5DEA253C4AD700432982 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		B2A2A190252E631E008C998D /* Themes.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Themes.storyboard; sourceTree = "<group>"; };
@@ -145,6 +144,7 @@
 		B2EA085E254B1C04009E1F77 /* MessageMO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageMO+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B2EA085F254B1C04009E1F77 /* ChannelMO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChannelMO+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B2EA0860254B1C04009E1F77 /* ChannelMO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChannelMO+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B2EFAC75257A3A0200D6BA89 /* TestNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNetworkService.swift; sourceTree = "<group>"; };
 		B2FFD3A12522393F0001CCAC /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		B2FFD3A3252239F30001CCAC /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		B2FFD3A525223A040001CCAC /* ConversationsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListCell.swift; sourceTree = "<group>"; };
@@ -254,7 +254,6 @@
 		B215BC232557F3D400DEF548 /* 2. ServiceLayer */ = {
 			isa = PBXGroup;
 			children = (
-				B298102A255D866C00A605C4 /* GetDataChannelFunc.swift */,
 				B215BC292557F5F100DEF548 /* Assembly */,
 				B28454F5255956BC00135C74 /* Services */,
 			);
@@ -364,6 +363,7 @@
 				B268DAF12579146B00D9C59F /* Mocks */,
 				B268DB9D25793B2200D9C59F /* TestCGDDataSave.swift */,
 				B268DBC825793FD100D9C59F /* TestOperationDataSave.swift */,
+				B2EFAC75257A3A0200D6BA89 /* TestNetworkService.swift */,
 				B268DAE62578EC5000D9C59F /* Info.plist */,
 			);
 			path = ChatTests;
@@ -886,6 +886,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2EFAC76257A3A0200D6BA89 /* TestNetworkService.swift in Sources */,
 				B268DBC425793D1200D9C59F /* ParserMock.swift in Sources */,
 				B268DBBF25793C2500D9C59F /* FileManagerComponentMock.swift in Sources */,
 				B268DBB025793B4600D9C59F /* RequestMock.swift in Sources */,
@@ -936,7 +937,6 @@
 				B2EA0864254B1C04009E1F77 /* ChannelMO+CoreDataProperties.swift in Sources */,
 				B2FFD3A625223A040001CCAC /* ConversationsListCell.swift in Sources */,
 				B22C6F5A256130A4004FC7C4 /* Pictures.swift in Sources */,
-				B298102B255D866C00A605C4 /* GetDataChannelFunc.swift in Sources */,
 				B2A6709C25323BF50039C923 /* TableView + Deselect .swift in Sources */,
 				B22C6F67256133AB004FC7C4 /* CollectionViewCell.swift in Sources */,
 				B29AB32F254880D600EE28A7 /* SaveService.swift in Sources */,

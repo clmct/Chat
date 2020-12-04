@@ -39,7 +39,7 @@ class SaveDataService: SaveDataServiceProtocol {
       }
       guard let id = messagesMO.last?.identifier else { return }
       
-      let channel = getChannelByID(context: context, id: id)  // fetch request // обдумать решение мб добавить сущность
+      let channel = getChannelByID(context: context, id: id)
       
       guard let idd: String = channel?.identifier else { return }
       guard let nam: String = channel?.name else { return }

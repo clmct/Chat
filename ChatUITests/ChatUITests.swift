@@ -42,12 +42,4 @@ class ChatUITests: XCTestCase {
     XCTAssertEqual(textFieldCount, 1)
     XCTAssertEqual(textViewCount, 1)
   }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
-    }
 }

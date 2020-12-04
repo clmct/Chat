@@ -9,13 +9,10 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-//  func sendRequest()
   func sendRequest(completionHandler: @escaping (Result<[URL], Error>) -> Void)
 }
 
 class NetworkService: NetworkServiceProtocol {
-  
-//  var urlImages: [URL] = []
   
   func sendRequest(completionHandler: @escaping (Result<[URL], Error>) -> Void) {
     var urls: [URL] = []
@@ -24,8 +21,6 @@ class NetworkService: NetworkServiceProtocol {
       
       switch result {
       case .success(let successValues):
-//        print(successValues)
-        
         successValues.forEach { image in
           if let urlString = image.previewURL {
             if let url = URL(string: urlString) {
@@ -33,7 +28,6 @@ class NetworkService: NetworkServiceProtocol {
             }
           }
         }
-//        self.urlImages = urls
         completionHandler(.success(urls))
         
       case .failure(let error):
@@ -42,7 +36,6 @@ class NetworkService: NetworkServiceProtocol {
       }
       
     }
-    
   }
 
   let requestSender: RequestSenderProtocol
