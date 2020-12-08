@@ -93,6 +93,7 @@
 		B2038B322524B41500381B3F /* Date + DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + DateFormatter.swift"; sourceTree = "<group>"; };
 		B20854CB25364BF2008985D2 /* GCDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDDataManager.swift; sourceTree = "<group>"; };
 		B20854CD25364C05008985D2 /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
+		B2109240257FF02E00447CA8 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B215BC272557F5DD00DEF548 /* PresentationAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationAssembly.swift; sourceTree = "<group>"; };
 		B215BC2B2557F61200DEF548 /* ServicesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesAssembly.swift; sourceTree = "<group>"; };
 		B215BC2D2557F62100DEF548 /* CoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAssembly.swift; sourceTree = "<group>"; };
@@ -414,6 +415,7 @@
 				B2D211D62557F76400CC9234 /* RootAssembly.swift */,
 				B2FFD3A12522393F0001CCAC /* Functions.swift */,
 				B271C9CD250E5B350084B7AB /* Info.plist */,
+				B2109240257FF02E00447CA8 /* Config.xcconfig */,
 				B2FFD3A0252238CF0001CCAC /* Logger */,
 				B2FFD39F252238BF0001CCAC /* Extensions */,
 			);
@@ -1072,6 +1074,7 @@
 		};
 		B271C9CE250E5B350084B7AB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2109240257FF02E00447CA8 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1132,6 +1135,7 @@
 		};
 		B271C9CF250E5B350084B7AB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2109240257FF02E00447CA8 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

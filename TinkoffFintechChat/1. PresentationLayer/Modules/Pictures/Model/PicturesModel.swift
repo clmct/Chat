@@ -28,11 +28,9 @@ class PicturesModel: PicturesModelProtocol {
 
       switch result {
       case .success(let urls):
-        print(urls)
         DispatchQueue.main.async {
           self.delegate?.setup(dataSource: urls)
         }
-       
       case .failure(let error):
         print(error.localizedDescription) 
       }

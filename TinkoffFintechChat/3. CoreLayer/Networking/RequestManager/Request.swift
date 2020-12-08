@@ -19,14 +19,19 @@ class Request: RequestProtocol {
   }
   private var pages: Int
   
-  private var key = "19126079-3610682771ee6f29f84a45736"
+  lazy var key = Bundle.main.object(forInfoDictionaryKey: "Token")
   
-  lazy var baseUrl: String = "https://pixabay.com/api/?key=\(key)&q=yellow+flowers&image_type=%20photo&pretty=true&\(limitPage)"
-  
+  var baseUrl: String? {
+    if let key = key {
+      return "https://pixabay.com/api/?key=\(key)&q=yellow+flowers&image_type=%20photo&pretty=true&\(limitPage)"
+    } else {
+      return nil
+    }
+  }
   // MARK: - RequestProtocol
   
   var urlRequest: URLRequest? {
-    let urlString: String = baseUrl
+    guard let urlString: String = baseUrl else { return nil }
     if let url = URL(string: urlString) {
       return URLRequest(url: url)
     }
