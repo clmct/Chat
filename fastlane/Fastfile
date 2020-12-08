@@ -45,4 +45,18 @@ default_platform(:ios)
     run_tests
   end
 
+  lane :discord_notifier do |options|
+    discord_notifier(
+      webhook_url: ENV["DISCORD_KEY"],
+      title: "Title",
+      description: "Description",
+      success: options[:isSuccess]
+      fields:[
+        {
+          name:"Field1", 
+          value:"Value1"
+        }
+      ]
+    )
+  end
 # end
