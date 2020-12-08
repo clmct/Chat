@@ -1,0 +1,13 @@
+//
+//  Config.xcconfig
+//  TinkoffFintechChat
+//
+//  Created by Алмат Кульбаев on 09.12.2020.
+//  Copyright © 2020 Алмат Кульбаев. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// empty file for CI
+
