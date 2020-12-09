@@ -29,12 +29,17 @@ fastlane run_tests
 ```
 fastlane build_and_test
 ```
-вызов первых двух лейнов
-### discord
+вызов первых двух лейнов(сборка и тестирование)
+### discordSuccess
 ```
-fastlane discord
+fastlane discordSuccess
 ```
-
+отправка уведомления в Discord - Success
+### discordFailure
+```
+fastlane discordFailure
+```
+отправка уведомления в Discord - Failure
 
 ----
 
