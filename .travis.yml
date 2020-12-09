@@ -5,9 +5,9 @@ before_install:
 install:
   - bundle install
 script:
-  - bundle exec fastlane add_plugin discord_notifier
+  # - bundle exec fastlane add_plugin discord_notifier
   - bundle exec fastlane build_and_test
-after_success:
-  - bundle exec fastlane discord_notifier isSuccess: true
-after_failure:
-  - bundle exec fastlane discord_notifier isSuccess: false
+# after_success:
+#   - bundle exec fastlane discord_notifier isSuccess: true
+# after_failure:
+#   - bundle exec fastlane discord_notifier isSuccess: false

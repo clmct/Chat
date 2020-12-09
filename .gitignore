@@ -19,3 +19,5 @@ Pods/
 
 # scan temporary files
 **/fastlane/test_output
+
+fastlane/.env
