@@ -4,11 +4,12 @@ Swift iOS application for Tinkoff Fintech school.
 
 
 # Installation
+installation
 ```
 brew install libsodium
 gem install bundler
 ```
-# Use
+use
 ```
 bundle install
 bundle exec fastlane
