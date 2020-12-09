@@ -30,9 +30,9 @@ fastlane run_tests
 fastlane build_and_test
 ```
 вызов первых двух лейнов
-### discord_notifier
+### discord
 ```
-fastlane discord_notifier
+fastlane discord
 ```
 
 ### test

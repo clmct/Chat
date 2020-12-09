@@ -45,15 +45,15 @@ default_platform(:ios)
     run_tests
   end
 
-  lane :discord_notifier do |options|
-    puts ENV["DISCORD_KEY"]
-    discord_notifier(
-      webhook_url: ENV["DISCORD_KEY"],
-      title: "Title",
-      description: "Description",
-      success: true
-    )
-  end
+  # lane :discord do |options|
+  #   puts ENV["DISCORD_KEY"]
+    # discord_notifier(
+    #   webhook_url: ENV["DISCORD_KEY"],
+    #   title: "Title",
+    #   description: "Description",
+    #   success: true
+    # )
+  # end
 
   lane :test do |options|
     puts "proverka"
