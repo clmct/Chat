@@ -15,14 +15,6 @@
 
 default_platform(:ios)
 
-# platform :ios do
-  # desc "Hello"
-  # lane :hello do
-    # add actions here: https://docs.fastlane.tools/actions
-  #   puts 'Hello World'
-  # end
-
-
   desc "установка зависимостей, сборка с помощью scan"
   lane :build_for_testing do
     cocoapods
@@ -45,19 +37,24 @@ default_platform(:ios)
     run_tests
   end
 
-  # lane :discord do |options|
-  #   puts ENV["DISCORD_KEY"]
-    # discord_notifier(
-    #   webhook_url: ENV["DISCORD_KEY"],
-    #   title: "Title",
-    #   description: "Description",
-    #   success: true
-    # )
-  # end
-
-  lane :test do |options|
-    puts "proverka"
-    puts ENV['DISCORD_KEY']
-    puts options[:isSuccess]
+  lane :discordSuccess do 
+    puts ENV["DISCORD_KEY"]
+    discord_notifier(
+      webhook_url: ENV["DISCORD_KEY"],
+      title: "Chat",
+      description: "Success",
+      success: true
+    )
   end
+
+  lane :discordFailure do 
+    puts ENV["DISCORD_KEY"]
+    discord_notifier(
+      webhook_url: ENV["DISCORD_KEY"],
+      title: "Chat",
+      description: "Failure",
+      success: false
+    )
+  end
+
 # end

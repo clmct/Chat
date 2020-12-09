@@ -35,11 +35,6 @@ fastlane build_and_test
 fastlane discord
 ```
 
-### test
-```
-fastlane test
-```
-
 
 ----
 
