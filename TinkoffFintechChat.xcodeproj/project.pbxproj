@@ -1076,6 +1076,7 @@
 		};
 		B271C9CE250E5B350084B7AB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B254DAE525816C5600277A65 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1136,6 +1137,7 @@
 		};
 		B271C9CF250E5B350084B7AB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B254DAE525816C5600277A65 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
