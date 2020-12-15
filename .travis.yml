@@ -1,0 +1,13 @@
+language: swift
+osx_image: xcode12.2
+before_install:
+  - brew install libsodium
+  - gem install bundler
+install:
+  - bundle install
+script:
+  - bundle exec fastlane build_and_test
+after_success:
+  - bundle exec fastlane discordSuccess
+after_failure:
+  - bundle exec fastlane discordFailure

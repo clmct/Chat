@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 public func imageInitials(name: String?) -> UIImage? {
   
@@ -24,7 +25,7 @@ public func imageInitials(name: String?) -> UIImage? {
         initials = String(firstLetter).capitalized
       }
     }
-    if let lastWord = initialsArray.last, initialsArray.count > 1  {
+    if let lastWord = initialsArray.last, initialsArray.count > 1 {
       if let lastLetter = lastWord.first {
         initials += String(lastLetter).capitalized
       }
@@ -38,6 +39,19 @@ public func imageInitials(name: String?) -> UIImage? {
     let nameImage = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     return nameImage
+  }
+  return nil
+}
+
+public func getChannelByID(context: NSManagedObjectContext, id: String) -> ChannelMO? {
+  let request: NSFetchRequest<ChannelMO> = ChannelMO.fetchRequest()
+  request.predicate = NSPredicate(format: "identifier == %@", id)
+  request.fetchLimit = 1
+  do {
+    let result = try context.fetch(request)
+    return result.first
+  } catch {
+    print(error.localizedDescription)
   }
   return nil
 }
