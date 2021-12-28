@@ -58,7 +58,9 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     })
      
     GCDButton.backgroundColor = theme.profileButton
+    GCDButton.accessibilityIdentifier = "gcd"
     OperationButton.backgroundColor = theme.profileButton
+    OperationButton.accessibilityIdentifier = "operation"
     view.backgroundColor = theme.backgroundColor
     nameTexrFieldOutlet.textColor = theme.profileText
     descriptionTextViewOutlet.textColor = theme.profileText

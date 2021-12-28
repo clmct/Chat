@@ -63,6 +63,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
       controller.closure = {  [weak self] theme in
         self?.theme = theme
         self?.tableView.reloadData()
+        self?.view.backgroundColor = theme.backgroundColor
         self?.navigationController?.navigationBar.barTintColor = theme.navigationBar
         UINavigationBar.appearance().barStyle = theme.barStyle
         self?.navigationController?.navigationBar.titleTextAttributes = [
@@ -122,7 +123,9 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     imageButton.accessibilityIdentifier = "profileButton"
     let addChannelButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addChannelMethod))
     self.navigationItem.rightBarButtonItems = [imageButton, addChannelButton]
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
+    let settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
+    settingsButton.accessibilityIdentifier = "settingsButton"
+    self.navigationItem.leftBarButtonItem = settingsButton
     createTableView()
     
     model.fetchData()

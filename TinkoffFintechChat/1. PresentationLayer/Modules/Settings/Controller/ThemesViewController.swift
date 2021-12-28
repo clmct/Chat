@@ -46,10 +46,13 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
     view.backgroundColor = UIColor(red: 0.10, green: 0.21, blue: 0.38, alpha: 1.00)
     classicOutlet.layer.cornerRadius = 18
     classicOutlet.layer.masksToBounds = true
+    classicOutlet.accessibilityIdentifier = "classic"
     dayOutlet.layer.cornerRadius = 18
     dayOutlet.layer.masksToBounds = true
+    dayOutlet.accessibilityIdentifier = "day"
     nightOutlet.layer.cornerRadius = 18
     nightOutlet.layer.masksToBounds = true
+    nightOutlet.accessibilityIdentifier = "night"
     standartBorder()
   }
   

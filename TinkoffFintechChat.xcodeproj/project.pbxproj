@@ -10,6 +10,7 @@
 		B2038B332524B41500381B3F /* Date + DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2038B322524B41500381B3F /* Date + DateFormatter.swift */; };
 		B20854CC25364BF2008985D2 /* GCDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20854CB25364BF2008985D2 /* GCDDataManager.swift */; };
 		B20854CE25364C05008985D2 /* OperationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20854CD25364C05008985D2 /* OperationDataManager.swift */; };
+		B20E7775277AD0BA00477254 /* ConversationsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20E7774277AD0BA00477254 /* ConversationsListModel.swift */; };
 		B215BC282557F5DD00DEF548 /* PresentationAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215BC272557F5DD00DEF548 /* PresentationAssembly.swift */; };
 		B215BC2C2557F61200DEF548 /* ServicesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215BC2B2557F61200DEF548 /* ServicesAssembly.swift */; };
 		B215BC2E2557F62100DEF548 /* CoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215BC2D2557F62100DEF548 /* CoreAssembly.swift */; };
@@ -22,6 +23,13 @@
 		B23E2EA12539F26F003B3808 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B23E2EA02539F26F003B3808 /* GoogleService-Info.plist */; };
 		B24F0892256421A40050E854 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F0891256421A40050E854 /* FileManager.swift */; };
 		B254DAE625816C5600277A65 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B254DAE525816C5600277A65 /* Config.xcconfig */; };
+		B262133A277A65170023DACC /* TestsProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2621339277A65170023DACC /* TestsProfileViewController.swift */; };
+		B262133D277A79E60023DACC /* TestProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B262133C277A79E60023DACC /* TestProfileModel.swift */; };
+		B2621340277A81230023DACC /* DataManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B262133F277A81230023DACC /* DataManagerMock.swift */; };
+		B2621342277A8BD90023DACC /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2621341277A8BD90023DACC /* ConversationViewModel.swift */; };
+		B2621344277A8CDF0023DACC /* FireStoreServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2621343277A8CDF0023DACC /* FireStoreServiceMock.swift */; };
+		B2621346277A8CED0023DACC /* SaveDataServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2621345277A8CED0023DACC /* SaveDataServiceMock.swift */; };
+		B2621348277A8CF50023DACC /* CoreDataServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2621347277A8CF50023DACC /* CoreDataServiceMock.swift */; };
 		B268DAD52578EC4300D9C59F /* ChatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B268DAD42578EC4300D9C59F /* ChatUITests.swift */; };
 		B268DB9E25793B2200D9C59F /* TestCGDDataSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = B268DB9D25793B2200D9C59F /* TestCGDDataSave.swift */; };
 		B268DBB025793B4600D9C59F /* RequestMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B268DBAF25793B4600D9C59F /* RequestMock.swift */; };
@@ -36,6 +44,7 @@
 		B271C9C9250E5B350084B7AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B271C9C8250E5B350084B7AB /* Assets.xcassets */; };
 		B271C9CC250E5B350084B7AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B271C9CA250E5B350084B7AB /* LaunchScreen.storyboard */; };
 		B271C9D4250E5D550084B7AB /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B271C9D3250E5D550084B7AB /* Logger.swift */; };
+		B27635BC277B705900CA0AAE /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27635BB277B705900CA0AAE /* IntegrationTests.swift */; };
 		B28454F7255956DF00135C74 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28454F6255956DF00135C74 /* CoreDataService.swift */; };
 		B2886959256EFDBB00815497 /* AnimationTinkoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2886958256EFDBB00815497 /* AnimationTinkoff.swift */; };
 		B288695C256FDE7E00815497 /* AnimationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B288695B256FDE7E00815497 /* AnimationButton.swift */; };
@@ -94,6 +103,7 @@
 		B2038B322524B41500381B3F /* Date + DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + DateFormatter.swift"; sourceTree = "<group>"; };
 		B20854CB25364BF2008985D2 /* GCDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDDataManager.swift; sourceTree = "<group>"; };
 		B20854CD25364C05008985D2 /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
+		B20E7774277AD0BA00477254 /* ConversationsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListModel.swift; sourceTree = "<group>"; };
 		B215BC272557F5DD00DEF548 /* PresentationAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationAssembly.swift; sourceTree = "<group>"; };
 		B215BC2B2557F61200DEF548 /* ServicesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesAssembly.swift; sourceTree = "<group>"; };
 		B215BC2D2557F62100DEF548 /* CoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAssembly.swift; sourceTree = "<group>"; };
@@ -106,6 +116,13 @@
 		B23E2EA02539F26F003B3808 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B24F0891256421A40050E854 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		B254DAE525816C5600277A65 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		B2621339277A65170023DACC /* TestsProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsProfileViewController.swift; sourceTree = "<group>"; };
+		B262133C277A79E60023DACC /* TestProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProfileModel.swift; sourceTree = "<group>"; };
+		B262133F277A81230023DACC /* DataManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerMock.swift; sourceTree = "<group>"; };
+		B2621341277A8BD90023DACC /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
+		B2621343277A8CDF0023DACC /* FireStoreServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreServiceMock.swift; sourceTree = "<group>"; };
+		B2621345277A8CED0023DACC /* SaveDataServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataServiceMock.swift; sourceTree = "<group>"; };
+		B2621347277A8CF50023DACC /* CoreDataServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceMock.swift; sourceTree = "<group>"; };
 		B268DAD22578EC4300D9C59F /* ChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B268DAD42578EC4300D9C59F /* ChatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUITests.swift; sourceTree = "<group>"; };
 		B268DAD62578EC4300D9C59F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,6 +143,7 @@
 		B271C9CB250E5B350084B7AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B271C9CD250E5B350084B7AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B271C9D3250E5D550084B7AB /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		B27635BB277B705900CA0AAE /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
 		B28454F6255956DF00135C74 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		B2886958256EFDBB00815497 /* AnimationTinkoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTinkoff.swift; sourceTree = "<group>"; };
 		B288695B256FDE7E00815497 /* AnimationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationButton.swift; sourceTree = "<group>"; };
@@ -350,6 +368,30 @@
 			path = NetworkService;
 			sourceTree = "<group>";
 		};
+		B262133B277A79D10023DACC /* TestsForRefactoring */ = {
+			isa = PBXGroup;
+			children = (
+				B262133E277A81060023DACC /* Mocks */,
+				B2621339277A65170023DACC /* TestsProfileViewController.swift */,
+				B262133C277A79E60023DACC /* TestProfileModel.swift */,
+				B2621341277A8BD90023DACC /* ConversationViewModel.swift */,
+				B20E7774277AD0BA00477254 /* ConversationsListModel.swift */,
+				B27635BB277B705900CA0AAE /* IntegrationTests.swift */,
+			);
+			path = TestsForRefactoring;
+			sourceTree = "<group>";
+		};
+		B262133E277A81060023DACC /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				B262133F277A81230023DACC /* DataManagerMock.swift */,
+				B2621343277A8CDF0023DACC /* FireStoreServiceMock.swift */,
+				B2621345277A8CED0023DACC /* SaveDataServiceMock.swift */,
+				B2621347277A8CF50023DACC /* CoreDataServiceMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		B268DAD32578EC4300D9C59F /* ChatUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -362,6 +404,7 @@
 		B268DAE32578EC5000D9C59F /* ChatTests */ = {
 			isa = PBXGroup;
 			children = (
+				B262133B277A79D10023DACC /* TestsForRefactoring */,
 				B268DAF12579146B00D9C59F /* Mocks */,
 				B268DB9D25793B2200D9C59F /* TestCGDDataSave.swift */,
 				B268DBC825793FD100D9C59F /* TestOperationDataSave.swift */,
@@ -892,11 +935,20 @@
 			files = (
 				B2EFAC76257A3A0200D6BA89 /* TestNetworkService.swift in Sources */,
 				B268DBC425793D1200D9C59F /* ParserMock.swift in Sources */,
+				B262133A277A65170023DACC /* TestsProfileViewController.swift in Sources */,
+				B2621344277A8CDF0023DACC /* FireStoreServiceMock.swift in Sources */,
 				B268DBBF25793C2500D9C59F /* FileManagerComponentMock.swift in Sources */,
+				B262133D277A79E60023DACC /* TestProfileModel.swift in Sources */,
 				B268DBB025793B4600D9C59F /* RequestMock.swift in Sources */,
+				B2621342277A8BD90023DACC /* ConversationViewModel.swift in Sources */,
+				B27635BC277B705900CA0AAE /* IntegrationTests.swift in Sources */,
+				B20E7775277AD0BA00477254 /* ConversationsListModel.swift in Sources */,
 				B268DBC925793FD100D9C59F /* TestOperationDataSave.swift in Sources */,
+				B2621346277A8CED0023DACC /* SaveDataServiceMock.swift in Sources */,
+				B2621348277A8CF50023DACC /* CoreDataServiceMock.swift in Sources */,
 				B268DB9E25793B2200D9C59F /* TestCGDDataSave.swift in Sources */,
 				B268DBB525793B4D00D9C59F /* RequestSenderMock.swift in Sources */,
+				B2621340277A81230023DACC /* DataManagerMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
