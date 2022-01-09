@@ -45,6 +45,14 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDe
   // MARK: Life Cycle - init
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    setup()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setup() {
     accessoryType = .disclosureIndicator
     addLabels()
     let constraints = [
@@ -62,12 +70,7 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDe
       messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
       messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
     ]
-    
     NSLayoutConstraint.activate(constraints)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
   }
   
   // MARK: Methods
