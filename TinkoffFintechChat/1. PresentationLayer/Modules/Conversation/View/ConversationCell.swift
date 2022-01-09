@@ -96,29 +96,38 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
     messageLbael.text = model.content
     nameLbael.text = model.senderName
     if model.senderId != UIDevice.current.identifierForVendor?.uuidString {
-      trailingConstraint?.isActive = false
-      leadingConstraint?.isActive = true
-      nameTopAnchor?.isActive = true
-      bubblebackroundView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
-      if model.senderName.count > model.content.count {
-        bubbleConstarintMessage?.isActive = false
-        bubbleConstarintName?.isActive = true
-      } else {
-        bubbleConstarintName?.isActive = false
-        bubbleConstarintMessage?.isActive = true
-      }
-      messageIncoming = false
+      configureOutcomingSetup(with: model)
     } else {
-      leadingConstraint?.isActive = false
-      trailingConstraint?.isActive = true
-      bubblebackroundView.backgroundColor = UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00)
-      messageIncoming = true
-      bubbleConstarintName?.isActive = false
-      bubbleConstarintMessage?.isActive = false
-      messageTopAnchor?.isActive = true
-      nameLbael.isHidden = true
+      configureIncomingSetup()
     }
   }
+  
+  private func configureIncomingSetup() {
+    leadingConstraint?.isActive = false
+    trailingConstraint?.isActive = true
+    bubblebackroundView.backgroundColor = UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00)
+    messageIncoming = true
+    bubbleConstarintName?.isActive = false
+    bubbleConstarintMessage?.isActive = false
+    messageTopAnchor?.isActive = true
+    nameLbael.isHidden = true
+  }
+  
+  private func configureOutcomingSetup(with model: ConversationModel) {
+    trailingConstraint?.isActive = false
+    leadingConstraint?.isActive = true
+    nameTopAnchor?.isActive = true
+    bubblebackroundView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+    if model.senderName.count > model.content.count {
+      bubbleConstarintMessage?.isActive = false
+      bubbleConstarintName?.isActive = true
+    } else {
+      bubbleConstarintName?.isActive = false
+      bubbleConstarintMessage?.isActive = true
+    }
+    messageIncoming = false
+  }
+  
   
   func updateTheme(theme: ThemeApp) {
     bubblebackroundView.backgroundColor = messageIncoming ? theme.messageOutcoming : theme.messageIncoming
