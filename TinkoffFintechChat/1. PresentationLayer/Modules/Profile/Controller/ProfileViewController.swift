@@ -44,6 +44,10 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setup()
+  }
+  
+  private func setup() {
     create()
     checkEditing()
     model?.read(type: .gcd, completion: { data in
