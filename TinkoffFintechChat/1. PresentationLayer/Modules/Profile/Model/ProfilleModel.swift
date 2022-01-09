@@ -44,29 +44,18 @@ class ProfileModel: ProfileModelProtocol {
     
     delegate?.blockUI()
     
-    var dataManager: DataManagerProtocol
-    if type == .gcd {
-      dataManager = dataManagerGCD
-    } else {
-      dataManager = dataManagerOperation
+    let dataManager: DataManagerProtocol = (type == .gcd) ? dataManagerGCD : dataManagerOperation
+    
+    if let name = profileData.name, let data = name.data(using: .utf8) {
+      dataManager.write(data: data, urlString: urlName)
     }
     
-    if let name = profileData.name {
-      if let data = name.data(using: .utf8) {
-        dataManager.write(data: data, urlString: urlName)
-      }
+    if let description = profileData.description, let data = description.data(using: .utf8) {
+      dataManager.write(data: data, urlString: urlDescription)
     }
     
-    if let description = profileData.description {
-      if let data = description.data(using: .utf8) {
-        dataManager.write(data: data, urlString: urlDescription)
-      }
-    }
-    
-    if let image = profileData.image {
-      if let data = image.pngData() {
-        dataManager.write(data: data, urlString: urlImage)
-      }
+    if let image = profileData.image, let data = image.pngData() {
+      dataManager.write(data: data, urlString: urlImage)
     }
     
     delegate?.unBlockUI()
