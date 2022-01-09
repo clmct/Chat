@@ -42,6 +42,10 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setup()
+  }
+  
+  private func setup() {
     print("init")
     view.backgroundColor = UIColor(red: 0.10, green: 0.21, blue: 0.38, alpha: 1.00)
     classicOutlet.layer.cornerRadius = 18
