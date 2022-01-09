@@ -72,24 +72,34 @@ class ProfileModel: ProfileModelProtocol {
       dataManager = dataManagerOperation
     }
     
+    let group = DispatchGroup()
+    
+    group.enter()
     dataManager.read(urlString: urlName) { data in
       if let data = data {
         profileData.name = String(decoding: data, as: UTF8.self)
-      }
-      
-      dataManager.read(urlString: self.urlDescription) { data in
-        if let data = data {
-          profileData.description = String(decoding: data, as: UTF8.self)
-        }
-        
-        dataManager.read(urlString: self.urlImage) { data in
-          if let data = data {
-            profileData.image = UIImage(data: data)
-          }
-          completion(profileData)
-        }
+        group.leave()
       }
     }
+    
+    group.enter()
+    dataManager.read(urlString: self.urlDescription) { data in
+      if let data = data {
+        profileData.description = String(decoding: data, as: UTF8.self)
+        group.leave()
+      }
+    }
+    
+    group.enter()
+    dataManager.read(urlString: self.urlImage) { data in
+      if let data = data {
+        profileData.image = UIImage(data: data)
+        group.leave()
+      }
+    }
+    
+    group.wait()
+    completion(profileData)
   }
   
   // init
