@@ -31,18 +31,29 @@ class PicturesiewController: UIViewController, ModelDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    setup()
+  }
+  
+  private func setup() {
+    setupLayout()
+    model.send()
+  }
+  
+  private func setupLayout() {
     let view = UIView()
     view.backgroundColor = .white
+    self.view = view
+    setupCollectionView()
+  }
+  
+  private func setupCollectionView() {
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
     myCollectionView?.register(CollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     myCollectionView?.backgroundColor = UIColor.white
     view.addSubview(myCollectionView ?? UICollectionView())
-    self.view = view
     myCollectionView?.dataSource = self
     myCollectionView?.delegate = self
-    model.send()
   }
   
   // MARK: - ModelDelegate
