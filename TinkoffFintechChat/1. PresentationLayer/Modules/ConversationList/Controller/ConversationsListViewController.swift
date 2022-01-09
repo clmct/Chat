@@ -113,7 +113,19 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setup()
+  }
+  
+  private func setup() {
     title = "Tinkoff Chat"
+    setupNavigationBar()
+    createTableView()
+    
+    model.fetchData()
+    performFetch()
+  }
+  
+  private func setupNavigationBar() {
     navigationController?.navigationBar.prefersLargeTitles = false
     button.setImage(image?.resized(withBounds: CGSize(width: 36, height: 36)), for: .normal)
     button.layer.cornerRadius = 18
@@ -126,10 +138,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     let settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .done, target: self, action: #selector(settingsMethod))
     settingsButton.accessibilityIdentifier = "settingsButton"
     self.navigationItem.leftBarButtonItem = settingsButton
-    createTableView()
-    
-    model.fetchData()
-    performFetch()
   }
   
   override func viewWillAppear(_ animated: Bool) {
