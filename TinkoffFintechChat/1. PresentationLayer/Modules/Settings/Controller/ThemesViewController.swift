@@ -69,36 +69,19 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
     nightOutlet.layer.borderWidth = 0.5
   }
   
-  func classicSelected() {
-    standartBorder()
-    classicOutlet.layer.borderWidth = 4
-  }
-  
-  func daySelected() {
-    standartBorder()
-    dayOutlet.layer.borderWidth = 4
-  }
-  
-  func nightSelected() {
-    standartBorder()
-    nightOutlet.layer.borderWidth = 4
-  }
-  func classicMode() {
-    theme.theme = .classic
+  func chengeMode(mode: ThemeMode) {
+    theme.theme = mode
     updateTheme()
-    classicSelected()
-  }
-  
-  func dayMode() {
-    theme.theme = .day
-    updateTheme()
-    daySelected()
-  }
-  
-  func nightMode() {
-    theme.theme = .night
-    updateTheme()
-    nightSelected()
+    
+    standartBorder()
+    switch mode {
+    case .classic:
+      classicOutlet.layer.borderWidth = 4
+    case .day:
+      dayOutlet.layer.borderWidth = 4
+    case .night:
+      nightOutlet.layer.borderWidth = 4
+    }
   }
   
   func updateTheme() {
@@ -111,27 +94,27 @@ class ThemesViewController: UIViewController { // TO DO upgrade?
   }
   
   @IBAction func classicAction(_ sender: Any) {
-    classicMode()
+    chengeMode(mode: .classic)
   }
   
   @IBAction func dayAction(_ sender: Any) {
-    dayMode()
+    chengeMode(mode: .day)
   }
   
   @IBAction func nightAction(_ sender: Any) {
-    nightMode()
+    chengeMode(mode: .night)
   }
   
   @IBAction func classicButton(_ sender: Any) {
-    classicMode()
+    chengeMode(mode: .classic)
   }
   
   @IBAction func dayButton(_ sender: Any) {
-    dayMode()
+    chengeMode(mode: .day)
   }
   
   @IBAction func nightButton(_ sender: Any) {
-    nightMode()
+    chengeMode(mode: .night)
   }
   
 }
