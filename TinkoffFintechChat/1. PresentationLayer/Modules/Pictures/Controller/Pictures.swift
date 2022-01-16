@@ -123,7 +123,7 @@ extension PicturesiewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
     if let cachedImage = self.cache.object(forKey: NSNumber(value: indexPath.row)) {
-      vc?.imageViewOutlet.image = cachedImage
+      vc?.setImage(image: cachedImage)
       dismiss(animated: true, completion: nil)
     }
   }

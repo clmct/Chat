@@ -47,6 +47,10 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     setup()
   }
   
+  func setImage(image: UIImage) {
+    self.imageViewOutlet.image = image
+  }
+  
   private func setup() {
     create()
     checkEditing()
