@@ -10,13 +10,14 @@ import UIKit
 
 class PicturesiewController: UIViewController, ModelDelegate {
   
-  var myCollectionView: UICollectionView?
-  let reuseIdentifier = "CellPhoto"
-  var model: PicturesModelProtocol
-  var dataSource: [URL]?
-  var images: [UIImage]?
   weak var vc: ProfileViewController?
-  
+  private var myCollectionView: UICollectionView?
+  private let reuseIdentifier = "CellPhoto"
+  private var model: PicturesModelProtocol
+  private var dataSource: [URL]?
+  private var images: [UIImage]?
+  private let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+  private let itemsPerRow: CGFloat = 3
   private let cache = NSCache<NSNumber, UIImage>()
   
   // MARK: init
@@ -62,10 +63,6 @@ class PicturesiewController: UIViewController, ModelDelegate {
     self.dataSource = dataSource
     self.myCollectionView?.reloadData()
   }
-  
-  fileprivate let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-  fileprivate let itemsPerRow: CGFloat = 3
-
 }
 
 extension PicturesiewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
