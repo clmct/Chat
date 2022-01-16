@@ -132,6 +132,16 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     let data = ProfileData(name: nameTexrFieldOutlet.text, description: descriptionTextViewOutlet.text, image: imageViewOutlet.image)
     model?.write(type: .operation, profileData: data)
   }
+  
+  private func isUserInteractionEnabled(isEnabled: Bool) {
+    self.navigationItem.rightBarButtonItem?.isEnabled = isEnabled
+    self.activityIndicatorOutlet.isHidden = isEnabled
+    GCDButton.isUserInteractionEnabled = isEnabled
+    OperationButton.isUserInteractionEnabled = isEnabled
+    self.nameTexrFieldOutlet.isUserInteractionEnabled = isEnabled
+    self.descriptionTextViewOutlet.isUserInteractionEnabled = isEnabled
+    self.photoButtonOutlet.isUserInteractionEnabled = isEnabled
+  }
 }
 
 // MARK: extension text field
@@ -284,22 +294,10 @@ extension ProfileViewController {
   }
   
   func blockUI() {
-    self.navigationItem.rightBarButtonItem?.isEnabled = false
-    self.activityIndicatorOutlet.isHidden = false
-    GCDButton.isUserInteractionEnabled = false
-    OperationButton.isUserInteractionEnabled = false
-    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
-    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
-    self.photoButtonOutlet.isUserInteractionEnabled = false
+    isUserInteractionEnabled(isEnabled: false)
   }
   
   func unBlockUI() {
-    self.navigationItem.rightBarButtonItem?.isEnabled = true
-    self.activityIndicatorOutlet.isHidden = true
-    GCDButton.isUserInteractionEnabled = true
-    OperationButton.isUserInteractionEnabled = true
-    self.nameTexrFieldOutlet.isUserInteractionEnabled = true
-    self.descriptionTextViewOutlet.isUserInteractionEnabled = true
-    self.photoButtonOutlet.isUserInteractionEnabled = true
+    isUserInteractionEnabled(isEnabled: true)
   }
 }
