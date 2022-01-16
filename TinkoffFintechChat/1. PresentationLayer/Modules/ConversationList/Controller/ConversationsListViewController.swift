@@ -188,12 +188,11 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
   
   func validateIndexPath(_ indexPath: IndexPath) -> Bool {
     if let sections = self.fetchedResultsController.sections,
-      indexPath.section < sections.count {
-         if indexPath.row < sections[indexPath.section].numberOfObjects {
-            return true
-         }
-      }
-      return false
+       indexPath.section < sections.count,
+       indexPath.row < sections[indexPath.section].numberOfObjects {
+      return true
+    }
+    return false
   }
 }
 
