@@ -156,17 +156,13 @@ extension ProfileViewController {
   func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
     print("textFieldDidEndEditing")
   }
+  
   func checkEditing() {
-    
     guard let name = nameTexrFieldOutlet.text,
           let description = descriptionTextViewOutlet.text,
           let imag = imageViewOutlet.image else { return }
     
-    if isEdit == true, nameString == name, descriptionString == description, image == imag {
-      GCDButton.isUserInteractionEnabled = false
-      OperationButton.isUserInteractionEnabled = false
-      photoButtonOutlet.isUserInteractionEnabled = false
-    } else if isEdit == true {
+    if isEdit == true, nameString != name, descriptionString != description, image != imag {
       GCDButton.isUserInteractionEnabled = true
       OperationButton.isUserInteractionEnabled = true
       photoButtonOutlet.isUserInteractionEnabled = true
@@ -175,7 +171,6 @@ extension ProfileViewController {
       OperationButton.isUserInteractionEnabled = false
       photoButtonOutlet.isUserInteractionEnabled = false
     }
-
   }
 }
 
