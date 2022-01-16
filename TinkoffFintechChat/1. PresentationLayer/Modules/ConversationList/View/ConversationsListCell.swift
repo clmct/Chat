@@ -99,14 +99,5 @@ class ConversationsListCell: UITableViewCell, ConfiguratableView, ThemesPickerDe
       messageLabel.text = "No messages yet"
       messageLabel.font = UIFont(name: "Futura", size: 14)
     }
-    //    messageLabel.text = model.lastMessage
-    //    if messageLabel.text == "No messages yet" {
-    //      messageLabel.font = UIFont(name: "Futura", size: 14)
-    //      dateLabel.text = ""
-    //    } else {
-    //      messageLabel.font = model.hasUnreadMessages ? UIFont.boldSystemFont(ofSize: 14) : UIFont.systemFont(ofSize: 14)
-    //    }
-    //    backgroundColor = model.isOnline ? UIColor(red: 1.00, green: 0.95, blue: 0.74, alpha: 1.00) : .clear
-    //    isOnline = model.isOnline
   }
 }

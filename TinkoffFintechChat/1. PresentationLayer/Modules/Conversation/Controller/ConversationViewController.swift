@@ -76,7 +76,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   // MARK: View Controller Cycle
   init(model: ConversationViewModelProtocol, id: String) {
     self.model = model
-//    self.data = data
     self.id = id
     super.init(nibName: nil, bundle: nil)
   }
@@ -92,15 +91,12 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   
   private func setup() {
     createTableView()
-    //    model.fireStoreService.fetchDataMessages(identifire: id)
     model.fetchDataMessages(identifire: id)
     performFetch()
   }
   
   deinit {
     fetchedResultsController.delegate = nil
-    //    NotificationCenter.default.removeObserver()
-//    print("deinit ConversationViewController")
   }
   
   func performFetch() {

@@ -128,7 +128,6 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
     messageIncoming = false
   }
   
-  
   func updateTheme(theme: ThemeApp) {
     bubblebackroundView.backgroundColor = messageIncoming ? theme.messageOutcoming : theme.messageIncoming
     messageLbael.textColor = messageIncoming ? theme.textOutcoming : theme.textIncoming

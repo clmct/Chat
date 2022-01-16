@@ -17,7 +17,6 @@ protocol CoreDataServiceProtocol {
 class CoreDataService: CoreDataServiceProtocol {
   
   func printDataStatisitics() {
-//    coreDataStack.enableObservers()
     coreDataStack.didUpdateDataBase = { a in
       a.printDataStatisitics()
     }

@@ -21,18 +21,14 @@ struct DataModel: Decodable {
 }
 
 struct Images: Decodable, ImagesProtocol {
-//    let webformatURL: String
   var previewURL: String?
 }
 
 protocol ParserProtocol {
-//  associatedtype Model
   func parse(data: Data) -> [Images]?
-//  func parse(data: Data) -> String?
 }
 
 class Parser: ParserProtocol {
-//  typealias Model = [Images]
   
   func parse(data: Data) -> [Images]? {
     do {
