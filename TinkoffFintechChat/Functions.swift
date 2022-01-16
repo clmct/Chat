@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 public func imageInitials(name: String?) -> UIImage? {
-  
   let frame = CGRect(x: 0, y: 0, width: 480, height: 480)
   let nameLabel = UILabel(frame: frame)
   nameLabel.textAlignment = .center
@@ -20,27 +19,21 @@ public func imageInitials(name: String?) -> UIImage? {
   var initials = "?"
   
   if let initialsArray = name?.components(separatedBy: " ") {
-    if let firstWord = initialsArray.first {
-      if let firstLetter = firstWord.first {
-        initials = String(firstLetter).capitalized
-      }
+    if let firstWord = initialsArray.first, let firstLetter = firstWord.first {
+      initials = String(firstLetter).capitalized
     }
-    if let lastWord = initialsArray.last, initialsArray.count > 1 {
-      if let lastLetter = lastWord.first {
-        initials += String(lastLetter).capitalized
-      }
+    if let lastWord = initialsArray.last, initialsArray.count > 1, let lastLetter = lastWord.first {
+      initials += String(lastLetter).capitalized
     }
   }
   
   nameLabel.text = initials
   UIGraphicsBeginImageContext(frame.size)
-  if let currentContext = UIGraphicsGetCurrentContext() {
-    nameLabel.layer.render(in: currentContext)
-    let nameImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return nameImage
-  }
-  return nil
+  guard let currentContext = UIGraphicsGetCurrentContext() else { return nil }
+  nameLabel.layer.render(in: currentContext)
+  let nameImage = UIGraphicsGetImageFromCurrentImageContext()
+  UIGraphicsEndImageContext()
+  return nameImage
 }
 
 public func getChannelByID(context: NSManagedObjectContext, id: String) -> ChannelMO? {
