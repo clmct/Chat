@@ -72,7 +72,7 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     view.backgroundColor = theme.backgroundColor
     nameTexrFieldOutlet.textColor = theme.profileText
     descriptionTextViewOutlet.textColor = theme.profileText
-    imageViewOutlet.image = imageInitials(name: nameTexrFieldOutlet.text)
+    imageViewOutlet.image = ImageCreator.shared.imageInitials(name: nameTexrFieldOutlet.text)
     nameTexrFieldOutlet.delegate = self
   }
   

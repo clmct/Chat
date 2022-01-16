@@ -38,7 +38,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     return fetchedRequestController
   }()
   
-  lazy private var image = imageInitials(name: "Marina Dudarenko")
+  lazy private var image = ImageCreator.shared.imageInitials(name: "Marina Dudarenko")
   
   lazy private var button: UIButton = {
     var btn = UIButton()

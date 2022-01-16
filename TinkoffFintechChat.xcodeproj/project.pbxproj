@@ -10,6 +10,7 @@
 		5BC25A4537F460E6FFA70EF4 /* Pods_TinkoffFintechChat_ChatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93BF077D37FF69BC69ACC86 /* Pods_TinkoffFintechChat_ChatUITests.framework */; };
 		99657D091544FAE910AD4F26 /* Pods_ChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 202B82A4D671CABD1DAF6D3D /* Pods_ChatTests.framework */; };
 		B2038B332524B41500381B3F /* Date + DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2038B322524B41500381B3F /* Date + DateFormatter.swift */; };
+		B20739EB2794CF7700D08C33 /* ImageCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20739EA2794CF7700D08C33 /* ImageCreator.swift */; };
 		B20854CC25364BF2008985D2 /* GCDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20854CB25364BF2008985D2 /* GCDDataManager.swift */; };
 		B20854CE25364C05008985D2 /* OperationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20854CD25364C05008985D2 /* OperationDataManager.swift */; };
 		B20E7775277AD0BA00477254 /* ConversationsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20E7774277AD0BA00477254 /* ConversationsListModel.swift */; };
@@ -105,6 +106,7 @@
 		9347681D49479FEB6D01FD28 /* Pods-ChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatUITests.release.xcconfig"; path = "Target Support Files/Pods-ChatUITests/Pods-ChatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9C340B8A865B79B63D686456 /* Pods-TinkoffFintechChat-ChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffFintechChat-ChatUITests.release.xcconfig"; path = "Target Support Files/Pods-TinkoffFintechChat-ChatUITests/Pods-TinkoffFintechChat-ChatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B2038B322524B41500381B3F /* Date + DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + DateFormatter.swift"; sourceTree = "<group>"; };
+		B20739EA2794CF7700D08C33 /* ImageCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCreator.swift; sourceTree = "<group>"; };
 		B20854CB25364BF2008985D2 /* GCDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDDataManager.swift; sourceTree = "<group>"; };
 		B20854CD25364C05008985D2 /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
 		B20E7774277AD0BA00477254 /* ConversationsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListModel.swift; sourceTree = "<group>"; };
@@ -272,6 +274,14 @@
 				B2A2A18F252DEDDE008C998D /* Settings */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		B20739EC2794CF8800D08C33 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B20739EA2794CF7700D08C33 /* ImageCreator.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		B215BC222557F3BA00DEF548 /* 1. PresentationLayer */ = {
@@ -478,6 +488,7 @@
 				B254DAE525816C5600277A65 /* Config.xcconfig */,
 				B2FFD3A0252238CF0001CCAC /* Logger */,
 				B2FFD39F252238BF0001CCAC /* Extensions */,
+				B20739EC2794CF8800D08C33 /* Utils */,
 			);
 			path = TinkoffFintechChat;
 			sourceTree = "<group>";
@@ -1021,6 +1032,7 @@
 				B268F92F251A2EB7009C503E /* UIImage + Resized.swift in Sources */,
 				B271C9C4250E5B330084B7AB /* ProfileViewController.swift in Sources */,
 				B22C6F5E256130B3004FC7C4 /* PicturesModel.swift in Sources */,
+				B20739EB2794CF7700D08C33 /* ImageCreator.swift in Sources */,
 				B2A2A193252E63B6008C998D /* ThemeApp.swift in Sources */,
 				B2EA0863254B1C04009E1F77 /* ChannelMO+CoreDataClass.swift in Sources */,
 				B2FFD3AB25223AA10001CCAC /* ConversationViewController.swift in Sources */,
