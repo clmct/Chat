@@ -190,25 +190,18 @@ extension ProfileViewController {
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   // MARK: - Alert Helper Methods
   func alertCameraSimulator() {
-    let alert = UIAlertController(title: "Упс... На симуляторе нет камеры!",
-                                  message: "Попробуйте на реальном девайсе. Кнопка представлена на симуляторе в целях прототипирования для разработчиков.", preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
-    alert.addAction(cancelAction)
+    let alert = ProfileAlertFactory.shared.alertCameraSimulator()
     present(alert, animated: true, completion: nil)
   }
   
   func alertOK() {
-    let alert = UIAlertController(title: "Данные сохранены", message: "", preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-    alert.addAction(cancelAction)
+    let alert = ProfileAlertFactory.shared.alertOK()
     present(alert, animated: true, completion: nil)
     checkEditing()
   }
   
   func alertError() {
-    let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-    let repeatAction = UIAlertAction(title: "Повторить", style: .default, handler: { _ in
+    let alert = ProfileAlertFactory.shared.alertError {
       if self.isGCD {
         self.GCDButtonActionFunc()
         self.checkEditing()
@@ -216,36 +209,25 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         self.OperationButtonActionFunc()
         self.checkEditing()
       }
-    })
-    alert.addAction(cancelAction)
-    alert.addAction(repeatAction)
+    }
     present(alert, animated: true, completion: nil)
   }
   
   // MARK: - Image Helper Methods
   
   func showPhotoPicker() {
-    let photoAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    
-    let cancelAction = UIAlertAction(title: "Отменить", style: .cancel, handler: nil)
-    photoAlert.addAction(cancelAction)
-    
-    let cameraAction = UIAlertAction(title: "Сделать фото", style: .default, handler: { _ in
+    let alert = ProfileAlertFactory.shared.photoPicker {
       if UIImagePickerController.isSourceTypeAvailable(.camera) {
         self.takePhotoWithCamera()
       } else {
         self.alertCameraSimulator()
       }
-    })
-    photoAlert.addAction(cameraAction)
-    
-    let libraryAction = UIAlertAction(title: "Установить из галлереи", style: .default, handler: { _ in self.choosePhotoFromLibrary() })
-    photoAlert.addAction(libraryAction)
-    
-    let photoServer = UIAlertAction(title: "Загрузить", style: .default, handler: { _ in self.photoFromServer() })
-    photoAlert.addAction(photoServer)
-    
-    present(photoAlert, animated: true, completion: nil)
+    } libraryActionHandler: {
+      self.choosePhotoFromLibrary()
+    } photoServerActionHandler: {
+      self.photoFromServer()
+    }
+    present(alert, animated: true, completion: nil)
   }
   
   func photoFromServer() {
