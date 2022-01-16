@@ -142,6 +142,14 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     self.descriptionTextViewOutlet.isUserInteractionEnabled = isEnabled
     self.photoButtonOutlet.isUserInteractionEnabled = isEnabled
   }
+  
+  private func presentImagePickerController(sourceType: UIImagePickerController.SourceType ) {
+    let imagePicker = UIImagePickerController()
+    imagePicker.sourceType = sourceType
+    imagePicker.delegate = self
+    imagePicker.allowsEditing = true
+    present(imagePicker, animated: true, completion: nil)
+  }
 }
 
 // MARK: extension text field
@@ -245,21 +253,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
   }
   
   // MARK: - Image Picker Delegates
-  
   func takePhotoWithCamera() {
-    let imagePicker = UIImagePickerController()
-    imagePicker.sourceType = .camera
-    imagePicker.delegate = self
-    imagePicker.allowsEditing = true
-    present(imagePicker, animated: true, completion: nil)
+    presentImagePickerController(sourceType: .camera)
   }
   
   func choosePhotoFromLibrary() {
-    let imagePicker = UIImagePickerController()
-    imagePicker.sourceType = .photoLibrary
-    imagePicker.delegate = self
-    imagePicker.allowsEditing = true
-    present(imagePicker, animated: true, completion: nil)
+    presentImagePickerController(sourceType: .photoLibrary)
   }
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
