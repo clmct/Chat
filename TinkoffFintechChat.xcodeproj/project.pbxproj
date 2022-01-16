@@ -62,7 +62,6 @@
 		B2A2A193252E63B6008C998D /* ThemeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A2A192252E63B6008C998D /* ThemeApp.swift */; };
 		B2A6709C25323BF50039C923 /* TableView + Deselect .swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A6709B25323BF50039C923 /* TableView + Deselect .swift */; };
 		B2A85A81252B980900454B9B /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A85A80252B980900454B9B /* ThemesViewController.swift */; };
-		B2A8AA0B255DE111005E13D8 /* ThemesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8AA0A255DE111005E13D8 /* ThemesModel.swift */; };
 		B2D211D72557F76400CC9234 /* RootAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D211D62557F76400CC9234 /* RootAssembly.swift */; };
 		B2DB48E42566B9F900A2259A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DB48E32566B9F900A2259A /* Parser.swift */; };
 		B2EA0861254B1C04009E1F77 /* MessageMO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EA085D254B1C04009E1F77 /* MessageMO+CoreDataClass.swift */; };
@@ -164,7 +163,6 @@
 		B2A2A192252E63B6008C998D /* ThemeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeApp.swift; sourceTree = "<group>"; };
 		B2A6709B25323BF50039C923 /* TableView + Deselect .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView + Deselect .swift"; sourceTree = "<group>"; };
 		B2A85A80252B980900454B9B /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
-		B2A8AA0A255DE111005E13D8 /* ThemesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesModel.swift; sourceTree = "<group>"; };
 		B2D211D62557F76400CC9234 /* RootAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootAssembly.swift; sourceTree = "<group>"; };
 		B2DB48E32566B9F900A2259A /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		B2EA085D254B1C04009E1F77 /* MessageMO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageMO+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -653,7 +651,6 @@
 			isa = PBXGroup;
 			children = (
 				B2A2A192252E63B6008C998D /* ThemeApp.swift */,
-				B2A8AA0A255DE111005E13D8 /* ThemesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1023,7 +1020,6 @@
 				B28FE2E4254751690043BCC0 /* CoreDataStack.swift in Sources */,
 				B268F92F251A2EB7009C503E /* UIImage + Resized.swift in Sources */,
 				B271C9C4250E5B330084B7AB /* ProfileViewController.swift in Sources */,
-				B2A8AA0B255DE111005E13D8 /* ThemesModel.swift in Sources */,
 				B22C6F5E256130B3004FC7C4 /* PicturesModel.swift in Sources */,
 				B2A2A193252E63B6008C998D /* ThemeApp.swift in Sources */,
 				B2EA0863254B1C04009E1F77 /* ChannelMO+CoreDataClass.swift in Sources */,
