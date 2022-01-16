@@ -97,9 +97,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     if let controller = presentationAssembly.profileViewController() {
       controller.updateTheme(theme: theme)
       show(controller, sender: nil)
-//      showDetailViewController(controller, sender: nil)
-    } else {
-      return
     }
   }
   
