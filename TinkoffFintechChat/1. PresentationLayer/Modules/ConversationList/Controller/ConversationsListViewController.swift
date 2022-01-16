@@ -45,8 +45,55 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     return btn
   }()
   
+  // MARK: View Controller Cycle
+  init(model: ConversationsListModelProtocol, presentationAssembly: PresentationAssemblyProtocol) {
+    self.model = model
+    self.presentationAssembly = presentationAssembly
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.tableView.deselectSelectedRow(animated: true)
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setup()
+  }
+  
+  deinit {
+    fetchedResultsController.delegate = nil
+  }
+  
+  // MARK: Methods
+  
+  func updateTheme(theme: ThemeApp) { // загружать тип темы из памяти, а не передовать
+    self.theme = theme
+    //    tableView.reloadData()
+    navigationController?.navigationBar.barTintColor = theme.navigationBar
+    UINavigationBar.appearance().barStyle = theme.barStyle
+    navigationController?.navigationBar.titleTextAttributes = [
+      NSAttributedString.Key.foregroundColor:
+        theme.navigationBarTitle ]
+  }
+  
+  func performFetch() {
+    do {
+      try
+      fetchedResultsController.performFetch()
+      //        tableView.reloadData()
+    } catch {
+      fatalError()
+    }
+  }
+  
   // MARK: Objective-C Functions
-  @objc func methodBar() {
+  @objc private func methodBar() {
     if let controller = presentationAssembly.profileViewController() {
       controller.updateTheme(theme: theme)
       show(controller, sender: nil)
@@ -56,7 +103,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     }
   }
   
-  @objc func settingsMethod() {
+  @objc private func settingsMethod() {
     if let controller = presentationAssembly.themesViewController() {
       controller.delegate = self
       controller.theme = theme
@@ -74,11 +121,11 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     }
   }
   
-  @objc func cancelMethod() {
+  @objc private func cancelMethod() {
     dismiss(animated: true, completion: nil)
   }
   
-  @objc func addChannelMethod() {
+  @objc private func addChannelMethod() {
     let alert = UIAlertController(title: "Название канала", message: "", preferredStyle: .alert)
     alert.addTextField(configurationHandler: nil )
     let createAction = UIAlertAction(title: "Создать", style: .default) { UIAlertAction in
@@ -93,27 +140,11 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     present(alert, animated: true, completion: nil)
   }
   
-  @objc func handleRefreshControl() {
+  @objc private func handleRefreshControl() {
     model.fetchData()
     DispatchQueue.main.async {
       self.tableView.refreshControl?.endRefreshing()
     }
-  }
-  
-  // MARK: View Controller Cycle
-  init(model: ConversationsListModelProtocol, presentationAssembly: PresentationAssemblyProtocol) {
-    self.model = model
-    self.presentationAssembly = presentationAssembly
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    setup()
   }
   
   private func setup() {
@@ -140,43 +171,12 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     self.navigationItem.leftBarButtonItem = settingsButton
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    self.tableView.deselectSelectedRow(animated: true)
+  private func configureRefreshControl() {
+    tableView.refreshControl = UIRefreshControl()
+    tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
   }
   
-  deinit {
-    fetchedResultsController.delegate = nil
-  }
-  
-  // MARK: Methods
-  
-    func performFetch() {
-      do {
-        try
-        fetchedResultsController.performFetch()
-//        tableView.reloadData()
-      } catch {
-        fatalError()
-      }
-    }
-    
-    func configureRefreshControl() {
-      tableView.refreshControl = UIRefreshControl()
-      tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-    }
-    
-    func updateTheme(theme: ThemeApp) { // загружать тип темы из памяти, а не передовать
-      self.theme = theme
-  //    tableView.reloadData()
-      navigationController?.navigationBar.barTintColor = theme.navigationBar
-      UINavigationBar.appearance().barStyle = theme.barStyle
-      navigationController?.navigationBar.titleTextAttributes = [
-        NSAttributedString.Key.foregroundColor:
-          theme.navigationBarTitle ]
-    }
-  
-  func createTableView() {
+  private func createTableView() {
     self.tableView = UITableView(frame: view.bounds, style: .plain)
     tableView.register(ConversationsListCell.self, forCellReuseIdentifier: identifire)
     tableView.delegate = self
@@ -186,7 +186,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate, Th
     configureRefreshControl()
   }
   
-  func validateIndexPath(_ indexPath: IndexPath) -> Bool {
+  private func validateIndexPath(_ indexPath: IndexPath) -> Bool {
     if let sections = self.fetchedResultsController.sections,
        indexPath.section < sections.count,
        indexPath.row < sections[indexPath.section].numberOfObjects {
