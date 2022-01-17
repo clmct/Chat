@@ -6,6 +6,7 @@
 //  Copyright © 2020 Алмат Кульбаев. All rights reserved.
 
 import Foundation
+import UIKit
 
 enum RequestError: Error {
   case urlRequestError
@@ -16,7 +17,8 @@ enum RequestError: Error {
 }
 
 protocol RequestSenderProtocol {
-  func send(completionHandler: @escaping (Result<[Images], RequestError>) -> Void)
+//  func send(completionHandler: @escaping (Result<[Images], RequestError>) -> Void)
+  func send<T: Codable>(completionHandler: @escaping (Result<T, RequestError>) -> Void)
 }
 
 class RequestSender: RequestSenderProtocol {
@@ -29,7 +31,7 @@ class RequestSender: RequestSenderProtocol {
   
   let session = URLSession.shared
   
-  func send(completionHandler: @escaping (Result<[Images], RequestError>) -> Void) {
+  func send<T: Codable>(completionHandler: @escaping (Result<T, RequestError>) -> Void) {
 
     guard let urlRequest = config.request.urlRequest else {
       completionHandler(.failure(.urlRequestError))
@@ -53,12 +55,16 @@ class RequestSender: RequestSenderProtocol {
         return
       }
       
-      guard let parsedModel: [Images] = self.config.parser.parse(data: data) else {
-        completionHandler(.failure(.dataDecodingError))
-        return
+      do {
+        let jsonObject = try JSONDecoder().decode(T.self, from: data)
+        DispatchQueue.main.async {
+          completionHandler(.success(jsonObject))
+        }
+      } catch {
+        DispatchQueue.main.async {
+          completionHandler(.failure(.dataDecodingError))
+        }
       }
-      
-      completionHandler(.success(parsedModel))
     }
     task.resume()
   }

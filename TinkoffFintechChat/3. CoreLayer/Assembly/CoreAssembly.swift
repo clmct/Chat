@@ -17,5 +17,5 @@ protocol CoreAssemblyProtocol {
 class CoreAssembly: CoreAssemblyProtocol {
   lazy var fileManagerComponent: FileManagerComponentProtocol = FileManagerComponent()
   lazy var coreDataStack: CoreDataStackProtocol = CoreDataStack()
-  lazy var requestSender: RequestSenderProtocol = RequestSender(requestConfig: RequestConfig(request: Request(), parser: Parser()))
+  lazy var requestSender: RequestSenderProtocol = RequestSender(requestConfig: RequestConfig(request: Request()))
 }
