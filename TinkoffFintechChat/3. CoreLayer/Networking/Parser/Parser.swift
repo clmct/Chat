@@ -13,33 +13,12 @@ protocol ImagesProtocol {
 }
 struct RequestConfig {
   let request: RequestProtocol
-  let parser: Parser
 }
 
-struct DataModel: Decodable {
+struct DataModel: Codable {
   let hits: [Images]
 }
 
-struct Images: Decodable, ImagesProtocol {
-//    let webformatURL: String
+struct Images: Codable, ImagesProtocol {
   var previewURL: String?
-}
-
-protocol ParserProtocol {
-//  associatedtype Model
-  func parse(data: Data) -> [Images]?
-//  func parse(data: Data) -> String?
-}
-
-class Parser: ParserProtocol {
-//  typealias Model = [Images]
-  
-  func parse(data: Data) -> [Images]? {
-    do {
-      let images = try JSONDecoder().decode(DataModel.self, from: data).hits
-      return images
-    } catch {
-      return nil
-    }
-  }
 }

@@ -29,36 +29,62 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
   // MARK: Life Cycle - init
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    setup()
+  }
+  
+  private func setup() {
     self.isUserInteractionEnabled = false
-    bubblebackroundView.layer.cornerRadius = 12
-    bubblebackroundView.translatesAutoresizingMaskIntoConstraints = false
-    addSubview(bubblebackroundView)
-    addSubview(messageLbael)
-    addSubview(nameLbael)
-    messageLbael.numberOfLines = 0
-    messageLbael.translatesAutoresizingMaskIntoConstraints = false
-    nameLbael.font = UIFont.boldSystemFont(ofSize: 14)
-    nameLbael.translatesAutoresizingMaskIntoConstraints = false
-    nameLbael.font = UIFont.boldSystemFont(ofSize: 14)
-    nameLbael.textColor = .systemOrange
+    setupMessageLabel()
+    setupNameLbael()
+    setupBubbleackroundView()
     
-    let constraints = [
-      messageLbael.topAnchor.constraint(equalTo: topAnchor, constant: 32),
-      messageLbael.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
-      messageLbael.widthAnchor.constraint(lessThanOrEqualToConstant: 3 / 4 * self.frame.width),
-      nameLbael.bottomAnchor.constraint(equalTo: messageLbael.topAnchor, constant: 0),
-      nameLbael.leadingAnchor.constraint(equalTo: messageLbael.leadingAnchor, constant: 0),
-      bubblebackroundView.bottomAnchor.constraint(equalTo: messageLbael.bottomAnchor, constant: 8),
-      bubblebackroundView.leadingAnchor.constraint(equalTo: messageLbael.leadingAnchor, constant: -8),
-      bubblebackroundView.trailingAnchor.constraint(equalTo: messageLbael.trailingAnchor, constant: 8)
-    ]
-    NSLayoutConstraint.activate(constraints)
     leadingConstraint = messageLbael.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32)
     trailingConstraint = messageLbael.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
     bubbleConstarintName = bubblebackroundView.trailingAnchor.constraint(equalTo: nameLbael.trailingAnchor, constant: 8)
     bubbleConstarintMessage = bubblebackroundView.trailingAnchor.constraint(equalTo: messageLbael.trailingAnchor, constant: 8)
     nameTopAnchor = bubblebackroundView.topAnchor.constraint(equalTo: nameLbael.topAnchor, constant: -8)
     messageTopAnchor = bubblebackroundView.topAnchor.constraint(equalTo: messageLbael.topAnchor, constant: -8)
+  }
+  
+  private func setupMessageLabel() {
+    messageLbael.numberOfLines = 0
+    messageLbael.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(messageLbael)
+    
+    let constraints = [
+      messageLbael.topAnchor.constraint(equalTo: topAnchor, constant: 32),
+      messageLbael.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
+      messageLbael.widthAnchor.constraint(lessThanOrEqualToConstant: 3 / 4 * self.frame.width)
+    ]
+    NSLayoutConstraint.activate(constraints)
+  }
+  
+  private func setupNameLbael() {
+    addSubview(nameLbael)
+    nameLbael.font = UIFont.boldSystemFont(ofSize: 14)
+    nameLbael.translatesAutoresizingMaskIntoConstraints = false
+    nameLbael.font = UIFont.boldSystemFont(ofSize: 14)
+    nameLbael.textColor = .systemOrange
+    
+    let constraints = [
+      nameLbael.bottomAnchor.constraint(equalTo: messageLbael.topAnchor, constant: 0),
+      nameLbael.leadingAnchor.constraint(equalTo: messageLbael.leadingAnchor, constant: 0)
+    ]
+    NSLayoutConstraint.activate(constraints)
+    
+  }
+  
+  private func setupBubbleackroundView() {
+    bubblebackroundView.layer.cornerRadius = 12
+    bubblebackroundView.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(bubblebackroundView)
+    
+    let constraints = [
+      bubblebackroundView.bottomAnchor.constraint(equalTo: messageLbael.bottomAnchor, constant: 8),
+      bubblebackroundView.leadingAnchor.constraint(equalTo: messageLbael.leadingAnchor, constant: -8),
+      bubblebackroundView.trailingAnchor.constraint(equalTo: messageLbael.trailingAnchor, constant: 8)
+    ]
+    NSLayoutConstraint.activate(constraints)
   }
   
   required init?(coder: NSCoder) {
@@ -70,28 +96,36 @@ class ConversationCell: UITableViewCell, ConfiguratableView, ThemesPickerDelegat
     messageLbael.text = model.content
     nameLbael.text = model.senderName
     if model.senderId != UIDevice.current.identifierForVendor?.uuidString {
-      trailingConstraint?.isActive = false
-      leadingConstraint?.isActive = true
-      nameTopAnchor?.isActive = true
-      bubblebackroundView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
-      if model.senderName.count > model.content.count {
-        bubbleConstarintMessage?.isActive = false
-        bubbleConstarintName?.isActive = true
-      } else {
-        bubbleConstarintName?.isActive = false
-        bubbleConstarintMessage?.isActive = true
-      }
-      messageIncoming = false
+      configureOutcomingSetup(with: model)
     } else {
-      leadingConstraint?.isActive = false
-      trailingConstraint?.isActive = true
-      bubblebackroundView.backgroundColor = UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00)
-      messageIncoming = true
-      bubbleConstarintName?.isActive = false
-      bubbleConstarintMessage?.isActive = false
-      messageTopAnchor?.isActive = true
-      nameLbael.isHidden = true
+      configureIncomingSetup()
     }
+  }
+  
+  private func configureIncomingSetup() {
+    leadingConstraint?.isActive = false
+    trailingConstraint?.isActive = true
+    bubblebackroundView.backgroundColor = UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00)
+    messageIncoming = true
+    bubbleConstarintName?.isActive = false
+    bubbleConstarintMessage?.isActive = false
+    messageTopAnchor?.isActive = true
+    nameLbael.isHidden = true
+  }
+  
+  private func configureOutcomingSetup(with model: ConversationModel) {
+    trailingConstraint?.isActive = false
+    leadingConstraint?.isActive = true
+    nameTopAnchor?.isActive = true
+    bubblebackroundView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+    if model.senderName.count > model.content.count {
+      bubbleConstarintMessage?.isActive = false
+      bubbleConstarintName?.isActive = true
+    } else {
+      bubbleConstarintName?.isActive = false
+      bubbleConstarintMessage?.isActive = true
+    }
+    messageIncoming = false
   }
   
   func updateTheme(theme: ThemeApp) {

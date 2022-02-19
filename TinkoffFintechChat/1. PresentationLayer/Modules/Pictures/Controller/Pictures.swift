@@ -10,13 +10,14 @@ import UIKit
 
 class PicturesiewController: UIViewController, ModelDelegate {
   
-  var myCollectionView: UICollectionView?
-  let reuseIdentifier = "CellPhoto"
-  var model: PicturesModelProtocol
-  var dataSource: [URL]?
-  var images: [UIImage]?
   weak var vc: ProfileViewController?
-  
+  private var myCollectionView: UICollectionView?
+  private let reuseIdentifier = "CellPhoto"
+  private var model: PicturesModelProtocol
+  private var dataSource: [URL]?
+  private var images: [UIImage]?
+  private let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+  private let itemsPerRow: CGFloat = 3
   private let cache = NSCache<NSNumber, UIImage>()
   
   // MARK: init
@@ -31,18 +32,29 @@ class PicturesiewController: UIViewController, ModelDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    setup()
+  }
+  
+  private func setup() {
+    setupLayout()
+    model.send()
+  }
+  
+  private func setupLayout() {
     let view = UIView()
     view.backgroundColor = .white
+    self.view = view
+    setupCollectionView()
+  }
+  
+  private func setupCollectionView() {
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
     myCollectionView?.register(CollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     myCollectionView?.backgroundColor = UIColor.white
     view.addSubview(myCollectionView ?? UICollectionView())
-    self.view = view
     myCollectionView?.dataSource = self
     myCollectionView?.delegate = self
-    model.send()
   }
   
   // MARK: - ModelDelegate
@@ -51,10 +63,6 @@ class PicturesiewController: UIViewController, ModelDelegate {
     self.dataSource = dataSource
     self.myCollectionView?.reloadData()
   }
-  
-  fileprivate let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-  fileprivate let itemsPerRow: CGFloat = 3
-
 }
 
 extension PicturesiewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -115,7 +123,7 @@ extension PicturesiewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
     if let cachedImage = self.cache.object(forKey: NSNumber(value: indexPath.row)) {
-      vc?.imageViewOutlet.image = cachedImage
+      vc?.setImage(image: cachedImage)
       dismiss(animated: true, completion: nil)
     }
   }

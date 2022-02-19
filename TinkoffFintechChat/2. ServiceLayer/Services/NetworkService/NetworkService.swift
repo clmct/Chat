@@ -9,19 +9,19 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-  func sendRequest(completionHandler: @escaping (Result<[URL], Error>) -> Void)
+  func getImages(completionHandler: @escaping (Result<[URL], Error>) -> Void)
 }
 
 class NetworkService: NetworkServiceProtocol {
   
-  func sendRequest(completionHandler: @escaping (Result<[URL], Error>) -> Void) {
+  func getImages(completionHandler: @escaping (Result<[URL], Error>) -> Void) {
     var urls: [URL] = []
     
-    requestSender.send { result in
+    requestSender.send { (result: Result<DataModel, RequestError>) in
       
       switch result {
       case .success(let successValues):
-        successValues.forEach { image in
+        successValues.hits.forEach { image in
           if let urlString = image.previewURL {
             if let url = URL(string: urlString) {
               urls.append(url)

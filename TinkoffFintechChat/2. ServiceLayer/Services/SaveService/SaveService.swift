@@ -11,8 +11,6 @@ import Foundation
 protocol SaveDataServiceProtocol {
   func makeRequestChannels(channelModels models: [ChannelModel])
   func makeRequestMessages(messagesModels messages: [MessageModel])
-  // заменена на makeRequestMessages
-//  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel])
 }
 
 class SaveDataService: SaveDataServiceProtocol {
@@ -53,21 +51,4 @@ class SaveDataService: SaveDataServiceProtocol {
       
     }
   }
-  
-//  func makeRequestChannelWithMessages(channelModels channels: [ChannelModel], messagesModels messages: [MessageModel]) {
-//    coreDataStack.performSave { context in
-//      var messagesMO: [MessageMO] = [MessageMO]()
-//      messages.forEach { model in // update messages data for one channel
-//        let messageMO = MessageMO(model: model, in: context)
-//        messagesMO.append(messageMO)
-//      }
-//      channels.forEach { model in // update channels data
-//        let channelMO = ChannelMO(model: model, in: context)
-//        if model.identifier == messages.last?.identifier {
-//          messagesMO.forEach { channelMO.addToMessages($0) }
-//        }
-//      }
-//    }
-//  } // не рационально, лучше при возваращение на главный экран делать запрос каналов
-  
 }
