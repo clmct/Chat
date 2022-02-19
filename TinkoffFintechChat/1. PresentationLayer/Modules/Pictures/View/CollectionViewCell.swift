@@ -22,6 +22,10 @@ class CollectionViewCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    setup()
+  }
+  
+  private func setup() {
     contentView.addSubview(imageView)
     NSLayoutConstraint.activate([
       imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),

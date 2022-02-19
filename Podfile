@@ -22,6 +22,11 @@ inherit! :search_paths
 #pod 'Firebase/firestore'
 end
 
+target "ChatUITests" do
+  use_frameworks!
+  pod 'iOSSnapshotTestCase'
+end
+
 end
 
 

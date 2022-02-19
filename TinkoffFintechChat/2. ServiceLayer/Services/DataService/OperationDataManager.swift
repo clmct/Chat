@@ -21,7 +21,6 @@ class OperationDataManager: DataManagerProtocol {
       self.fileManager.write(data: data, urlString: urlString)
     }
     let operationQueue = OperationQueue()
-    //    let operation = ReadOperation()
     operationQueue.addOperation(operation)
   }
   
@@ -31,7 +30,6 @@ class OperationDataManager: DataManagerProtocol {
       completion(data)
     }
     let operationQueue = OperationQueue()
-    //    let operation = WriteOperation()
     operationQueue.addOperation(operation)
   }
 }

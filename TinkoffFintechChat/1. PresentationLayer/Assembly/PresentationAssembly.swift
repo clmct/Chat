@@ -87,9 +87,4 @@ class PresentationAssembly: PresentationAssemblyProtocol {
     let model = PicturesModel(networkService: serviceAssembly.networkService)
     return model
   }
-  
-//  private func settingsModel() -> ConversationViewModelProtocol {
-//    let model = ConversationViewModel(coreDataService: serviceAssembly.coreDataService, fireStoreService: serviceAssembly.fireStoreService)
-//    return model
-//  }
 }

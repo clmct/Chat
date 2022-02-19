@@ -44,6 +44,14 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setup()
+  }
+  
+  func setImage(image: UIImage) {
+    self.imageViewOutlet.image = image
+  }
+  
+  private func setup() {
     create()
     checkEditing()
     model?.read(type: .gcd, completion: { data in
@@ -58,11 +66,13 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     })
      
     GCDButton.backgroundColor = theme.profileButton
+    GCDButton.accessibilityIdentifier = "gcd"
     OperationButton.backgroundColor = theme.profileButton
+    OperationButton.accessibilityIdentifier = "operation"
     view.backgroundColor = theme.backgroundColor
     nameTexrFieldOutlet.textColor = theme.profileText
     descriptionTextViewOutlet.textColor = theme.profileText
-    imageViewOutlet.image = imageInitials(name: nameTexrFieldOutlet.text)
+    imageViewOutlet.image = ImageCreator.shared.imageInitials(name: nameTexrFieldOutlet.text)
     nameTexrFieldOutlet.delegate = self
   }
   
@@ -126,6 +136,24 @@ class ProfileViewController: UIViewController, ThemesPickerDelegate, UITextField
     let data = ProfileData(name: nameTexrFieldOutlet.text, description: descriptionTextViewOutlet.text, image: imageViewOutlet.image)
     model?.write(type: .operation, profileData: data)
   }
+  
+  private func isUserInteractionEnabled(isEnabled: Bool) {
+    self.navigationItem.rightBarButtonItem?.isEnabled = isEnabled
+    self.activityIndicatorOutlet.isHidden = isEnabled
+    GCDButton.isUserInteractionEnabled = isEnabled
+    OperationButton.isUserInteractionEnabled = isEnabled
+    self.nameTexrFieldOutlet.isUserInteractionEnabled = isEnabled
+    self.descriptionTextViewOutlet.isUserInteractionEnabled = isEnabled
+    self.photoButtonOutlet.isUserInteractionEnabled = isEnabled
+  }
+  
+  private func presentImagePickerController(sourceType: UIImagePickerController.SourceType ) {
+    let imagePicker = UIImagePickerController()
+    imagePicker.sourceType = sourceType
+    imagePicker.delegate = self
+    imagePicker.allowsEditing = true
+    present(imagePicker, animated: true, completion: nil)
+  }
 }
 
 // MARK: extension text field
@@ -140,17 +168,13 @@ extension ProfileViewController {
   func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
     print("textFieldDidEndEditing")
   }
+  
   func checkEditing() {
-    
     guard let name = nameTexrFieldOutlet.text,
           let description = descriptionTextViewOutlet.text,
           let imag = imageViewOutlet.image else { return }
     
-    if isEdit == true, nameString == name, descriptionString == description, image == imag {
-      GCDButton.isUserInteractionEnabled = false
-      OperationButton.isUserInteractionEnabled = false
-      photoButtonOutlet.isUserInteractionEnabled = false
-    } else if isEdit == true {
+    if isEdit == true, nameString != name, descriptionString != description, image != imag {
       GCDButton.isUserInteractionEnabled = true
       OperationButton.isUserInteractionEnabled = true
       photoButtonOutlet.isUserInteractionEnabled = true
@@ -159,7 +183,6 @@ extension ProfileViewController {
       OperationButton.isUserInteractionEnabled = false
       photoButtonOutlet.isUserInteractionEnabled = false
     }
-
   }
 }
 
@@ -167,25 +190,18 @@ extension ProfileViewController {
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   // MARK: - Alert Helper Methods
   func alertCameraSimulator() {
-    let alert = UIAlertController(title: "Упс... На симуляторе нет камеры!",
-                                  message: "Попробуйте на реальном девайсе. Кнопка представлена на симуляторе в целях прототипирования для разработчиков.", preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
-    alert.addAction(cancelAction)
+    let alert = ProfileAlertFactory.shared.alertCameraSimulator()
     present(alert, animated: true, completion: nil)
   }
   
   func alertOK() {
-    let alert = UIAlertController(title: "Данные сохранены", message: "", preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-    alert.addAction(cancelAction)
+    let alert = ProfileAlertFactory.shared.alertOK()
     present(alert, animated: true, completion: nil)
     checkEditing()
   }
   
   func alertError() {
-    let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-    let repeatAction = UIAlertAction(title: "Повторить", style: .default, handler: { _ in
+    let alert = ProfileAlertFactory.shared.alertError {
       if self.isGCD {
         self.GCDButtonActionFunc()
         self.checkEditing()
@@ -193,36 +209,25 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         self.OperationButtonActionFunc()
         self.checkEditing()
       }
-    })
-    alert.addAction(cancelAction)
-    alert.addAction(repeatAction)
+    }
     present(alert, animated: true, completion: nil)
   }
   
   // MARK: - Image Helper Methods
   
   func showPhotoPicker() {
-    let photoAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    
-    let cancelAction = UIAlertAction(title: "Отменить", style: .cancel, handler: nil)
-    photoAlert.addAction(cancelAction)
-    
-    let cameraAction = UIAlertAction(title: "Сделать фото", style: .default, handler: { _ in
+    let alert = ProfileAlertFactory.shared.photoPicker {
       if UIImagePickerController.isSourceTypeAvailable(.camera) {
         self.takePhotoWithCamera()
       } else {
         self.alertCameraSimulator()
       }
-    })
-    photoAlert.addAction(cameraAction)
-    
-    let libraryAction = UIAlertAction(title: "Установить из галлереи", style: .default, handler: { _ in self.choosePhotoFromLibrary() })
-    photoAlert.addAction(libraryAction)
-    
-    let photoServer = UIAlertAction(title: "Загрузить", style: .default, handler: { _ in self.photoFromServer() })
-    photoAlert.addAction(photoServer)
-    
-    present(photoAlert, animated: true, completion: nil)
+    } libraryActionHandler: {
+      self.choosePhotoFromLibrary()
+    } photoServerActionHandler: {
+      self.photoFromServer()
+    }
+    present(alert, animated: true, completion: nil)
   }
   
   func photoFromServer() {
@@ -234,21 +239,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
   }
   
   // MARK: - Image Picker Delegates
-  
   func takePhotoWithCamera() {
-    let imagePicker = UIImagePickerController()
-    imagePicker.sourceType = .camera
-    imagePicker.delegate = self
-    imagePicker.allowsEditing = true
-    present(imagePicker, animated: true, completion: nil)
+    presentImagePickerController(sourceType: .camera)
   }
   
   func choosePhotoFromLibrary() {
-    let imagePicker = UIImagePickerController()
-    imagePicker.sourceType = .photoLibrary
-    imagePicker.delegate = self
-    imagePicker.allowsEditing = true
-    present(imagePicker, animated: true, completion: nil)
+    presentImagePickerController(sourceType: .photoLibrary)
   }
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
@@ -278,22 +274,10 @@ extension ProfileViewController {
   }
   
   func blockUI() {
-    self.navigationItem.rightBarButtonItem?.isEnabled = false
-    self.activityIndicatorOutlet.isHidden = false
-    GCDButton.isUserInteractionEnabled = false
-    OperationButton.isUserInteractionEnabled = false
-    self.nameTexrFieldOutlet.isUserInteractionEnabled = false
-    self.descriptionTextViewOutlet.isUserInteractionEnabled = false
-    self.photoButtonOutlet.isUserInteractionEnabled = false
+    isUserInteractionEnabled(isEnabled: false)
   }
   
   func unBlockUI() {
-    self.navigationItem.rightBarButtonItem?.isEnabled = true
-    self.activityIndicatorOutlet.isHidden = true
-    GCDButton.isUserInteractionEnabled = true
-    OperationButton.isUserInteractionEnabled = true
-    self.nameTexrFieldOutlet.isUserInteractionEnabled = true
-    self.descriptionTextViewOutlet.isUserInteractionEnabled = true
-    self.photoButtonOutlet.isUserInteractionEnabled = true
+    isUserInteractionEnabled(isEnabled: true)
   }
 }

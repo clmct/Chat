@@ -10,7 +10,7 @@ import UIKit
 
 class AnimationTinkoff {
   
-  var window: UIWindow
+  private let window: UIWindow
   
   init(window: UIWindow) {
     self.window = window

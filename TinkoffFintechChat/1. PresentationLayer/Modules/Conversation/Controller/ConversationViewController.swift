@@ -76,7 +76,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   // MARK: View Controller Cycle
   init(model: ConversationViewModelProtocol, id: String) {
     self.model = model
-//    self.data = data
     self.id = id
     super.init(nibName: nil, bundle: nil)
   }
@@ -87,18 +86,17 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setup()
+  }
+  
+  private func setup() {
     createTableView()
-    tableView.keyboardDismissMode = .interactive
-    tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 60, right: 0)
-//    model.fireStoreService.fetchDataMessages(identifire: id)
     model.fetchDataMessages(identifire: id)
     performFetch()
   }
   
   deinit {
     fetchedResultsController.delegate = nil
-    //    NotificationCenter.default.removeObserver()
-//    print("deinit ConversationViewController")
   }
   
   func performFetch() {
@@ -129,6 +127,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     tableView.delegate = self
     tableView.dataSource = self
     tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    tableView.keyboardDismissMode = .interactive
+    tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 60, right: 0)
     view.addSubview(tableView)
   }
   
